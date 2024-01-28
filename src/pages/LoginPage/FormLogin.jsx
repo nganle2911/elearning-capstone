@@ -2,17 +2,23 @@ import React from 'react';
 import { Button, Checkbox, Form, Input, message } from 'antd';
 import { https } from '../../services/api';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../../redux/userSlice/userSlice';
 
 const FormLogin = () => {
   let navigate = useNavigate()
+  let dispatch = useDispatch()
 
   const onFinish = (values) => {
     console.log('Success:', values);
     https.post("/api/QuanLyNguoiDung/DangNhap", values)
       .then((res) => {
         console.log(res);
+        dispatch(setUser(res.data.content))
         message.success("Đăng nhập thành công!")
         navigate("/")
+        let dataJson = JSON.stringify(res.data.content)
+        localStorage.setItem("USER_LOGIN", dataJson)
       })
       .catch((err) => {
         console.log(err);

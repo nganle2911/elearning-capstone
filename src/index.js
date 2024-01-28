@@ -6,12 +6,14 @@ import reportWebVitals from "./reportWebVitals";
 import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
 import spinnerSlice from "./redux/spinnerSlice/spinnerSlice";
+import userSlice from "./redux/userSlice/userSlice";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 export let store = configureStore({
   reducer: {
     spinnerSlice,
+    userSlice,
   },
 });
 
