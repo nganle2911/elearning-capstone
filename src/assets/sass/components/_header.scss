@@ -4,7 +4,7 @@
             .input__item {
                 .item__myInput {
                     background-color: $white-1;
-                    width: 250px;
+                    width: 200px;
                     padding-left: $pd-2;
 
                     &:focus {
@@ -14,6 +14,12 @@
                 }
             }
 
+            .input__myBtn {
+                @include tablet {
+                    width: 125px;
+                }
+
+            }
         }
     }
 }

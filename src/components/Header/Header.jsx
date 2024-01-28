@@ -47,7 +47,7 @@ export default function Header() {
                 </div>
                 <Popover.Group className="hidden lg:flex lg:gap-x-12">
                     <Popover className="relative">
-                        <Popover.Button className="flex items-center gap-x-1 text-lg font-semibold leading-6 textColor">
+                        <Popover.Button className="flex items-center gap-x-1 text-lg lg:text-base xl:text-lg font-semibold leading-6 textColor">
                             Danh mục
                             <ChevronDownIcon className="h-5 w-5 flex-none text-black" aria-hidden="true" />
                         </Popover.Button>
@@ -81,25 +81,25 @@ export default function Header() {
                         </Transition>
                     </Popover>
 
-                    <a href="#" className="text-lg font-semibold leading-6 textColor">
+                    <a href="#" className="text-lg lg:text-base xl:text-lg font-semibold leading-6 textColor">
                         Khoá học
                     </a>
-                    <a href="#" className="text-lg font-semibold leading-6 textColor">
+                    <a href="#" className="text-lg lg:text-base xl:text-lg font-semibold leading-6 textColor">
                         Blog
                     </a>
                 </Popover.Group>
                 <div className="headerHome__input hidden lg:flex lg:flex-1 lg:justify-end items-center">
-                    <div className='input__item flex relative items-center'>
+                    <div className='input__item lg:ml-5 flex relative items-center'>
                         <input type='text' placeholder='Search...' className="h-10 rounded item__myInput" />
                         <MagnifyingGlassIcon className="absolute right-2 h-5 w-5 text-black" />
                     </div>
-                    <NavLink to={"/login"} className="text-lg ml-5 font-semibold leading-6 text-gray-900">
+                    <NavLink to={"/login"} className="input__myBtn text-lg lg:text-base xl:text-lg ml-5 font-semibold leading-6 text-gray-900">
                         <button className='myBtn__login'>Đăng nhập</button>
                     </NavLink>
                 </div>
             </nav>
-
-            <Dialog as="div" className="headerHome__mobileMenu lg:hidden" open={mobileMenuOpen} onClose={setMobileMenuOpen}>
+ 
+            <Dialog as="div" className="headerHome__mobileMenu x:hidden" open={mobileMenuOpen} onClose={setMobileMenuOpen}>
                 <div className="fixed inset-0 z-10" />
                 <Dialog.Panel className="mobileMenu__content fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
                     <div className="flex items-center justify-between">
