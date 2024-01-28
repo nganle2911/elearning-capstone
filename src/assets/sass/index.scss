@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+// IMPORT SASS FILES HERE
+// helpers
+@import "./helpers/variables";
+@import "./helpers/mixin";
+// base
+@import "./base/reset";
+// components
+@import "./components/header";
+// pages
+@import "./pages/notFoundPage";
