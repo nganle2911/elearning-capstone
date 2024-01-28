@@ -14,10 +14,10 @@ const FormLogin = () => {
     https.post("/api/QuanLyNguoiDung/DangNhap", values)
       .then((res) => {
         console.log(res);
-        dispatch(setUser(res.data.content))
+        dispatch(setUser(res.data))
         message.success("Đăng nhập thành công!")
         navigate("/")
-        let dataJson = JSON.stringify(res.data.content)
+        let dataJson = JSON.stringify(res.data)
         localStorage.setItem("USER_LOGIN", dataJson)
       })
       .catch((err) => {
