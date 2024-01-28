@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Checkbox, Form, Input, message } from 'antd';
 import { https } from '../../services/api';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../../redux/userSlice/userSlice';
 
@@ -43,7 +43,7 @@ const FormLogin = () => {
             </h1>
           </div>
           <div className='text-gray-400'>
-            <h1>Đăng kí</h1>
+            <NavLink to={"/register"}>Đăng ký</NavLink>
           </div>
         </div>
       </Form.Item>

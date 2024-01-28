@@ -3,6 +3,7 @@ import Spinner from "./components/Spinner/Spinner";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import Layout from "./layout/Layout";
 import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
+import RegisterPage from "./pages/RegisterPage/RegisterPage";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         {/* USER */}
         <Routes>
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
           <Route path="/" element={<Layout />}>
             {/* Children components here */}
           </Route>
