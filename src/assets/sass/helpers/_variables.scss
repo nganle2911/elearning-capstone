@@ -2,8 +2,8 @@
 $black-0: #000;
 $black-1: #191919;
 
-$white-0: #fff;
-$white-1: #f5f5f5;
+$white-1: #fff;
+$white-2: #f5f5f5;
 
 $green-1: #1d7a85; 
 
@@ -25,11 +25,11 @@ $pd-3: 16px;
 // Border radius
 $br-1: 4px;
 
-// Responsive breakpoints 
+// break points - desktop first
 $breakpoints: (
-    sm: 640px,
-    md: 768px,
-    lg: 1024px,
-    xl: 1280px,
-    2xl: 1536px  
+    2xl: 1399.98px,
+    xl: 1199.98px,
+    lg: 991.98px,
+    md: 767.98px,
+    sm: 575.98px
 );
