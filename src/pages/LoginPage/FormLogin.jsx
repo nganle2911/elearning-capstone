@@ -1,9 +1,10 @@
 import React from 'react';
-import { Button, Checkbox, Form, Input, message } from 'antd';
+import { Form, Input, message } from 'antd';
 import { https } from '../../services/api';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../../redux/userSlice/userSlice';
+import { ButtonStyled } from '../../components/ButtonStyled/ButtonStyled';
 
 const FormLogin = () => {
   let navigate = useNavigate()
@@ -36,7 +37,7 @@ const FormLogin = () => {
         }}
         className='container'
       >
-        <div className='bg-yellow-400 flex justify-around font-bold text-white text-2xl rounded-t-xl py-1'>
+        <div className='flex justify-around font-bold text-white text-2xl rounded-t-xl py-1' style={{backgroundColor: '#1d7a85'}}>
           <div>
             <h1>Đăng nhập
               <hr />
@@ -96,26 +97,21 @@ const FormLogin = () => {
           <Input.Password />
         </Form.Item>
 
-        {/* <Form.Item
-      name="remember"
-      valuePropName="checked"
-      wrapperCol={{
-        offset: 0,
-        span: 16,
-      }}
-    >
-      <Checkbox className='to-orange-700'>Remember me</Checkbox>
-    </Form.Item> */}
-
         <Form.Item
           wrapperCol={{
             offset: 0,
             span: 24,
           }}
         >
-          <Button className="focus:outline-none bg-yellow-400 hover:bg-yellow-500 text-white w-full font-bold text-lg items-center" type='button' htmlType="submit">
+          <ButtonStyled className=" text-white w-full font-bold text-xl items-center" htmlType="submit">
             Đăng nhập
-          </Button>
+          </ButtonStyled>
+        </Form.Item>
+
+        {/* sign up */}
+        <Form.Item>
+          Bạn chưa có tài khoản?
+          <NavLink to={"/register"} className="underline font-semibold" style={{color: "#1d7a85"}}> Đăng ký</NavLink>
         </Form.Item>
       </Form>
     </div>
