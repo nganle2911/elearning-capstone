@@ -11,8 +11,8 @@ function App() {
       <BrowserRouter>
         {/* USER */}
         <Routes>
-          <Route path="/login" element={<LoginPage />} />
           <Route path="/" element={<Layout />}>
+            <Route path="/login" element={<LoginPage />} />
             {/* Children components here */}
           </Route>
           <Route path="*" element={<NotFoundPage />} />

@@ -1,0 +1,39 @@
+.footer{
+    display: flex;
+    justify-content: space-evenly;
+    background: 
+    #f0f8ff;
+    .footer_title{
+        font-size: 25px;
+        font-weight: 500;
+    }
+    .footer_item li, span{
+        line-height: 40px;
+        font-weight: 500;
+        &:hover{
+            color: #1d7a85;
+            transform: translateY(-10px) translateY(0) translateY(10px);
+            transition: 0.3s;
+        }
+    }
+    .footer_g1{
+        line-height: 40px;
+        display: inline;
+        li{
+            display: flex;
+            justify-content: left;
+            padding: 10px;
+        }
+        i{
+            background: #1d7a85;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 10px;
+        }
+    }
+}
