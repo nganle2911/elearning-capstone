@@ -4,8 +4,8 @@ import React from 'react'
 export default function Footer() {
   return (
     <div className='footer'>
-    <div class="grid grid-cols-4 xl:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-5 lg:px-5 space-x-12 ">
-      <div className='footer_g1 px-5'>
+    <div class=" container grid grid-cols-4 xl:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-5 lg:px-5 space-x-5 ">
+      <div className='footer_g1'>
       <img className="w-full" src="../../img/logo.png" alt="logo" />
       <ul>
         <li>
