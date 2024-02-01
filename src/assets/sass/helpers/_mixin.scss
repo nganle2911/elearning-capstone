@@ -1,4 +1,4 @@
-// RESPONSIVE SCREENS 
+// RESPONSIVE SCREENS - Desktop first 
 // Large Desktop - 1399px 
 @mixin x-desktop {
     @media (max-width: map-get($breakpoints, 2xl)) {

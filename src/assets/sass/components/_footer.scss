@@ -1,8 +1,8 @@
 .footer{
-    display: flex;
-    justify-content: space-evenly;
-    background: 
-    #f0f8ff;
+    background: $green-2;
+    padding: 20px 0;
+    margin: 0 auto;
+    cursor: pointer;
     .footer_title{
         font-size: 25px;
         font-weight: 500;
@@ -10,22 +10,27 @@
     .footer_item li, span{
         line-height: 40px;
         font-weight: 500;
+        transform: translateY(0) ;
+        transition: 0.3s;
         &:hover{
             color: #1d7a85;
-            transform: translateY(-10px) translateY(0) translateY(10px);
+            transform: translateY(-3px) ;
             transition: 0.3s;
         }
     }
+    input{
+        margin: 5px 0;
+        border-radius: 5px;
+        padding: 5px;
+    }
     .footer_g1{
-        line-height: 40px;
-        display: inline;
         li{
             display: flex;
             justify-content: left;
             padding: 10px;
         }
         i{
-            background: #1d7a85;
+            background: $green-1;
             color: white;
             width: 40px;
             height: 40px;
@@ -36,4 +41,27 @@
             margin-right: 10px;
         }
     }
+    button{
+        background: $green-1;
+        padding: 15px;
+        margin: 5px 0;
+        border-radius: 5px;
+        color: white;
+        font-weight: 500;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        &:hover{
+            background: $green-3;
+            transition: 0.3s;
+        }
+    }
+    .footer_bottom{
+        display: flex;
+        justify-content: center;
+       a{
+        color: white;
+        } 
+    }
+    
 }

@@ -1,34 +1,26 @@
-.headerHome {
-    .headerHome__menu {
-        .headerHome__input {
-            .input__item {
-                .item__myInput {
-                    background-color: $white-1;
-                    width: 250px;
-                    padding-left: $pd-2;
+.myHeader {
+    .myHeader__item {
+        .item__search {
+            .search__style {
+                background-color: $white-2;
 
-                    &:focus {
-                        outline: none;
-                        border: 2px solid $green-1;
-                    }
+                &:focus {
+                    outline: none;
+                    border: 2px solid $green-1;
                 }
             }
-
         }
     }
 }
 
-.headerHome__mobileMenu {
-    .mobileMenu__content {
-        .content__input {
-            .inputStyle {
-                background: $white-1;
-                padding-left: $pd-2;
+.myHeader__mobile {
+    .mobile__item {
+        .item__searchStyle {
+            background-color: $white-2;
 
-                &:focus {
-                    border: 2px solid $green-1;
-                    outline: none;
-                }
+            &:focus {
+                outline: none;
+                border: 2px solid $green-1;
             }
         }
     }
