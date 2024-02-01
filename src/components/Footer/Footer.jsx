@@ -6,7 +6,7 @@ export default function Footer() {
     <div className='footer'>
       <div class=" container grid grid-cols-4 xl:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-5 lg:px-5 space-x-5 ">
         <div className='footer_g1'>
-          <img className="w-10/12" src="../../img/logo.png" alt="logo" />
+          <img className="w-10/12 sm:w-9/12" src="../../img/logo.png" alt="logo" />
           <ul>
             <li>
               <i class="fa fa-phone"></i>
