@@ -14,7 +14,7 @@ export default function SliderHome() {
                         Trở thành lập trình chuyên nghiệp 
                         <br /> 
                         tại 
-                        <span className='font-bold uppercase'> E-Academy</span>
+                        <span className='font-bold uppercase' style={{color: '#1d7a85'}}> E-Academy</span>
                     </p>
                     <ButtonStyled className='mr-5 mt-5 text-lg xl:text-base'>Xem khoá học</ButtonStyled>
                 </div>
