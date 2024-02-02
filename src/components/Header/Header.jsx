@@ -113,7 +113,7 @@ export default function Header() {
             {/* Header for mobile */}
             <Dialog as='div' className="myHeader__mobile hidden lg:block" open={mobileMenuOpen} onClose={setMobileMenuOpen}>
                 <div className="fixed inset-0 z-10" />
-                <Dialog.Panel className="fixed w-5/12 sm:w-full inset-y-0 right-0 z-10 overflow-y-auto bg-white px-6 py-6 ring-1 ring-gray-900/10">
+                <Dialog.Panel className="fixed w-5/12 sm:w-full inset-y-0 right-0 z-30 overflow-y-auto bg-white px-6 py-6 ring-1 ring-gray-900/10">
                     {/* logo */}
                     <div className="flex items-center justify-between">
                         <NavLink to="/" className="-m-1.5 p-1.5">
