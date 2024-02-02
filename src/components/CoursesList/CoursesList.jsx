@@ -1,21 +1,24 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { https } from '../../services/api';
 import Course from '../Course/Course';
+import { useDispatch, useSelector } from 'react-redux';
+import { setCourseList } from '../../redux/courseSlice/courseSlice';
 
 export default function CoursesList() {
-    const [coursesList, setCoursesList] = useState([]);
+    let { courseList } = useSelector(state => state.courseSlice);
+    let dispatch = useDispatch();
 
     useEffect(() => {
         https.get("/api/QuanLyKhoaHoc/LayDanhSachKhoaHoc?MaNhom=GP01").then((res) => {
             console.log("res", res.data);
-            setCoursesList(res.data);
+            dispatch(setCourseList(res.data));
         }).catch((err) => {
             console.log("err", err);
         });
     }, []);
 
     const renderCoursesList = () => {
-        return coursesList.slice(0, 12).map((course, index) => {
+        return courseList.slice(0, 12).map((course, index) => {
             return (
                 <div className='coursesList__item flex justify-center' key={index}>
                     <Course course={course} />

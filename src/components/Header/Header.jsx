@@ -45,9 +45,9 @@ export default function Header() {
             <nav className='container py-2 flex items-center justify-between' aria-label="Global">
                 {/* logo */}
                 <div>
-                    <a href='#'>
+                    <NavLink to="/">
                         <img className='w-52' src='../../img/logo.png' alt='logo-edu' />
-                    </a>
+                    </NavLink>
                 </div>
 
                 {/* icon bars for mobile */}
@@ -116,13 +116,13 @@ export default function Header() {
                 <Dialog.Panel className="fixed w-5/12 sm:w-full inset-y-0 right-0 z-10 overflow-y-auto bg-white px-6 py-6 ring-1 ring-gray-900/10">
                     {/* logo */}
                     <div className="flex items-center justify-between">
-                        <a href="#" className="-m-1.5 p-1.5">
+                        <NavLink to="/" className="-m-1.5 p-1.5">
                             <img
                                 className="w-44"
                                 src="../../img/logo.png"
                                 alt="logo-edu"
                             />
-                        </a>
+                        </NavLink>
                         <button
                             type="button"
                             className="-m-2.5 rounded-md p-2.5 text-gray-700"
