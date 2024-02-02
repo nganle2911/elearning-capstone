@@ -6,7 +6,7 @@ import {
     XMarkIcon,
 } from '@heroicons/react/24/outline'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate, useParams } from 'react-router-dom'
 import { https } from '../../services/api'
 import { ButtonStyled } from '../ButtonStyled/ButtonStyled'
 
@@ -17,6 +17,8 @@ function classNames(...classes) {
 export default function Header() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [categoryList, setCategoryList] = useState([]);
+    let navigate = useNavigate();
+    let { keywords } = useParams();
 
     // todo: call api to get category list 
     useEffect(() => {
@@ -27,6 +29,16 @@ export default function Header() {
             console.log("err", err);
         });
     }, []);
+
+    // todo: handle search input
+    const handleSearch = (e) => {
+        if (e.key === 'Enter') {
+            console.log("search value: ", e.target.value);
+            keywords = e.target.value;
+            navigate(`/search-course/${keywords}`);
+            e.target.value = "";
+        }
+    }
 
     return (
         <header className='myHeader bg-white fixed h-24 w-full z-20'>
@@ -89,7 +101,7 @@ export default function Header() {
                 {/* Login & Search */}
                 <div className='myHeader__item flex lg:hidden items-center gap-x-8'>
                     <div className='item__search relative flex items-center'>
-                        <input className='search__style h-10 w-64 pl-2 rounded' type='text' placeholder='Tìm kiếm...' />
+                        <input className='search__style h-10 w-64 pl-2 rounded' type='text' placeholder='Tìm kiếm...' onKeyDown={handleSearch} />
                         <MagnifyingGlassIcon className='absolute h-5 w-5 right-2 text-black' />
                     </div>
                     <NavLink to={"/login"} className='text-lg font-semibold colorText'>
@@ -123,7 +135,7 @@ export default function Header() {
 
                     {/* search */}
                     <div className='mobile__item flex relative items-center mt-10'>
-                        <input type='text' placeholder='Tìm kiếm...' className='item__searchStyle pl-2 w-full h-10 rounded' />
+                        <input type='text' placeholder='Tìm kiếm...' onKeyDown={handleSearch} className='item__searchStyle pl-2 w-full h-10 rounded' />
                         <MagnifyingGlassIcon className="absolute right-2 h-5 w-5 text-black" />
                     </div>
 
