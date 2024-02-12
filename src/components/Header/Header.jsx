@@ -41,7 +41,7 @@ export default function Header() {
     }
 
     return (
-        <header className='myHeader bg-white fixed h-24 w-full z-20'>
+         <header className='myHeader bg-white fixed h-24 w-full z-20'>
             <nav className='container py-2 flex items-center justify-between' aria-label="Global">
                 {/* logo */}
                 <div>
@@ -82,10 +82,10 @@ export default function Header() {
                                             className="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50"
                                         >
                                             <div className="flex-auto">
-                                                <a href="#" className="block font-normal text-gray-900">
+                                                <NavLink to={`/catalog/${item.maDanhMuc}`} className="block font-normal text-gray-900">
                                                     {item.tenDanhMuc}
                                                     <span className="absolute inset-0" />
-                                                </a>
+                                                </NavLink>
                                             </div>
                                         </div>
                                     ))}
@@ -195,6 +195,6 @@ export default function Header() {
                     </div>
                 </Dialog.Panel>
             </Dialog>
-        </header>
+        </header>     
     )
 }

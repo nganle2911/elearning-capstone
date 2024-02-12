@@ -9,7 +9,7 @@ export default function CoursesList() {
     let dispatch = useDispatch();
 
     useEffect(() => {
-        https.get("/api/QuanLyKhoaHoc/LayDanhSachKhoaHoc?MaNhom=GP01").then((res) => {
+        https.get("/api/QuanLyKhoaHoc/LayDanhSachKhoaHoc?MaNhom=GP09").then((res) => {
             console.log("res", res.data);
             dispatch(setCourseList(res.data));
         }).catch((err) => {
