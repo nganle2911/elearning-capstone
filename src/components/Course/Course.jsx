@@ -9,7 +9,7 @@ export default function Course({ course }) {
         <Card
             className='course__item'
             style={{
-                width: 280,
+                width: "100%",
             }}
             cover={
                 <img
