@@ -10,7 +10,7 @@
 
 .catalog_title{
     box-sizing: border-box;
-    border: 2px $dark-2 solid;
+    border: 1px $dark-2 solid;
     margin: 40px 0;
     object-fit: cover;
     border-radius: 30px;
@@ -19,7 +19,7 @@
     font-weight: 500;
     &:hover{
         transition: 0.3s;
-        border: 2px $green-1 solid;
+        border: 1px $green-1 solid;
         color: $green-1;
     }
 }

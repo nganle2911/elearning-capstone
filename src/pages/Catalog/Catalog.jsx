@@ -54,7 +54,10 @@ export default function Catalog() {
             <p>HÃY CHỌN KHÓA HỌC MONG MUỐN!!!</p>
             </div>
         <button className='catalog_title'>
-          {renderTitleCatalog()}
+            <div className='flex justify-center items-center space-x-1'>
+            <i class="fa fa-desktop"></i>
+            {renderTitleCatalog()}
+            </div>
         </button>
         <div className='courses__list grid grid-cols-4 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-5'>
         {renderCoursesList()}
