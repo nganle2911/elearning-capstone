@@ -30,7 +30,7 @@ const FormLogin = () => {
     console.log('Failed:', errorInfo);
   };
   return (
-    <div className='my-10'>
+    <div className='py-12'>
       <Form.Item
         style={{
           maxWidth: 500,
