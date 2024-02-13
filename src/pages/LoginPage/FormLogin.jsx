@@ -19,7 +19,7 @@ const FormLogin = () => {
         message.success("Đăng nhập thành công!")
         navigate("/")
         let dataJson = JSON.stringify(res.data)
-        localStorage.setItem("USER_LOGIN", dataJson)
+        localStorage.setItem("USER_LOGIN", dataJson);
       })
       .catch((err) => {
         console.log(err);

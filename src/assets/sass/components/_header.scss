@@ -10,6 +10,10 @@
                 }
             }
         }
+
+        .item__avatar {
+            @include avatarStyle(55px, 55px);
+        }
     }
 }
 

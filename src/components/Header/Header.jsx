@@ -6,9 +6,14 @@ import {
     XMarkIcon,
 } from '@heroicons/react/24/outline'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
-import { NavLink, useNavigate, useParams } from 'react-router-dom'
+import { NavLink, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { https } from '../../services/api'
 import { ButtonStyled } from '../ButtonStyled/ButtonStyled'
+import { Avatar, Dropdown } from 'antd'
+import { useDispatch, useSelector } from 'react-redux'
+import { LogoutOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons'
+import { RANDOM_NUM } from '../../services/constant'
+import { setUserSignOut } from '../../redux/userSlice/userSlice'
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -19,6 +24,9 @@ export default function Header() {
     const [categoryList, setCategoryList] = useState([]);
     let navigate = useNavigate();
     let { keywords } = useParams();
+    const location = useLocation();
+    let { user } = useSelector(state => state.userSlice);
+    const dispatch = useDispatch();
 
     // todo: call api to get category list 
     useEffect(() => {
@@ -37,6 +45,104 @@ export default function Header() {
             keywords = e.target.value;
             navigate(`/search-course/${keywords}`);
             e.target.value = "";
+        }
+    }
+
+    // todo: handle sign out 
+    const handleSignOut = () => {
+        localStorage.removeItem("USER_LOGIN");
+        dispatch(setUserSignOut());
+        
+        if (location.pathname === "/") {
+            window.location.reload();
+        } else {
+            navigate("/");
+            window.location.reload();
+        }
+    }
+
+    const items = [
+        {
+            label: (<NavLink to={`/profile/${user?.taiKhoan}`} className='text-lg'>
+                <UserOutlined className='mr-2' />
+                Hồ sơ
+            </NavLink>),
+            key: '0',
+        },
+        {
+            label: (<a className='text-lg'>
+                <SettingOutlined className='mr-2' />
+                Tuỳ chỉnh
+            </a>),
+            key: '1',
+        },
+        {
+            type: 'divider',
+        },
+        {
+            label: (<a className='text-lg' onClick={handleSignOut}>
+                <LogoutOutlined className='mr-2' />
+                Đăng xuất
+            </a>),
+            key: '3',
+        },
+    ];
+
+    // todo: render user account 
+    const renderUserAccount = () => {
+        if (user) {
+            return (
+                <>
+                    <div className='item__avatar'>
+                        <Dropdown 
+                            menu={{items}}
+                            trigger={['click']}
+                        >
+                            <Avatar size={48} src={`https://api.dicebear.com/7.x/miniavs/svg?seed=${RANDOM_NUM}`} />
+                        </Dropdown>
+                    </div>
+                </>
+            )
+        } else {
+            return renderButton() || renderButtonMobile();
+        }
+    }
+
+    // todo: render button login or sign up
+    const renderButton = () => {
+        if (location.pathname === "/login") {
+            return (
+                <NavLink to={"/register"} className='text-lg font-semibold colorText'>
+                    <ButtonStyled>Đăng ký</ButtonStyled>
+                </NavLink>
+            )
+        } else {
+            return (<NavLink to={"/login"} className='text-lg font-semibold colorText'>
+                <ButtonStyled>Đăng nhập</ButtonStyled>
+            </NavLink>)
+        }
+    }
+
+    // todo: render button login or sign up for mobile 
+    const renderButtonMobile = () => {
+        if (location.pathname === "/login") {
+            return (
+                <NavLink
+                    to={"/register"}
+                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                >
+                    <ButtonStyled>Đăng ký</ButtonStyled>
+                </NavLink>
+            )
+        } else {
+            return (
+                <NavLink
+                    to={"/login"}
+                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                >
+                    <ButtonStyled>Đăng nhập</ButtonStyled>
+                </NavLink>
+            )
         }
     }
 
@@ -104,9 +210,7 @@ export default function Header() {
                         <input className='search__style h-10 w-64 pl-2 rounded' type='text' placeholder='Tìm kiếm...' onKeyDown={handleSearch} />
                         <MagnifyingGlassIcon className='absolute h-5 w-5 right-2 text-black' />
                     </div>
-                    <NavLink to={"/login"} className='text-lg font-semibold colorText'>
-                        <ButtonStyled>Đăng nhập</ButtonStyled>
-                    </NavLink>
+                    {renderUserAccount()}
                 </div>
             </nav>
 
@@ -184,12 +288,7 @@ export default function Header() {
 
                             {/* Login button */}
                             <div className="py-6">
-                                <NavLink
-                                    to="/login"
-                                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                                >
-                                    <ButtonStyled>Đăng nhập</ButtonStyled>
-                                </NavLink>
+                                {renderUserAccount()}
                             </div>
                         </div>
                     </div>

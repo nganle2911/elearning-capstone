@@ -1,3 +1,15 @@
+// avatar
+@mixin avatarStyle($width, $height) {
+    width: $width;
+    height: $height;
+    background-color: $green-2;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
 // RESPONSIVE SCREENS - Desktop first 
 // Large Desktop - 1399px 
 @mixin x-desktop {
