@@ -3,7 +3,8 @@ import { createSlice } from '@reduxjs/toolkit'
 let dataJson = JSON.parse(localStorage.getItem("USER_LOGIN"));
 
 const initialState = {
-  user: dataJson
+  user: dataJson,
+  profile: null
 }
 
 const userSlice = createSlice({
@@ -15,10 +16,13 @@ const userSlice = createSlice({
     },
     setUserSignOut: (state, action) => {
       state.user = action.payload;
+    },
+    setProfile: (state, action) => {
+      state.profile = action.payload;
     }
   }
 });
 
-export const { setUser, setUserSignOut } = userSlice.actions
+export const { setUser, setUserSignOut, setProfile } = userSlice.actions
 
 export default userSlice.reducer

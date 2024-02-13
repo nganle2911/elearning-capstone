@@ -7,6 +7,7 @@ import RegisterPage from "./pages/RegisterPage/RegisterPage";
 import HomePage from "./pages/HomePage/HomePage";
 import SearchCourse from "./pages/SearchCourse/SearchCourse";
 import Catalog from "./pages/Catalog/Catalog";
+import Profile from "./pages/Profile/Profile";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/search-course/:keywords" element={<SearchCourse />} />
             <Route path="/catalog/:maDanhMuc" element={<Catalog />} />
+            <Route path="/profile/:username" element={<Profile />} />
           </Route>
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
