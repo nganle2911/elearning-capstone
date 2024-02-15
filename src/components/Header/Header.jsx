@@ -41,7 +41,8 @@ export default function Header() {
     }
 
     return (
-         <header className='myHeader bg-white fixed h-24 w-full z-20'>
+        <div className='h-24'>
+          <header className='myHeader bg-white fixed w-full z-20'>
             <nav className='container py-2 flex items-center justify-between' aria-label="Global">
                 {/* logo */}
                 <div>
@@ -195,6 +196,8 @@ export default function Header() {
                     </div>
                 </Dialog.Panel>
             </Dialog>
-        </header>     
+        </header>  
+        </div>
+              
     )
 }

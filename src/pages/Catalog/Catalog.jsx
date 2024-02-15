@@ -21,7 +21,7 @@ export default function Catalog() {
     const renderCoursesList = () => {
         return catalog.slice(0, 12).map((course, index) => {
             return (
-                <div className='coursesList__item flex justify-center items-center' key={index}>
+                <div className='coursesList__item ' key={index}>
                     <NavLink to={`/detail/${course.maKhoaHoc}`}>
                         <Course course={course} />
                     </NavLink>
@@ -47,7 +47,7 @@ export default function Catalog() {
     }
   return (
     <div>
-        <div className='homePage__courses container py-24'>
+        <div className='homePage__courses container'>
             <div className='catalogCourses'>
             <h1>KHÓA HỌC THEO DANH MỤC</h1>
             <p>HÃY CHỌN KHÓA HỌC MONG MUỐN!!!</p>

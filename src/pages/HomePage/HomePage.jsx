@@ -4,7 +4,7 @@ import SliderHome from '../../components/SliderHome/SliderHome'
 
 export default function HomePage() {
   return (
-    <div className='homePage py-24'>
+    <div className='homePage'>
         <SliderHome />
         <CoursesList />
     </div>
