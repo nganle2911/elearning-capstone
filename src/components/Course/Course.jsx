@@ -6,7 +6,7 @@ import { RANDOM_NUM } from '../../services/constant'
 
 export default function Course({ course }) {
     return (
-        <Card
+          <Card
             className='course__item'
             style={{
                 width: "100%",
@@ -46,6 +46,6 @@ export default function Course({ course }) {
                 avatar={<Avatar src={`https://api.dicebear.com/7.x/miniavs/svg?seed=${RANDOM_NUM}`} />}
                 description={course.nguoiTao.hoTen}
             />
-        </Card>
+        </Card>      
     )
 }

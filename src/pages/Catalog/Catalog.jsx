@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { NavLink, useParams } from 'react-router-dom'
 import { https } from '../../services/api'
 import Course from '../../components/Course/Course'
-import { ButtonStyled } from '../../components/ButtonStyled/ButtonStyled'
-import { Button } from 'antd'
 
 export default function Catalog() {
     const {maDanhMuc} = useParams({})
-    const [titleCatalog, setTitleCatalog] = useState()
     const [catalog, setCatalog] = useState([])
 
     useEffect(() => {
@@ -25,7 +22,9 @@ export default function Catalog() {
         return catalog.slice(0, 12).map((course, index) => {
             return (
                 <div className='coursesList__item flex justify-center items-center' key={index}>
-                    <Course course={course} />
+                    <NavLink to={`/detail/${course.maKhoaHoc}`}>
+                        <Course course={course} />
+                    </NavLink>
                 </div>
             )
         })
