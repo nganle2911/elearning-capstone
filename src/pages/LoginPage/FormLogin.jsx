@@ -18,8 +18,8 @@ const FormLogin = () => {
         dispatch(setUser(res.data))
         message.success("Đăng nhập thành công!")
         navigate("/")
-        let dataJson = JSON.stringify(res.data)
-        localStorage.setItem("USER_LOGIN", dataJson)
+        localStorage.setItem("USER_LOGIN", JSON.stringify(res.data));
+        localStorage.setItem("TOKEN", JSON.stringify(res.data.accessToken));
       })
       .catch((err) => {
         console.log(err);
@@ -30,7 +30,7 @@ const FormLogin = () => {
     console.log('Failed:', errorInfo);
   };
   return (
-    <div className='my-10'>
+    <div className='py-12'>
       <Form.Item
         style={{
           maxWidth: 500,

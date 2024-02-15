@@ -20,7 +20,7 @@ export default function FormRegister() {
     };
 
     return (
-        <div className='my-10'>
+        <div className='py-12'>
             {/* title */}
             <Form.Item
                 style={{

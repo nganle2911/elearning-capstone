@@ -7,6 +7,7 @@ import RegisterPage from "./pages/RegisterPage/RegisterPage";
 import HomePage from "./pages/HomePage/HomePage";
 import SearchCourse from "./pages/SearchCourse/SearchCourse";
 import Catalog from "./pages/Catalog/Catalog";
+import Profile from "./pages/Profile/Profile";
 import DetailPage from "./pages/DetailPage/DetailPage";
 
 function App() {
@@ -16,15 +17,15 @@ function App() {
       <BrowserRouter>
         {/* USER */}
         <Routes>
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-
           <Route path="/" element={<Layout />}>
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+
             {/* Children components here */}
             <Route path="/" element={<HomePage />} />
             <Route path="/search-course/:keywords" element={<SearchCourse />} />
             <Route path="/catalog/:maDanhMuc" element={<Catalog />} />
+            <Route path="/profile/:username" element={<Profile />} />
             <Route path="/detail/:maKhoaHoc" element={<DetailPage />} />
           </Route>
           <Route path="*" element={<NotFoundPage />} />

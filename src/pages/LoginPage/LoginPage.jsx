@@ -3,7 +3,7 @@ import FormLogin from './FormLogin'
 
 export default function LoginPage() {
   return (
-    <div className='container'>
+    <div className='container py-24'>
         <FormLogin/>
     </div>
   )

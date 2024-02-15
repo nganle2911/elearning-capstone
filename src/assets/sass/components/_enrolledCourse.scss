@@ -1,0 +1,86 @@
+.courseContent__enrolled {
+    .ant-spin-nested-loading {
+        .ant-spin-container {
+            .ant-list-items {
+                .ant-list-item {
+                    border: 1px solid $dark-2;
+                    border-radius: 8px;
+                    margin-bottom: $mg-3;
+
+                    &:last-child {
+                        border-block-end: 1px solid $dark-2;
+                    }
+
+                    .ant-list-item-main {
+                        .ant-list-item-meta {
+                            .ant-list-item-meta-content {
+                                .ant-list-item-meta-title {
+                                    a {
+                                        font-size: $fs-3;
+                                        font-weight: 600;
+                                        text-transform: capitalize;
+                                        color: $dark-1;
+
+                                        &:hover {
+                                            color: $green-1;
+                                        }
+                                    }
+                                }
+
+                                .ant-list-item-meta-description {}
+                            }
+                        }
+
+                        .ant-list-item-action {
+                            width: 100%;
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+
+                            li {
+                                .ant-progress {
+                                    width: 300px;
+
+                                    .ant-progress-outer {
+                                        .ant-progress-inner {
+                                            .ant-progress-bg {
+                                                background-color: $green-1;
+                                            }
+                                        }
+                                    }
+
+                                    .ant-progress-text {
+                                        color: $green-1;
+                                    }
+                                }
+
+                                .ant-list-item-action-split {
+                                    display: none;
+                                }
+                            }
+                        }
+                    }
+
+                    .ant-list-item-extra {
+                        img {
+                            height: 120px;
+                            object-fit: cover;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .ant-list-pagination {
+        text-align: center;
+
+        .ant-pagination-item-active {
+            border-color: $green-1;
+
+            a {
+                color: $green-1;
+            }
+        }
+    }
+}
