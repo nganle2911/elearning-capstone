@@ -17,10 +17,10 @@ export default function Spinner() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        zIndex: 1,
+        zIndex: 50,
       }}
     >
-      <HashLoader size={150} color="#f6ba35" />
+      <HashLoader size={150} color="#1d7a85" />
     </div>
   ) : (
     <></>
