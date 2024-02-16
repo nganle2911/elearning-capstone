@@ -9,29 +9,34 @@ import SearchCourse from "./pages/SearchCourse/SearchCourse";
 import Catalog from "./pages/Catalog/Catalog";
 import Profile from "./pages/Profile/Profile";
 import DetailPage from "./pages/DetailPage/DetailPage";
+import AdminLayout from "./layout/AdminLayout";
+import AdminPage from "./pages/AdminPage/AdminPage";
 
 function App() {
   return (
     <>
       <Spinner />
       <BrowserRouter>
-        {/* USER */}
         <Routes>
+        
+          {/* USER */}
           <Route path="/" element={<Layout />}>
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
-
-            {/* Children components here */}
             <Route path="/" element={<HomePage />} />
             <Route path="/search-course/:keywords" element={<SearchCourse />} />
             <Route path="/catalog/:maDanhMuc" element={<Catalog />} />
             <Route path="/profile/:username" element={<Profile />} />
             <Route path="/detail/:maKhoaHoc" element={<DetailPage />} />
           </Route>
+
+          {/* ADMIN */}
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route path="/admin" element={<AdminPage />} />
+          </Route>
+
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
-
-        {/* ADMIN */}
       </BrowserRouter>
     </>
   );
