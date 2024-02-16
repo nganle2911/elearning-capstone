@@ -58,7 +58,7 @@ export default function Catalog() {
             {renderTitleCatalog()}
             </div>
         </button>
-        <div className='courses__list grid grid-cols-4 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-5'>
+        <div className='courses__list grid grid-cols-4 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-5 py-10'>
         {renderCoursesList()}
         </div>
         </div>  

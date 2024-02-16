@@ -3,7 +3,7 @@ import FormRegister from './FormRegister'
 
 export default function RegisterPage() {
   return (
-    <div className='container py-24'>
+    <div className='container'>
         <FormRegister />
     </div>
   )
