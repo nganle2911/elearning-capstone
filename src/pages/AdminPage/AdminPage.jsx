@@ -1,12 +1,13 @@
 import React from 'react';
 import { Layout, Tabs, theme } from 'antd';
+import CourseManagement from './CourseManagement';
 const { Content } = Layout;
 
 const items = [
     {
         key: '1',
         label: 'Courses Management',
-        children: 'Content of Tab Pane 1',
+        children: <CourseManagement/>,
     },
     {
         key: '2',

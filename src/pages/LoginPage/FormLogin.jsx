@@ -14,7 +14,7 @@ const FormLogin = () => {
     console.log('Success:', values);
     https.post("/api/QuanLyNguoiDung/DangNhap", values)
       .then((res) => {
-        console.log(res);
+        console.log("Đăng nhập nè",res);
         dispatch(setUser(res.data))
         message.success("Đăng nhập thành công!")
         navigate("/")
