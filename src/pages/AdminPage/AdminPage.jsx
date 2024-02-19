@@ -1,18 +1,19 @@
 import React from 'react';
 import { Layout, Tabs, theme } from 'antd';
-import CourseManagement from './CourseManagement';
+import CourseManagement from './CourseManagement/CourseManagement';
+import UserMgmt from './UserManagement/UserMgmt';
 const { Content } = Layout;
 
 const items = [
     {
         key: '1',
-        label: 'Courses Management',
+        label: 'Quản lý khoá học',
         children: <CourseManagement/>,
     },
     {
         key: '2',
-        label: 'Users Management',
-        children: 'Content of Tab Pane 2',
+        label: 'Quản lý người dùng',
+        children: <UserMgmt />,
     },
 ];
 
@@ -26,21 +27,26 @@ export default function AdminPage() {
     } = theme.useToken();
 
     return (
-        <Layout className='pt-24'>
+        <Layout className='adminPage pt-24'>
             <Content
+                className='adminPage__content'
                 style={{
                     padding: '0 48px',
                     margin: '48px 0'
                 }}
             >
                 <Layout
+                    className='adPageCont'
                     style={{
                         padding: '24px 0',
                         background: colorBgContainer,
                         borderRadius: borderRadiusLG,
                     }}
                 >
-                    <Tabs className='admin__content' defaultActiveKey='1' items={items} onChange={onChange} tabPosition='left' />
+                    <Tabs className='adPage__tabs md:hidden' defaultActiveKey='1' items={items} onChange={onChange} tabPosition='left' />
+
+                    {/* Tabs for mobile screen */}
+                    <Tabs className='adPageMobile__tabs mx-6 hidden md:block' defaultActiveKey='1' items={items} onChange={onChange} tabPosition="top" />
                 </Layout>
             </Content>
         </Layout>

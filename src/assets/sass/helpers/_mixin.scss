@@ -10,6 +10,12 @@
     cursor: pointer;
 }
 
+// input hover
+@mixin inputHover {
+    outline: none;
+    border: 2px solid $green-1;
+}
+
 // RESPONSIVE SCREENS - Desktop first 
 // Large Desktop - 1399px 
 @mixin x-desktop {
