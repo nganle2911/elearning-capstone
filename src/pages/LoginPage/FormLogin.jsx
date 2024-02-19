@@ -29,6 +29,8 @@ const FormLogin = () => {
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
+
+
   return (
     <div className='py-12'>
       <Form.Item
@@ -115,8 +117,6 @@ const FormLogin = () => {
         </Form.Item>
       </Form>
     </div>
-
-
   )
 
 };

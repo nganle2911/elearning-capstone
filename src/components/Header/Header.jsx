@@ -51,6 +51,7 @@ export default function Header() {
     // todo: handle sign out 
     const handleSignOut = () => {
         localStorage.removeItem("USER_LOGIN");
+        localStorage.removeItem("TOKEN");
         dispatch(setUserSignOut());
         
         if (location.pathname === "/") {
