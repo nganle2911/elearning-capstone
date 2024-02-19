@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Space, Table, Tag, message } from 'antd';
-import { https } from '../../services/api';
+import { https } from '../../../services/api';
 
 export default function CourseManagement() {
     const [listCourse, setListCourse] = useState([])
@@ -69,7 +69,7 @@ export default function CourseManagement() {
         },
     
         {
-          title: 'Action',
+          title: 'Điều chỉnh',
           key: 'action',
           render: (_, record) => (
             <button onClick={() => {handleDelete(record.maKhoaHoc)}}>

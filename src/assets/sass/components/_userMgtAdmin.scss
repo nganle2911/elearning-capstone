@@ -1,0 +1,96 @@
+.admin__userMgt {
+    .userMgt__content {
+        .userMgtCont__btnAdd {}
+
+        // search bar
+        .userMgtCont__searchBar {
+            .searchIn__style {
+                background: $white-2;
+
+                &:focus {
+                    @include inputHover;
+                }
+            }
+        }
+
+
+        // table
+        .userMgtCont__table {
+            .tblContent {
+                .ant-spin-nested-loading {
+                    .ant-spin-container {
+                        .ant-table {
+                            border: 1px solid $grey-1;
+                            border-radius: 8px;
+
+                            .ant-table-container {
+                                .ant-table-content {
+                                    table {
+                                        .ant-table-thead {}
+
+                                        .ant-table-tbody {
+                                            .ant-table-row {
+                                                .ant-table-cell {
+                                                    &:nth-child(6) {
+                                                        .ant-space {
+                                                            .ant-space-item {
+
+                                                                &:nth-child(2),
+                                                                &:nth-child(3) {
+                                                                    .btnIcon {
+                                                                        border: 1px solid $green-1;
+                                                                        padding: 8px 11px;
+                                                                        border-radius: 4px;
+                                                                    }
+
+                                                                    .btnEdit {
+                                                                        color: $green-1;
+                                                                        transition: all .2s;
+
+                                                                        &:hover {
+                                                                            background-color: $green-1;
+                                                                            color: $white-1;
+                                                                        }
+                                                                    }
+
+                                                                    .btnDel {
+                                                                        border-color: $red-1;
+                                                                        color: $red-1;
+                                                                        transition: all .2s;
+
+                                                                        &:hover {
+                                                                            background-color: $red-1;
+                                                                            color: $white-1;
+                                                                        }
+                                                                    }
+                                                                }
+
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        .ant-pagination {
+                            justify-content: center;
+                            margin-top: $mg-4;
+
+                            .ant-pagination-item-active {
+                                border-color: $green-1;
+
+                                a {
+                                    color: $green-1;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
