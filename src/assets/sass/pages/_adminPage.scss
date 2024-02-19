@@ -1,6 +1,5 @@
 .adminPage {
     .adminPage__content {
-        height: 100vh;
 
         @include x-mobile {
             padding: 0 !important;
@@ -77,7 +76,7 @@
                 .ant-tabs-content-holder {
                     .ant-tabs-content {
                         .ant-tabs-tabpane {
-                            padding-right: $pd-4 - 1;
+                            padding-right: 0;
                         }
                     }
                 }

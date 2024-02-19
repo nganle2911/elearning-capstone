@@ -27,14 +27,16 @@ export default function AdminPage() {
     } = theme.useToken();
 
     return (
-        <Layout className='pt-24'>
+        <Layout className='adminPage pt-24'>
             <Content
+                className='adminPage__content'
                 style={{
                     padding: '0 48px',
                     margin: '48px 0'
                 }}
             >
                 <Layout
+                    className='adPageCont'
                     style={{
                         padding: '24px 0',
                         background: colorBgContainer,
