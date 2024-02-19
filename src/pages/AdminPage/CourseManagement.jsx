@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Space, Table, Tag, message } from 'antd';
+import { Modal, Space, Table, Tag, message } from 'antd';
 import { https } from '../../services/api';
 
 export default function CourseManagement() {
@@ -18,27 +18,28 @@ export default function CourseManagement() {
         fetchCourseList()
     },[])
 
-    // let handleDelete = (id) => {
-    //     https.delete(`api/QuanLyKhoaHoc/XoaKhoaHoc?MaKhoaHoc=${id}`)
-    //     .then((res) => {
-    //      console.log("delete",res);
-    //      message.success("Delete Success")
-    //     })
-    //     .catch((err) => {
-    //      console.log(err);
-    //      message.error("Delete Erorr")
-    //      });
-    // }
-    let handleDelete = async(id) => {
-        try{
-            await https.delete(`api/QuanLyKhoaHoc/XoaKhoaHoc?MaKhoaHoc=${id}`)
-            message.success("Delete Success")
-            fetchCourseList()
-        }
-        catch(error){
-            message.error("Delete Erorr")
-        }
+    let handleDelete = (id) => {
+        https.delete(`api/QuanLyKhoaHoc/XoaKhoaHoc?MaKhoaHoc=${id}`)
+        .then((res) => {
+         console.log("delete",res);
+         message.success(res.data);
+         fetchCourseList()
+        })
+        .catch((err) => {
+         console.log(err);
+         message.error(err.response.data)
+         });
     }
+    // let handleDelete = async(id) => {
+    //     try{
+    //         await https.delete(`api/QuanLyKhoaHoc/XoaKhoaHoc?MaKhoaHoc=${id}`)
+    //         message.success("Delete Success")
+    //         fetchCourseList()
+    //     }
+    //     catch(error){
+    //         message.error("Delete Erorr")
+    //     }
+    // }
     const columns = [
         {
           title: 'Mã khóa học',
