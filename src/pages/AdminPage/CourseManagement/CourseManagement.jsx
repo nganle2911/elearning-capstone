@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Space, Table, Tag, message } from 'antd';
 import { https } from '../../../services/api';
+import { ButtonStyled } from '../../../components/ButtonStyled/ButtonStyled';
 
 export default function CourseManagement() {
   const [listCourse, setListCourse] = useState([]);
@@ -83,8 +84,26 @@ export default function CourseManagement() {
     },
   ];
   return (
-    <div>
-      <Table columns={columns} dataSource={listCourse} />
+    <div className='admin__courseMgt'>
+      <div className='courseMgt__content'>
+        <h1 className='uppercase text-2xl text-center font-semibold'>quản lý khoá học</h1>
+
+        {/* button add */}
+        <div className='courseMgtCont__btnAdd'>
+          <ButtonStyled>Thêm khoá học</ButtonStyled>
+        </div>
+
+        {/* search bar */}
+        <div className='courseMgtCont__searchBar my-6 flex md:block'>
+          <input type='search' placeholder='Nhập mã hoặc tên khoá học' className='searchIn__style h-10 w-full px-2 rounded' />
+          <ButtonStyled className='w-28 ml-4 md:mt-2 md:ml-0'>Tìm kiếm</ButtonStyled>
+        </div>
+
+        {/* table of courses */}
+        <div className='courseMgtCont__table mt-12 mb-6'>
+          <Table className='tblContent' columns={columns} dataSource={listCourse} pagination={{ pageSize: 10 }} />
+        </div>
+      </div>
     </div>
   )
 }
