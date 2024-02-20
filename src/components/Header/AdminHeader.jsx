@@ -4,7 +4,7 @@ import { ButtonStyled } from '../ButtonStyled/ButtonStyled'
 import { useSelector } from 'react-redux'
 import { Avatar, Dropdown } from 'antd';
 import { RANDOM_NUM } from '../../services/constant';
-import { LogoutOutlined, UserOutlined } from '@ant-design/icons';
+import { HomeOutlined, LogoutOutlined, UserOutlined } from '@ant-design/icons';
 
 export default function AdminHeader() {
     const { user } = useSelector(state => state.userSlice);
@@ -15,15 +15,25 @@ export default function AdminHeader() {
                 <UserOutlined className='mr-2' />
                 {user.hoTen}
             </a>),
-            key: '1',
+            key: '0',
         },
         {
             label: (<a className='text-lg'>
                 <LogoutOutlined className='mr-2' />
                 Đăng xuất
             </a>),
-            key: '3',
+            key: '1',
         },
+        {
+            type: 'divider'
+        },
+        {
+            label: (<NavLink to={"/"} className="text-lg">
+                <HomeOutlined className='mr-2' />
+                Về trang chủ
+            </NavLink>),
+            key: '3'
+        }
     ];
 
     // todo: render admin account
