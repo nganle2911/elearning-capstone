@@ -32,39 +32,23 @@ export default function AdminPage() {
         if (user) {
             if (user.maLoaiNguoiDung === "GV") {
                 return (
-                    <Layout
-                        className='adPageCont'
-                        style={{
-                            padding: '24px 0',
-                            background: colorBgContainer,
-                            borderRadius: borderRadiusLG,
-                        }}
-                    >
+                    <>
                         <Tabs className='adPage__tabs md:hidden' defaultActiveKey='1' items={items} onChange={onChange} tabPosition='left' />
 
                         {/* Tabs for mobile screen */}
                         <Tabs className='adPageMobile__tabs mx-6 hidden md:block' defaultActiveKey='1' items={items} onChange={onChange} tabPosition="top" />
-                    </Layout>
+                    </>
                 );
             } else {
                 return (
-                    <Layout
-                        className='adPageCont'
-                        style={{
-                            padding: '24px 0',
-                            background: colorBgContainer,
-                            borderRadius: borderRadiusLG,
-                        }}
-                    >
-                        <Result
-                            status="403"
-                            title="403"
-                            subTitle="Sorry, you are not authorized to access this page."
-                            extra={<NavLink to={"/"}>
-                                <ButtonStyled>Back Home</ButtonStyled>
-                            </NavLink>}
-                        />
-                    </Layout>
+                    <Result
+                        status="403"
+                        title="403"
+                        subTitle="Xin lỗi, bạn không được phép truy cập trang này!"
+                        extra={<NavLink to={"/"}>
+                            <ButtonStyled>Về trang chủ</ButtonStyled>
+                        </NavLink>}
+                    />
                 );
             }
         }
