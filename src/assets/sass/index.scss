@@ -6,16 +6,20 @@
 // helpers
 @import "./helpers/variables";
 @import "./helpers/mixin";
+
 // base
 @import "./base/reset";
+
 // components
 @import "./components/header";
 @import "./components/sliderHome";
 @import "./components/course";
 @import "./components//footer";
 @import "./components/enrolledCourse";
+@import "./components/adminHeader";
 @import "./components/userMgtAdmin";
 @import "./components/courseMgtAdmin";
+
 // pages
 @import "./pages/notFoundPage";
 @import "./pages/searchCourse";

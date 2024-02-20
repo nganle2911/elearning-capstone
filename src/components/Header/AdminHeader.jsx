@@ -31,7 +31,7 @@ export default function AdminHeader() {
         if (user) {
             return (
                 <>
-                    <div className='item__avatar' style={{width: '55px', height: '55px', backgroundColor: 'rgba(29, 123, 133, 0.3)', borderRadius: '50%', cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                    <div className='item__avatar'>
                         <Dropdown 
                             menu={{items}}
                             trigger={['click']}
@@ -56,7 +56,7 @@ export default function AdminHeader() {
         <header className='headerAdmin bg-white w-full h-24 fixed z-20 drop-shadow'>
             <nav className='container py-2 flex items-center justify-between' aria-label="Global">
                 {/* logo */}
-                <div>
+                <div className='item__logo'>
                     <NavLink to={"/admin"}>
                         <img className='w-52' src='../../img/logo.png' alt='logo-edu' />
                     </NavLink>

@@ -1,7 +1,10 @@
 import React from 'react';
-import { Layout, Tabs, theme } from 'antd';
+import { Layout, Result, Tabs, theme } from 'antd';
 import CourseManagement from './CourseManagement/CourseManagement';
 import UserMgmt from './UserManagement/UserMgmt';
+import { useSelector } from 'react-redux';
+import { ButtonStyled } from '../../components/ButtonStyled/ButtonStyled';
+import { NavLink } from 'react-router-dom';
 const { Content } = Layout;
 
 const items = [
@@ -22,6 +25,51 @@ const onChange = (key) => {
 };
 
 export default function AdminPage() {
+    const { user } = useSelector(state => state.userSlice);
+
+    // todo: render admin content depending on type of user
+    const renderAdContent = () => {
+        if (user) {
+            if (user.maLoaiNguoiDung === "GV") {
+                return (
+                    <Layout
+                        className='adPageCont'
+                        style={{
+                            padding: '24px 0',
+                            background: colorBgContainer,
+                            borderRadius: borderRadiusLG,
+                        }}
+                    >
+                        <Tabs className='adPage__tabs md:hidden' defaultActiveKey='1' items={items} onChange={onChange} tabPosition='left' />
+
+                        {/* Tabs for mobile screen */}
+                        <Tabs className='adPageMobile__tabs mx-6 hidden md:block' defaultActiveKey='1' items={items} onChange={onChange} tabPosition="top" />
+                    </Layout>
+                );
+            } else {
+                return (
+                    <Layout
+                        className='adPageCont'
+                        style={{
+                            padding: '24px 0',
+                            background: colorBgContainer,
+                            borderRadius: borderRadiusLG,
+                        }}
+                    >
+                        <Result
+                            status="403"
+                            title="403"
+                            subTitle="Sorry, you are not authorized to access this page."
+                            extra={<NavLink to={"/"}>
+                                <ButtonStyled>Back Home</ButtonStyled>
+                            </NavLink>}
+                        />
+                    </Layout>
+                );
+            }
+        }
+    }
+
     const {
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
@@ -43,10 +91,7 @@ export default function AdminPage() {
                         borderRadius: borderRadiusLG,
                     }}
                 >
-                    <Tabs className='adPage__tabs md:hidden' defaultActiveKey='1' items={items} onChange={onChange} tabPosition='left' />
-
-                    {/* Tabs for mobile screen */}
-                    <Tabs className='adPageMobile__tabs mx-6 hidden md:block' defaultActiveKey='1' items={items} onChange={onChange} tabPosition="top" />
+                    {renderAdContent()}
                 </Layout>
             </Content>
         </Layout>
