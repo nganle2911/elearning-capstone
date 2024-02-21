@@ -1,4 +1,4 @@
-import { Avatar, Form, Input, Modal, Progress, Select, Tabs } from 'antd'
+import { Avatar, Form, Input, Modal, Progress, Select, Tabs, message } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { ButtonStyled } from '../../components/ButtonStyled/ButtonStyled'
 import EnrolledCourse from '../../components/EnrolledCourse/EnrolledCourse'
@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setProfile } from '../../redux/userSlice/userSlice'
 import axios from 'axios'
 import { RANDOM_NUM, TOKEN_CYBERSOFT } from '../../services/constant'
+import { https } from '../../services/api'
 
 export default function Profile() {
     const { profile } = useSelector(state => state.userSlice);
@@ -13,21 +14,22 @@ export default function Profile() {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const fetchProfile = async () => {
-        const authToken = JSON.parse(localStorage.getItem("TOKEN"));
-
-        axios({
-            method: "POST",
-            url: "https://elearningnew.cybersoft.edu.vn/api/QuanLyNguoiDung/ThongTinNguoiDung",
-            headers: {
-                TokenCybersoft: TOKEN_CYBERSOFT,
-                Authorization: `Bearer ${authToken}`
-            }
-        }).then((res) => {
-            console.log("profile: ", res.data);
-            dispatch(setProfile(res.data))
-        }).catch((err) => {
-            console.log("err", err);
-        });
+        try {
+            const authToken = JSON.parse(localStorage.getItem("TOKEN"));
+            const res = await axios({
+                method: "POST",
+                url: "https://elearningnew.cybersoft.edu.vn/api/QuanLyNguoiDung/ThongTinNguoiDung",
+                headers: {
+                    TokenCybersoft: TOKEN_CYBERSOFT,
+                    Authorization: `Bearer ${authToken}`
+                }
+            })
+            console.log("res", res.data);
+            dispatch(setProfile(res.data));
+        } catch (error) {
+            console.log("err", error);
+            message.error(error.message);
+        }
     }
 
     useEffect(() => {
