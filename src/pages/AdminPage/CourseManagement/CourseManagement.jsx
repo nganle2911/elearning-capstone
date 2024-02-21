@@ -20,7 +20,7 @@ export default function CourseManagement() {
   };
 
   let fetchCourseList = () => {
-    https.get("api/QuanLyKhoaHoc/LayDanhSachKhoaHoc?MaNhom=GP01")
+    https.get("api/QuanLyKhoaHoc/LayDanhSachKhoaHoc?MaNhom=GP02")
       .then((res) => {
         console.log("danh sách khóa học nè", res.data);
         setListCourse(res.data)
@@ -68,6 +68,7 @@ export default function CourseManagement() {
     }
     catch (error) {
       message.error(error.response.data)
+      console.log(error)
     }
   }
   const columns = [
@@ -105,7 +106,6 @@ export default function CourseManagement() {
       render: (_, record) => (
         <Space>
           {/* Thêm  */}
-        <div>
            <Button  onClick={showModal}>
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-green-400">
           <path stroke-linecap="round" stroke-linejoin="round" d="M12 10.5v6m3-3H9m4.06-7.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
@@ -114,16 +114,16 @@ export default function CourseManagement() {
         <Modal colorBgMask="rgba(0, 0, 0, 0.45)" onClick={showModal} title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
         <FormAddCourse/>
         </Modal>
-        </div>
+        
        
-        {/* XÓA */}
+        {/* SỬA */}
         <Button onClick={showConfirm}>
          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-yellow-400">
             <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
           </svg> 
         </Button>
         
-        {/* SỬA */}
+        {/* XÓA */}
         <Button>
           <svg onClick={() => { handleDelete(record.maKhoaHoc) }}
         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6" className="w-6 h-6 text-red-400">
