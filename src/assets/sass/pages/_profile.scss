@@ -79,15 +79,56 @@
     .ant-modal-wrap {
         .profileModal {
             .ant-modal-content {
-                .ant-modal-header {}
-                .ant-modal-body {}
+                .ant-modal-header {
+                    .ant-modal-title {
+                        h1 {
+                            font-size: $fs-4 + 2;
+                            text-transform: capitalize;
+                        }
+                    }
+                }
+
+                .ant-modal-body {
+                    /* .ant-form {
+                        .ant-form-item {
+                            .ant-row {
+                                .ant-form-item-label {}
+                                .ant-form-item-control {
+                                    .ant-form-item-control-input {
+                                        .ant-form-item-control-input-content {
+                                            .ant-input {
+                                                &:hover, &:focus {
+                                                    @include inputHover;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    } */
+                }
+
                 .ant-modal-footer {
                     .ant-btn {
-                        &:nth-child(2) {
+                        &:first-child {
+                            &:hover {
+                                border-color: $green-1;
+                                color: $green-1;
+                            }
+                        }
+
+                        &:last-child {
                             background-color: $green-1;
+                            border-color: $green-1;
+                            outline: none;
+                            color: $white-1;
 
                             &:hover {
-                                background-color: $green-2;
+                                background-color: $green-3;
+                                color: $white-1;
+                                border-color: $green-3;
+                                outline: none;
                             }
                         }
                     }

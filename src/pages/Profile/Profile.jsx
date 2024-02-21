@@ -1,4 +1,4 @@
-import { Avatar, Form, Input, Modal, Progress, Select, Tabs, message } from 'antd'
+import { Avatar, Button, Form, Input, Modal, Progress, Tabs, message } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { ButtonStyled } from '../../components/ButtonStyled/ButtonStyled'
 import EnrolledCourse from '../../components/EnrolledCourse/EnrolledCourse'
@@ -6,13 +6,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setProfile } from '../../redux/userSlice/userSlice'
 import axios from 'axios'
 import { RANDOM_NUM, TOKEN_CYBERSOFT } from '../../services/constant'
-import { https } from '../../services/api'
 
 export default function Profile() {
     const { profile } = useSelector(state => state.userSlice);
     const dispatch = useDispatch();
     const [isModalOpen, setIsModalOpen] = useState(false);
 
+    // todo: fetch profile data 
     const fetchProfile = async () => {
         try {
             const authToken = JSON.parse(localStorage.getItem("TOKEN"));
@@ -24,11 +24,31 @@ export default function Profile() {
                     Authorization: `Bearer ${authToken}`
                 }
             })
-            console.log("res", res.data);
+            console.log("profile", res.data);
             dispatch(setProfile(res.data));
-        } catch (error) {
-            console.log("err", error);
-            message.error(error.message);
+        } catch (err) {
+            console.log("err", err);
+            message.error(err.message);
+        }
+    }
+
+    // todo: handle update profile data
+    const handleUpdateProfile = async (values) => {
+        try {
+            const authToken = JSON.parse(localStorage.getItem("TOKEN"));
+            const res = await axios({
+                method: "PUT",
+                url: "https://elearningnew.cybersoft.edu.vn/api/QuanLyNguoiDung/CapNhatThongTinNguoiDung",
+                data: values,
+                headers: {
+                    TokenCybersoft: TOKEN_CYBERSOFT,
+                    Authorization: `Bearer ${authToken}`
+                }
+            });
+            console.log("update profile: ", res.data);
+            dispatch(setProfile(res.data));
+        } catch (err) {
+            console.log("err", err);
         }
     }
 
@@ -134,36 +154,18 @@ export default function Profile() {
 
     // todo: modal settings
     const showModal = () => {
-        setIsModalOpen(true);
+        setIsModalOpen(true); 
     };
 
-    const handleOk = () => {
+    const handleUpdate = (e) => {
         setIsModalOpen(false);
+        e.preventDefault();
+        handleUpdateProfile(profile);
     };
 
     const handleCancel = () => {
         setIsModalOpen(false);
     };
-
-    const optionsType = [
-        {
-            value: 'HV',
-            label: 'Học viên',
-        },
-        {
-            value: 'GV',
-            label: 'Giảng viên',
-        },
-    ];
-
-    const optionsGroup = [];
-    for (let i = 1; i <= 9; i++) {
-        const option = {
-            value: `GP0${i}`,
-            label: `GP0${i}`
-        };
-        optionsGroup.push(option);
-    }
 
     return (
         <div className='profile py-24'>
@@ -179,7 +181,7 @@ export default function Profile() {
                         {renderType()}
                     </div>
                     <div className='contentLeft__btnEdit mt-2'>
-                        <ButtonStyled onClick={showModal}>Cập nhật</ButtonStyled>
+                        <ButtonStyled onClick={showModal}>Chỉnh sửa</ButtonStyled>
                     </div>
                 </div>
                 <div className='profileContent__right col-span-4 lg:col-span-5'>
@@ -194,30 +196,55 @@ export default function Profile() {
                 </div>
 
                 {/* Modal edit profile */}
-                <Modal className='profileModal' title="Cập nhật thông tin" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+                <Modal 
+                    className='profileModal' 
+                    title={
+                        <>
+                            <h1>Cập nhật thông tin</h1>
+                            <hr className='my-4' />
+                        </>
+                    } 
+                    open={isModalOpen}  
+                    onCancel={handleCancel}
+                    footer={[
+                        <Button key="cancel" onClick={handleCancel}>Huỷ</Button>,
+                        <Button key="submit" onClick={handleUpdate}>Cập nhật</Button>
+                    ]}
+                >
                     <Form 
                         layout='vertical'
                     >
                         <Form.Item label="Tài khoản">
-                            <Input placeholder='Nhập tài khoản' className='h-10' />
+                            <Input placeholder='Nhập tài khoản' className='h-10' value={profile?.taiKhoan} onChange={(e) => {
+                                dispatch(setProfile({...profile, taiKhoan: e.target.value}));
+                            }} />
                         </Form.Item>
                         <Form.Item label="Mật khẩu">
-                            <Input placeholder='Nhập mật khẩu' className='h-10' />
+                            <Input.Password placeholder='Nhập mật khẩu' className='h-10' value={profile?.matKhau}
+                            onChange={(e) => {
+                                dispatch(setProfile({...profile, matKhau: e.target.value}));
+                            }} />
                         </Form.Item>
                         <Form.Item label="Họ tên">
-                            <Input placeholder='Nhập họ tên' className='h-10' />
+                            <Input placeholder='Nhập họ tên' className='h-10' value={profile?.hoTen} onChange={(e) => {
+                                dispatch(setProfile({...profile, hoTen: e.target.value}));
+                            }} />
                         </Form.Item>
                         <Form.Item label="Số điện thoại">
-                            <Input placeholder='Nhập số điện thoại' className='h-10' />
+                            <Input placeholder='Nhập số điện thoại' className='h-10' value={profile?.soDT} onChange={(e) => {
+                                dispatch(setProfile({...profile, soDT: e.target.value}));
+                            }} />
                         </Form.Item>
                         <Form.Item label="Email">
-                            <Input placeholder='Nhập email' className='h-10' />
+                            <Input placeholder='Nhập email' className='h-10' value={profile?.email} onChange={(e) => {
+                                dispatch(setProfile({...profile, email: e.target.value}));
+                            }} />
                         </Form.Item>
                         <Form.Item label="Loại người dùng">
-                            <Select defaultValue="HV" options={optionsType} className='h-10' />
+                            <Input className='h-10' value={profile?.maLoaiNguoiDung} disabled />
                         </Form.Item>                  
                         <Form.Item label="Mã nhóm">
-                            <Select className='h-10' defaultValue="GP01" options={optionsGroup} />
+                            <Input className='h-10' value={profile?.maNhom} disabled />
                         </Form.Item>
                     </Form>
                 </Modal>

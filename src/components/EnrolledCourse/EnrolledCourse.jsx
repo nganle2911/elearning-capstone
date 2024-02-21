@@ -4,7 +4,7 @@ import { RANDOM_NUM } from '../../services/constant';
 import { NavLink } from 'react-router-dom';
 
 export default function EnrolledCourse({ enrolledCourses }) {
-    console.log("courses: ", enrolledCourses);
+    // console.log("courses: ", enrolledCourses);
 
 
     const arrCourses = enrolledCourses.map((course, index) => {
