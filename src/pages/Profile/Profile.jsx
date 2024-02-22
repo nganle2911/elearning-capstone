@@ -8,7 +8,8 @@ import axios from 'axios'
 import { RANDOM_NUM, TOKEN_CYBERSOFT } from '../../services/constant'
 
 export default function Profile() {
-    const { profile } = useSelector(state => state.userSlice);
+    // const { profile } = useSelector(state => state.userSlice);
+    const [profile, setProfile] = useState({});
     const dispatch = useDispatch();
     const [isModalOpen, setIsModalOpen] = useState(false);
     
@@ -25,7 +26,8 @@ export default function Profile() {
                 }
             })
             console.log("profile", res.data);
-            dispatch(setProfile(res.data));
+            // dispatch(setProfile(res.data));
+            setProfile(res.data)
         } catch (err) {
             console.log("err", err);
             message.error(err.message);
@@ -37,7 +39,7 @@ export default function Profile() {
     }, []);
 
     // todo: handle update profile data
-    const handleUpdateProfile = async (values) => {
+    /* const handleUpdateProfile = async (values) => {
         try {
             const authToken = JSON.parse(localStorage.getItem("TOKEN"));
             const updatedProfile = {
@@ -70,7 +72,7 @@ export default function Profile() {
             console.log("err", err);
             message.error(err.response.data);
         }
-    }
+    } */
 
     // todo: render student or teacher 
     const renderType = () => {
@@ -201,7 +203,7 @@ export default function Profile() {
                     />
                 </div>
 
-                {/* Modal edit profile */}
+                {/* Modal update profile */}
                 <Modal 
                     className='profileModal' 
                     title={
@@ -214,7 +216,7 @@ export default function Profile() {
                     onCancel={handleCancel}
                     footer={[
                         <Button key="cancel" onClick={handleCancel}>Huỷ</Button>,
-                        <Button key="submit" onClick={handleUpdateProfile}>Cập nhật</Button>
+                        <Button key="submit">Cập nhật</Button>
                     ]}
                 >
                     <Form 
@@ -225,26 +227,26 @@ export default function Profile() {
                         </Form.Item>
                         <Form.Item label="Mật khẩu">
                             <Input.Password placeholder='Nhập mật khẩu' className='h-10' name='matKhau' value={profile?.matKhau} onChange={(e) => {
-                                dispatch(setProfile({
+                                setProfile({
                                     ...profile,
                                     matKhau: e.target.value
-                                }));
+                                });
                             }} />
                         </Form.Item>
                         <Form.Item label="Họ tên">
                             <Input placeholder='Nhập họ tên' className='h-10' name='hoTen' value={profile?.hoTen} onChange={(e) => {
-                                dispatch(setProfile({
+                                setProfile({
                                     ...profile,
                                     hoTen: e.target.value
-                                }))
+                                })
                             }} />
                         </Form.Item>
                         <Form.Item label="Số điện thoại">
                             <Input placeholder='Nhập số điện thoại' className='h-10' name='soDT' value={profile?.soDT} onChange={(e) => {
-                                dispatch(setProfile({
+                                setProfile({
                                     ...profile,
                                     soDT: e.target.value
-                                }))
+                                })
                             }} />
                         </Form.Item>
                         <Form.Item label="Email">
