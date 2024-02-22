@@ -16,7 +16,7 @@ export default function Profile() {
     // todo: fetch profile data 
     const fetchProfile = async () => {
         try {
-            const authToken = JSON.parse(localStorage.getItem("TOKEN"));
+            const authToken = JSON.parse(localStorage.getItem("USER_LOGIN"))?.accessToken;
             const res = await axios({
                 method: "POST",
                 url: "https://elearningnew.cybersoft.edu.vn/api/QuanLyNguoiDung/ThongTinNguoiDung",
