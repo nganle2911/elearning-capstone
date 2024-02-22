@@ -8,7 +8,7 @@ export const https = axios.create({
   baseURL: 'https://elearningnew.cybersoft.edu.vn',
   headers: {
     TokenCybersoft: TOKEN_CYBERSOFT,
-    Authorization:"bearer " + JSON.parse(localStorage.getItem("TOKEN"))
+    Authorization:"Bearer " + JSON.parse(localStorage.getItem("TOKEN"))
   }
 });
 

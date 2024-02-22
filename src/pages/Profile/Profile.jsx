@@ -11,26 +11,7 @@ export default function Profile() {
     const { profile } = useSelector(state => state.userSlice);
     const dispatch = useDispatch();
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [formEdit, setFormEdit] = useState({
-        taiKhoan: profile?.taiKhoan,
-        matKhau: profile?.matKhau,
-        hoTen: profile?.hoTen,
-        soDT: profile?.soDT,
-        email: profile?.email,
-        maLoaiNguoiDung: profile?.maLoaiNguoiDung
-    });
-
-    // Update local state when input values change
-    const handleInputChange = (name, value) => {
-        console.log(name, value);
-        setFormEdit(prevState => {
-            return {
-                ...prevState,
-                [name]: value
-            }
-        });
-    }
-
+    
     // todo: fetch profile data 
     const fetchProfile = async () => {
         try {
@@ -51,31 +32,45 @@ export default function Profile() {
         }
     }
 
+    useEffect(() => {
+        fetchProfile();
+    }, []);
+
     // todo: handle update profile data
-    const handleUpdateProfile = async () => {
+    const handleUpdateProfile = async (values) => {
         try {
             const authToken = JSON.parse(localStorage.getItem("TOKEN"));
+            const updatedProfile = {
+                ...profile,
+                matKhau: values.matKhau,
+                hoTen: values.hoTen,
+                soDT: values.soDT
+            };
+            dispatch(setProfile(updatedProfile));
             const res = await axios({
                 method: "PUT",
                 url: "https://elearningnew.cybersoft.edu.vn/api/QuanLyNguoiDung/CapNhatThongTinNguoiDung",
-                data: formEdit,
+                data: {
+                    taiKhoan: updatedProfile.taiKhoan,
+                    matKhau: updatedProfile.matKhau,
+                    hoTen: updatedProfile.hoTen,
+                    soDT: updatedProfile.soDT,
+                    email: updatedProfile.email,
+                    maLoaiNguoiDung: updatedProfile.maLoaiNguoiDung,
+                    maNhom: updatedProfile.maNhom
+                },
                 headers: {
                     TokenCybersoft: TOKEN_CYBERSOFT,
                     Authorization: `Bearer ${authToken}`
                 }
             });
             console.log("update profile: ", res.data);
-            dispatch(setProfile(res.data));
             setIsModalOpen(false); // close modal after updating successfully 
         } catch (err) {
             console.log("err", err);
             message.error(err.response.data);
         }
     }
-
-    useEffect(() => {
-        fetchProfile();
-    }, [])
 
     // todo: render student or teacher 
     const renderType = () => {
@@ -85,7 +80,7 @@ export default function Profile() {
             )
         } else {
             return (
-                <div className='px-1.5 text-base' style={{ backgroundColor: "#aeaeaf" }}>Giảng viên</div>
+                <div className='px-1.5 text-base' style={{ backgroundColor: "#aeaeaf" }}>Giáo vụ</div>
             )
         }
     }
@@ -110,10 +105,7 @@ export default function Profile() {
         })
     }
 
-    const onChange = (key) => {
-        console.log(key);
-    };
-
+    // todo: 2 tabs for profile info & courses 
     const items = [
         {
             key: '1',
@@ -176,23 +168,11 @@ export default function Profile() {
     // todo: modal settings
     const showModal = () => {
         setIsModalOpen(true); 
-        setFormEdit(profile);
     };
 
     const handleCancel = () => {
         setIsModalOpen(false);
     };
-
-    const options = [
-        {
-            value: "GV",
-            label: "Giáo vụ"
-        },
-        {
-            value: "HV",
-            label: "Học viên"
-        }
-    ]
 
     return (
         <div className='profile py-24'>
@@ -215,7 +195,6 @@ export default function Profile() {
                     {/* Tabs Info */}
                     <Tabs
                         className='contentRight__tabs'
-                        onChange={onChange}
                         items={items}
                         defaultActiveKey='1'
                         type='card'
@@ -242,25 +221,34 @@ export default function Profile() {
                         layout='vertical'
                     >
                         <Form.Item label="Tài khoản">
-                            <Input placeholder='Nhập tài khoản' className='h-10' name='taiKhoan' value={formEdit?.taiKhoan} onChange={e => handleInputChange(e.target.name, e.target.value)} />
+                            <Input placeholder='Nhập tài khoản' className='h-10' name='taiKhoan' value={profile?.taiKhoan} disabled />
                         </Form.Item>
                         <Form.Item label="Mật khẩu">
-                            <Input.Password placeholder='Nhập mật khẩu' className='h-10' name='matKhau' value={formEdit?.matKhau} onChange={e => handleInputChange(e.target.name, e.target.value)} />
+                            <Input.Password placeholder='Nhập mật khẩu' className='h-10' name='matKhau' value={profile?.matKhau} onChange={(e) => {
+                                dispatch(setProfile({
+                                    ...profile,
+                                    matKhau: e.target.value
+                                }));
+                            }} />
                         </Form.Item>
                         <Form.Item label="Họ tên">
-                            <Input placeholder='Nhập họ tên' className='h-10' name='hoTen' value={formEdit?.hoTen} onChange={e => handleInputChange(e.target.name, e.target.value)} />
+                            <Input placeholder='Nhập họ tên' className='h-10' name='hoTen' value={profile?.hoTen} onChange={(e) => {
+                                dispatch(setProfile({
+                                    ...profile,
+                                    hoTen: e.target.value
+                                }))
+                            }} />
                         </Form.Item>
                         <Form.Item label="Số điện thoại">
-                            <Input placeholder='Nhập số điện thoại' className='h-10' name='soDT' value={formEdit?.soDT} onChange={e => handleInputChange(e.target.name, e.target.value)} />
+                            <Input placeholder='Nhập số điện thoại' className='h-10' name='soDT' value={profile?.soDT} onChange={(e) => {
+                                dispatch(setProfile({
+                                    ...profile,
+                                    soDT: e.target.value
+                                }))
+                            }} />
                         </Form.Item>
                         <Form.Item label="Email">
-                            <Input placeholder='Nhập email' className='h-10' name='email' value={formEdit?.email} onChange={e => handleInputChange(e.target.name, e.target.value)} />
-                        </Form.Item>
-                        <Form.Item label="Loại người dùng">
-                            <Select className='h-10' options={options} name='maLoaiNguoiDung' value={formEdit?.maLoaiNguoiDung} onChange={value => handleInputChange('maLoaiNguoiDung', value)} />
-                        </Form.Item>                  
-                        <Form.Item label="Mã nhóm">
-                            <Input className='h-10' name='maNhom' value={profile?.maNhom} disabled />
+                            <Input placeholder='Nhập email' className='h-10' name='email' value={profile?.email} disabled />
                         </Form.Item>
                     </Form>
                 </Modal>
