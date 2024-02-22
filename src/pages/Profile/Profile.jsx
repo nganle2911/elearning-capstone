@@ -1,4 +1,4 @@
-import { Avatar, Button, Form, Input, Modal, Progress, Tabs, message } from 'antd'
+import { Avatar, Button, Form, Input, Modal, Progress, Select, Tabs, message } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { ButtonStyled } from '../../components/ButtonStyled/ButtonStyled'
 import EnrolledCourse from '../../components/EnrolledCourse/EnrolledCourse'
@@ -11,6 +11,25 @@ export default function Profile() {
     const { profile } = useSelector(state => state.userSlice);
     const dispatch = useDispatch();
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [formEdit, setFormEdit] = useState({
+        taiKhoan: profile?.taiKhoan,
+        matKhau: profile?.matKhau,
+        hoTen: profile?.hoTen,
+        soDT: profile?.soDT,
+        email: profile?.email,
+        maLoaiNguoiDung: profile?.maLoaiNguoiDung
+    });
+
+    // Update local state when input values change
+    const handleInputChange = (name, value) => {
+        console.log(name, value);
+        setFormEdit(prevState => {
+            return {
+                ...prevState,
+                [name]: value
+            }
+        });
+    }
 
     // todo: fetch profile data 
     const fetchProfile = async () => {
@@ -33,13 +52,13 @@ export default function Profile() {
     }
 
     // todo: handle update profile data
-    const handleUpdateProfile = async (values) => {
+    const handleUpdateProfile = async () => {
         try {
             const authToken = JSON.parse(localStorage.getItem("TOKEN"));
             const res = await axios({
                 method: "PUT",
                 url: "https://elearningnew.cybersoft.edu.vn/api/QuanLyNguoiDung/CapNhatThongTinNguoiDung",
-                data: values,
+                data: formEdit,
                 headers: {
                     TokenCybersoft: TOKEN_CYBERSOFT,
                     Authorization: `Bearer ${authToken}`
@@ -47,8 +66,10 @@ export default function Profile() {
             });
             console.log("update profile: ", res.data);
             dispatch(setProfile(res.data));
+            setIsModalOpen(false); // close modal after updating successfully 
         } catch (err) {
             console.log("err", err);
+            message.error(err.response.data);
         }
     }
 
@@ -155,17 +176,23 @@ export default function Profile() {
     // todo: modal settings
     const showModal = () => {
         setIsModalOpen(true); 
-    };
-
-    const handleUpdate = (e) => {
-        setIsModalOpen(false);
-        e.preventDefault();
-        handleUpdateProfile(profile);
+        setFormEdit(profile);
     };
 
     const handleCancel = () => {
         setIsModalOpen(false);
     };
+
+    const options = [
+        {
+            value: "GV",
+            label: "Giáo vụ"
+        },
+        {
+            value: "HV",
+            label: "Học viên"
+        }
+    ]
 
     return (
         <div className='profile py-24'>
@@ -208,43 +235,32 @@ export default function Profile() {
                     onCancel={handleCancel}
                     footer={[
                         <Button key="cancel" onClick={handleCancel}>Huỷ</Button>,
-                        <Button key="submit" onClick={handleUpdate}>Cập nhật</Button>
+                        <Button key="submit" onClick={handleUpdateProfile}>Cập nhật</Button>
                     ]}
                 >
                     <Form 
                         layout='vertical'
                     >
                         <Form.Item label="Tài khoản">
-                            <Input placeholder='Nhập tài khoản' className='h-10' value={profile?.taiKhoan} onChange={(e) => {
-                                dispatch(setProfile({...profile, taiKhoan: e.target.value}));
-                            }} />
+                            <Input placeholder='Nhập tài khoản' className='h-10' name='taiKhoan' value={formEdit?.taiKhoan} onChange={e => handleInputChange(e.target.name, e.target.value)} />
                         </Form.Item>
                         <Form.Item label="Mật khẩu">
-                            <Input.Password placeholder='Nhập mật khẩu' className='h-10' value={profile?.matKhau}
-                            onChange={(e) => {
-                                dispatch(setProfile({...profile, matKhau: e.target.value}));
-                            }} />
+                            <Input.Password placeholder='Nhập mật khẩu' className='h-10' name='matKhau' value={formEdit?.matKhau} onChange={e => handleInputChange(e.target.name, e.target.value)} />
                         </Form.Item>
                         <Form.Item label="Họ tên">
-                            <Input placeholder='Nhập họ tên' className='h-10' value={profile?.hoTen} onChange={(e) => {
-                                dispatch(setProfile({...profile, hoTen: e.target.value}));
-                            }} />
+                            <Input placeholder='Nhập họ tên' className='h-10' name='hoTen' value={formEdit?.hoTen} onChange={e => handleInputChange(e.target.name, e.target.value)} />
                         </Form.Item>
                         <Form.Item label="Số điện thoại">
-                            <Input placeholder='Nhập số điện thoại' className='h-10' value={profile?.soDT} onChange={(e) => {
-                                dispatch(setProfile({...profile, soDT: e.target.value}));
-                            }} />
+                            <Input placeholder='Nhập số điện thoại' className='h-10' name='soDT' value={formEdit?.soDT} onChange={e => handleInputChange(e.target.name, e.target.value)} />
                         </Form.Item>
                         <Form.Item label="Email">
-                            <Input placeholder='Nhập email' className='h-10' value={profile?.email} onChange={(e) => {
-                                dispatch(setProfile({...profile, email: e.target.value}));
-                            }} />
+                            <Input placeholder='Nhập email' className='h-10' name='email' value={formEdit?.email} onChange={e => handleInputChange(e.target.name, e.target.value)} />
                         </Form.Item>
                         <Form.Item label="Loại người dùng">
-                            <Input className='h-10' value={profile?.maLoaiNguoiDung} disabled />
+                            <Select className='h-10' options={options} name='maLoaiNguoiDung' value={formEdit?.maLoaiNguoiDung} onChange={value => handleInputChange('maLoaiNguoiDung', value)} />
                         </Form.Item>                  
                         <Form.Item label="Mã nhóm">
-                            <Input className='h-10' value={profile?.maNhom} disabled />
+                            <Input className='h-10' name='maNhom' value={profile?.maNhom} disabled />
                         </Form.Item>
                     </Form>
                 </Modal>
