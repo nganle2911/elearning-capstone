@@ -32,18 +32,13 @@
                                         .ant-table-tbody {
                                             .ant-table-row {
                                                 .ant-table-cell {
-                                                    &:nth-child(6) {
+                                                    &:last-child {
                                                         .ant-space {
                                                             .ant-space-item {
-                                                                &:nth-child(2) {
-                                                                    .btnEdit {
-                                                                        color: $green-1;
-                                                                    }
-                                                                }
-
-                                                                &:nth-child(3) {
-                                                                    .btnDel {
-                                                                        color: $red-1;
+                                                                .ant-btn {
+                                                                    &:hover {
+                                                                        border-color: $green-3;
+                                                                        color: $green-3;
                                                                     }
                                                                 }
                                                             }
