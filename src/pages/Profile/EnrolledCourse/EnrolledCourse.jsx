@@ -1,7 +1,7 @@
 import { List, Progress, Rate } from 'antd'
 import React from 'react'
-import { RANDOM_NUM } from '../../services/constant';
 import { NavLink } from 'react-router-dom';
+import { RANDOM_NUM } from '../../../services/constant';
 
 export default function EnrolledCourse({ enrolledCourses }) {
     // console.log("courses: ", enrolledCourses);
