@@ -5,11 +5,9 @@ import axios from 'axios'
 import { RANDOM_NUM, TOKEN_CYBERSOFT } from '../../services/constant'
 import ProfileInfo from './ProfileInfo/ProfileInfo'
 import EnrolledCourse from './EnrolledCourse/EnrolledCourse'
-import { useDispatch, useSelector } from 'react-redux'
-import { setProfile } from '../../redux/userSlice/userSlice'
+import { useDispatch } from 'react-redux'
 
 export default function Profile() {
-    const { profile } = useSelector(state => state.userSlice);
     const dispatch = useDispatch();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editedProfile, setEditedProfile] = useState({});
@@ -27,7 +25,7 @@ export default function Profile() {
                 }
             })
             console.log("profile", res.data);
-            dispatch(setProfile(res.data));
+            setEditedProfile(res.data);
         } catch (err) {
             console.log("err", err);
             message.error(err.message);
@@ -100,7 +98,7 @@ export default function Profile() {
             label: 'Thông tin cá nhân',
             children: (
                 <>
-                    <ProfileInfo profile={profile} />
+                    <ProfileInfo profile={editedProfile} />
                 </>
             )
         },
