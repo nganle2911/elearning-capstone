@@ -1,6 +1,7 @@
 import { List, Progress, Rate } from 'antd'
 import React from 'react'
 import { RANDOM_NUM } from '../../services/constant';
+import { NavLink } from 'react-router-dom';
 
 export default function EnrolledCourse({ enrolledCourses }) {
     console.log("courses: ", enrolledCourses);
@@ -9,6 +10,7 @@ export default function EnrolledCourse({ enrolledCourses }) {
     const arrCourses = enrolledCourses.map((course, index) => {
         return ({
             key: index,
+            idCourse: `${course.maKhoaHoc}`,
             title: `${course.tenKhoaHoc}`,
             description: `${course.moTa}`,
             img: `${course.hinhAnh}`,
@@ -44,7 +46,7 @@ export default function EnrolledCourse({ enrolledCourses }) {
                     }
                 >
                     <List.Item.Meta
-                        title={<a href='#'>{item.title}</a>}
+                        title={<NavLink to={`/detail/${item.idCourse}`}>{item.title}</NavLink>}
                         description={item.description}
                     />
                     {item.content}

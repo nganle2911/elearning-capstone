@@ -11,6 +11,7 @@ import Profile from "./pages/Profile/Profile";
 import DetailPage from "./pages/DetailPage/DetailPage";
 import AdminLayout from "./layout/AdminLayout";
 import AdminPage from "./pages/AdminPage/AdminPage";
+import SecureGate from "./layout/SecureGate";
 
 function App() {
   return (
@@ -31,7 +32,7 @@ function App() {
           </Route>
 
           {/* ADMIN */}
-          <Route path="/admin" element={<AdminLayout />}>
+          <Route path="/admin" element={<SecureGate><AdminLayout /></SecureGate>}>
             <Route path="/admin" element={<AdminPage />} />
           </Route>
 

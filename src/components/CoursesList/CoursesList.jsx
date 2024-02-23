@@ -21,15 +21,17 @@ export default function CoursesList() {
     const renderCoursesList = () => {
         return courseList.slice(0, 12).map((course, index) => {
             return (
-                <div className='coursesList__item flex justify-center' key={index}>
-                    <Course course={course} />
+                <div className='coursesList__item' key={index}>
+                    <NavLink to={`/detail/${course.maKhoaHoc}`}>
+                        <Course course={course} />
+                    </NavLink>
                 </div>
-            )
+            );
         })
     }
 
     return (
-        <div className='homePage__courses container py-24'>
+        <div className='homePage__courses container py-24' id='courseList'>
             <div className='courses__title text-center pb-10'>
                 <p className='text-2xl sm:text-xl capitalize font-medium mb-3' style={{ color: "rgba(29, 123, 133, 0.8)" }}>Danh mục</p>
                 <h1 className='text-5xl sm:text-4xl capitalize font-bold' style={{ color: "#1d7a85" }}>Khám phá khoá học</h1>

@@ -51,6 +51,7 @@ export default function Header() {
     // todo: handle sign out 
     const handleSignOut = () => {
         localStorage.removeItem("USER_LOGIN");
+        localStorage.removeItem("TOKEN");
         dispatch(setUserSignOut());
         
         if (location.pathname === "/") {
@@ -201,7 +202,7 @@ export default function Header() {
                         </Transition>
                     </Popover>
 
-                    <a href='#' className='text-lg font-semibold colorText'>Khoá học</a>
+                    <a href='#courseList' className='text-lg font-semibold colorText'>Khoá học</a>
                     <a href='#' className='text-lg font-semibold colorText'>Blog</a>
                 </Popover.Group>
 
@@ -274,7 +275,7 @@ export default function Header() {
                                     )}
                                 </Disclosure>
                                 <a
-                                    href="#"
+                                    href='#courseList'
                                     className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                                 >
                                     Khoá học

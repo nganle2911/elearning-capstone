@@ -1,5 +1,5 @@
-import { Avatar, Progress, Tabs } from 'antd'
-import React, { useEffect } from 'react'
+import { Avatar, Form, Input, Modal, Progress, Select, Tabs } from 'antd'
+import React, { useEffect, useState } from 'react'
 import { ButtonStyled } from '../../components/ButtonStyled/ButtonStyled'
 import EnrolledCourse from '../../components/EnrolledCourse/EnrolledCourse'
 import { useDispatch, useSelector } from 'react-redux'
@@ -10,6 +10,7 @@ import { RANDOM_NUM, TOKEN_CYBERSOFT } from '../../services/constant'
 export default function Profile() {
     const { profile } = useSelector(state => state.userSlice);
     const dispatch = useDispatch();
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const fetchProfile = async () => {
         const authToken = JSON.parse(localStorage.getItem("TOKEN"));
@@ -129,6 +130,39 @@ export default function Profile() {
         }
     ];
 
+    // todo: modal settings
+    const showModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const handleOk = () => {
+        setIsModalOpen(false);
+    };
+
+    const handleCancel = () => {
+        setIsModalOpen(false);
+    };
+
+    const optionsType = [
+        {
+            value: 'HV',
+            label: 'Học viên',
+        },
+        {
+            value: 'GV',
+            label: 'Giảng viên',
+        },
+    ];
+
+    const optionsGroup = [];
+    for (let i = 1; i <= 9; i++) {
+        const option = {
+            value: `GP0${i}`,
+            label: `GP0${i}`
+        };
+        optionsGroup.push(option);
+    }
+
     return (
         <div className='profile py-24'>
             <div className='profile__content container py-10 grid grid-cols-5'>
@@ -143,7 +177,7 @@ export default function Profile() {
                         {renderType()}
                     </div>
                     <div className='contentLeft__btnEdit mt-2'>
-                        <ButtonStyled>Chỉnh sửa</ButtonStyled>
+                        <ButtonStyled onClick={showModal}>Cập nhật</ButtonStyled>
                     </div>
                 </div>
                 <div className='profileContent__right col-span-4 lg:col-span-5'>
@@ -156,7 +190,36 @@ export default function Profile() {
                         type='card'
                     />
                 </div>
+
+                {/* Modal edit profile */}
+                <Modal className='profileModal' title="Cập nhật thông tin" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+                    <Form 
+                        layout='vertical'
+                    >
+                        <Form.Item label="Tài khoản">
+                            <Input placeholder='Nhập tài khoản' className='h-10' />
+                        </Form.Item>
+                        <Form.Item label="Mật khẩu">
+                            <Input placeholder='Nhập mật khẩu' className='h-10' />
+                        </Form.Item>
+                        <Form.Item label="Họ tên">
+                            <Input placeholder='Nhập họ tên' className='h-10' />
+                        </Form.Item>
+                        <Form.Item label="Số điện thoại">
+                            <Input placeholder='Nhập số điện thoại' className='h-10' />
+                        </Form.Item>
+                        <Form.Item label="Email">
+                            <Input placeholder='Nhập email' className='h-10' />
+                        </Form.Item>
+                        <Form.Item label="Loại người dùng">
+                            <Select defaultValue="HV" options={optionsType} className='h-10' />
+                        </Form.Item>                  
+                        <Form.Item label="Mã nhóm">
+                            <Select className='h-10' defaultValue="GP01" options={optionsGroup} />
+                        </Form.Item>
+                    </Form>
+                </Modal>
             </div>
         </div>
-    )
+    );
 }

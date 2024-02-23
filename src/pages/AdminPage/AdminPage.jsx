@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout, Tabs, theme } from 'antd';
+import { Layout, Result, Tabs, theme } from 'antd';
 import CourseManagement from './CourseManagement/CourseManagement';
 import UserMgmt from './UserManagement/UserMgmt';
 const { Content } = Layout;

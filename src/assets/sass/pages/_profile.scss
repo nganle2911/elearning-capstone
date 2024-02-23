@@ -73,3 +73,26 @@
         }
     }
 }
+
+// Modal Update Profile
+.ant-modal-root {
+    .ant-modal-wrap {
+        .profileModal {
+            .ant-modal-content {
+                .ant-modal-header {}
+                .ant-modal-body {}
+                .ant-modal-footer {
+                    .ant-btn {
+                        &:nth-child(2) {
+                            background-color: $green-1;
+
+                            &:hover {
+                                background-color: $green-2;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
