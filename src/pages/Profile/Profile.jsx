@@ -5,9 +5,11 @@ import axios from 'axios'
 import { RANDOM_NUM, TOKEN_CYBERSOFT } from '../../services/constant'
 import ProfileInfo from './ProfileInfo/ProfileInfo'
 import EnrolledCourse from './EnrolledCourse/EnrolledCourse'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { setUser } from '../../redux/userSlice/userSlice'
 
 export default function Profile() {
+    const { user } = useSelector(state => state.userSlice);
     const dispatch = useDispatch();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editedProfile, setEditedProfile] = useState({});
@@ -24,7 +26,8 @@ export default function Profile() {
                     Authorization: `Bearer ${authToken}`
                 }
             })
-            console.log("profile", res.data);
+            console.log("user profile: ", res.data);
+            dispatch(setUser(res.data));
             setEditedProfile(res.data);
         } catch (err) {
             console.log("err", err);
@@ -66,21 +69,20 @@ export default function Profile() {
                 }
             });
 
-            console.log("updated profile: ", res.data);
+            dispatch(setUser(res.data));
             setEditedProfile(res.data);
-            dispatch(setProfile(res.data));
             setIsModalOpen(false);
             message.success("Cập nhật thành công!");
+            fetchProfile();
         } catch (err) {
             console.log("err", err);
             message.error(err.response.data);
         }
     }
 
-
     // todo: render student or teacher 
     const renderType = () => {
-        if (profile?.maLoaiNguoiDung === "HV") {
+        if (user?.maLoaiNguoiDung === "HV") {
             return (
                 <div className='px-1.5 text-base' style={{ backgroundColor: "rgba(255, 191, 0, 0.7)" }}>Học viên</div>
             )
@@ -98,7 +100,7 @@ export default function Profile() {
             label: 'Thông tin cá nhân',
             children: (
                 <>
-                    <ProfileInfo profile={editedProfile} />
+                    <ProfileInfo user={user} />
                 </>
             )
         },
@@ -108,8 +110,8 @@ export default function Profile() {
             children: (
                 <div className='courses__content'>
                     <h1 className='capitalize font-semibold text-3xl'>Khoá Học Của Bạn</h1>
-                    {profile?.chiTietKhoaHocGhiDanh?.length > 0 ? (
-                        <EnrolledCourse enrolledCourses={profile?.chiTietKhoaHocGhiDanh} />
+                    {editedProfile?.chiTietKhoaHocGhiDanh?.length > 0 ? (
+                        <EnrolledCourse enrolledCourses={editedProfile?.chiTietKhoaHocGhiDanh} />
                     ) : (
                         <p className='mt-5 text-xl'>Bạn chưa đăng ký khoá học nào!</p>
                     )}
@@ -138,7 +140,7 @@ export default function Profile() {
                         <Avatar size={120} src={`https://api.dicebear.com/7.x/miniavs/svg?seed=${RANDOM_NUM}`} />
                     </div>
                     <div className='contentLeft__name text-2xl font-bold'>
-                        {profile?.hoTen}
+                        {user?.hoTen}
                     </div>
                     <div className='contentLeft__type text-lg'>
                         {renderType()}
@@ -179,28 +181,19 @@ export default function Profile() {
                         layout='vertical'
                     >
                         <Form.Item label="Tài khoản">
-                            <Input placeholder='Nhập tài khoản' className='h-10' name='taiKhoan' value={editedProfile.taiKhoan || profile?.taiKhoan} onChange={(e) => handleFieldChange('taiKhoan', e.target.value)} />
+                            <Input placeholder='Nhập tài khoản' className='h-10' name='taiKhoan' value={editedProfile?.taiKhoan} disabled />
                         </Form.Item>
                         <Form.Item label="Mật khẩu">
-                            <Input.Password placeholder='Nhập mật khẩu' className='h-10' name='matKhau' value={editedProfile.matKhau || profile?.matKhau} onChange={(e) => handleFieldChange('matKhau', e.target.value)} />
+                            <Input.Password placeholder='Nhập mật khẩu' className='h-10' name='matKhau' value={editedProfile?.matKhau} onChange={(e) => handleFieldChange('matKhau', e.target.value)} />
                         </Form.Item>
                         <Form.Item label="Họ tên">
-                            <Input placeholder='Nhập họ tên' className='h-10' name='hoTen' value={editedProfile.hoTen || profile?.hoTen} onChange={(e) => handleFieldChange('hoTen', e.target.value)}  />
+                            <Input placeholder='Nhập họ tên' className='h-10' name='hoTen' value={editedProfile?.hoTen} onChange={(e) => handleFieldChange('hoTen', e.target.value)}  />
                         </Form.Item>
                         <Form.Item label="Số điện thoại">
-                            <Input placeholder='Nhập số điện thoại' className='h-10' name='soDT'  value={editedProfile.soDT || profile?.soDT} onChange={(e) => handleFieldChange('soDT', e.target.value)} />
+                            <Input placeholder='Nhập số điện thoại' className='h-10' name='soDT'  value={editedProfile?.soDT} onChange={(e) => handleFieldChange('soDT', e.target.value)} />
                         </Form.Item>
                         <Form.Item label="Email">
-                            <Input placeholder='Nhập email' className='h-10' name='email' value={editedProfile.email || profile?.email} onChange={(e) => handleFieldChange('email', e.target.value)} />
-                        </Form.Item>
-                        <Form.Item label="Loại người dùng">
-                            <Select className='h-10' name="maLoaiNguoiDung" options={options} value={editedProfile.maLoaiNguoiDung || profile?.maLoaiNguoiDung} onChange={(value) => {
-                                console.log(value);
-                                return handleFieldChange('maLoaiNguoiDung', value)
-                            }} />
-                        </Form.Item>
-                        <Form.Item label="Mã nhóm">
-                            <Input className='h-10' name='maNhom' value={editedProfile.maNhom || profile?.maNhom} disabled />
+                            <Input placeholder='Nhập email' className='h-10' name='email' value={editedProfile?.email} disabled />
                         </Form.Item>
                     </Form>
                 </Modal>

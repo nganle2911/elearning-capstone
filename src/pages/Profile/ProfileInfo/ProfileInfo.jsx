@@ -2,7 +2,7 @@ import React from 'react'
 import { RANDOM_NUM } from '../../../services/constant';
 import { Progress } from 'antd';
 
-export default function ProfileInfo({ profile }) {
+export default function ProfileInfo({ user }) {
     
     // todo: render skills in profile 
     const renderSkills = () => {
@@ -30,25 +30,25 @@ export default function ProfileInfo({ profile }) {
                 <div className='profile__groupLeft sm:col-span-2'>
                     <p>
                         Họ Tên:
-                        <span>{profile?.hoTen}</span>
+                        <span>{user?.hoTen}</span>
                     </p>
                     <p>
                         Nhóm:
-                        <span>{profile?.maNhom}</span>
+                        <span>{user?.maNhom}</span>
                     </p>
                     <p>
                         Số Điện Thoại:
-                        <span>{profile?.soDT}</span>
+                        <span>{user?.soDT}</span>
                     </p>
                 </div>
                 <div className='profile__groupRight sm:col-span-2'>
                     <p>
                         Email:
-                        <span>{profile?.email}</span>
+                        <span>{user?.email}</span>
                     </p>
                     <p>
                         Tài khoản:
-                        <span>{profile?.taiKhoan}</span>
+                        <span>{user?.taiKhoan}</span>
                     </p>
                 </div>
             </div>

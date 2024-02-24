@@ -16,7 +16,7 @@ export const https = axios.create({
 // Add a request interceptor
 https.interceptors.request.use(function (config) {
   // Do something before request is sent
-  store.dispatch(setIsLoadingOn())
+  store.dispatch(setIsLoadingOn());
   return config;
 }, function (error) {
   // Do something with request error
@@ -27,7 +27,7 @@ https.interceptors.request.use(function (config) {
 https.interceptors.response.use(function (response) {
   // Any status code that lie within the range of 2xx cause this function to trigger
   // Do something with response data
-  store.dispatch(setIsLoadingOff())
+  store.dispatch(setIsLoadingOff());
   return response;
 }, function (error) {
   store.dispatch(setIsLoadingOff());
