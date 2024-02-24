@@ -5,14 +5,16 @@ import { ButtonStyled } from '../../../components/ButtonStyled/ButtonStyled';
 import Modal from 'antd/es/modal/Modal';
 import confirm from 'antd/es/modal/confirm';
 import FormAddCourse from './FormAddCourse';
+import FormUpdateCourse from './FormUpdateCourse';
+import { useDispatch } from 'react-redux';
+import { setCourse } from '../../../redux/adminCourseSlice/adminCourseSlice';
 
 export default function CourseManagement() {
   const [listCourse, setListCourse] = useState([]);
-
+  let dispatch = useDispatch({})
   let fetchCourseList = () => {
     https.get("api/QuanLyKhoaHoc/LayDanhSachKhoaHoc?MaNhom=GP01")
       .then((res) => {
-        console.log("danh sách khóa học nè", res.data);
         setListCourse(res.data)
         localStorage.setItem("ADD_COURSE", JSON.stringify(res.data));
       })
@@ -24,7 +26,6 @@ export default function CourseManagement() {
   useEffect(() => {
     fetchCourseList()
   }, []);
-
 
   let handleDelete = async (id) => {
     try {
@@ -52,6 +53,24 @@ export default function CourseManagement() {
         okButtonProps: { style: { display: 'none' } },
         width: '50%'
     })
+}
+
+let UpdateConfirm = (record) => {
+  console.log("record nè",record)
+  dispatch(setCourse(record))
+  //Close modal
+  const handleClose = () => {
+    Modal.destroyAll(); 
+  };
+  confirm({
+      title: <div className='flex justify-between items-center'>
+        <h1 className='titleFuntion space-x-5'>CẬP NHẬT KHÓA HỌC</h1>
+        <Button onClick={handleClose} className="bg-red-500 text-white"><i class="fa fa-times"></i></Button>
+      </div> ,
+      content: <FormUpdateCourse record={record}/>,
+      okButtonProps: { style: { display: 'none' } },
+      width: '50%'
+  })
 }
 
   const columns = [
@@ -97,7 +116,7 @@ export default function CourseManagement() {
         
        
         {/* SỬA */}
-        <Button>
+        <Button onClick={() => {UpdateConfirm(record.maKhoaHoc)}}>
          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-yellow-400">
             <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
           </svg> 

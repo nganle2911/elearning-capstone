@@ -68,7 +68,7 @@ export default function DetailPage() {
             <hr />
             <br />
             <h3>Những gì bạn sẽ học</h3>
-            <div className='flex flex-wrap justify-around'>
+            <div className=''>
               <div className='iconCheck'>
                 <p><i class="fa fa-check"></i>Xây dựng các ứng dụng web mạnh mẽ, nhanh chóng thân thiện với người dùng và phản ứng nhanh</p>
                 <p><i class="fa fa-check"></i>Đăng ký công việc được trả lương cao hoặc làm freelancer trong một trong những lĩnh vực được yêu cầu nhiều nhất mà bạn có thể tìm thấy trong web dev ngay bây giờ</p>

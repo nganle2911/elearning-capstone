@@ -12,6 +12,7 @@ import DetailPage from "./pages/DetailPage/DetailPage";
 import AdminLayout from "./layout/AdminLayout";
 import AdminPage from "./pages/AdminPage/AdminPage";
 import SecureGate from "./layout/SecureGate";
+import CourseManagement from "./pages/AdminPage/CourseManagement/CourseManagement";
 
 function App() {
   return (
@@ -19,7 +20,6 @@ function App() {
       <Spinner />
       <BrowserRouter>
         <Routes>
-        
           {/* USER */}
           <Route path="/" element={<Layout />}>
             <Route path="/login" element={<LoginPage />} />
@@ -32,7 +32,14 @@ function App() {
           </Route>
 
           {/* ADMIN */}
-          <Route path="/admin" element={<SecureGate><AdminLayout /></SecureGate>}>
+          <Route
+            path="/admin"
+            element={
+              <SecureGate>
+                <AdminLayout />
+              </SecureGate>
+            }
+          >
             <Route path="/admin" element={<AdminPage />} />
           </Route>
 

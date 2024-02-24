@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {  UploadOutlined } from '@ant-design/icons';
+import { UploadOutlined } from '@ant-design/icons';
 import {
   Button,
   DatePicker,
@@ -12,23 +12,15 @@ import {
 } from 'antd';
 import { ButtonStyled } from '../../../components/ButtonStyled/ButtonStyled';
 import { https } from '../../../services/api';
+import { useSelector } from 'react-redux';
 
-const FormAddCourse = () => {
-  //get taiKhoan GV
+const FormUpdateCourse = ({record}) => {
+ let {course} = useSelector(state=>state.adminCourseSlice)
+console.log("record bên form", record)
   let dataJson = JSON.parse(localStorage.getItem("USER_LOGIN"))
+  const { TextArea } = Input;
 
-  const [danhMuc, setDanhMuc] = useState([])
-  useEffect(() => {
-    https.get("api/QuanLyKhoaHoc/LayDanhMucKhoaHoc")
-    .then((res) => {
-     setDanhMuc(res.data)
-    })
-    .catch((err) => {
-     console.log(err);
-     });
-  },[])
 
-  //FORM
   //Chuyển đổi tên file hình ảnh
   const normFile = (e) => {
     if (Array.isArray(e)) {
@@ -36,15 +28,13 @@ const FormAddCourse = () => {
     }
     const fileList = e && e.fileList;
     const fileName = fileList && fileList.length > 0 && fileList[0].name;
+  
     return fileName; 
   };
-  //moTa
-  const { TextArea } = Input;
 
-  //Post
   const onFinish = (values) => {
     console.log('Success:', values);
-    https.post("/api/QuanLyKhoaHoc/ThemKhoaHoc", values)
+    https.put("/api/QuanLyKhoaHoc/CapNhatKhoaHoc", values)
       .then((res) => {
         console.log("Thêm khóa học",res.data);
         message.success("Thêm thành công!")
@@ -90,7 +80,7 @@ const FormAddCourse = () => {
             },
           ]}
         >
-          <Input />
+          <Input defaultValue={record}/>
         </Form.Item>
         {/*Tên khóa học */}
         <Form.Item 
@@ -117,10 +107,10 @@ const FormAddCourse = () => {
           ]}
         >
           <Select>
-            {danhMuc.map((course, index) => {
-              return <Select.Option value={course.maDanhMuc}>{course.tenDanhMuc}</Select.Option>
+            
+              <Select.Option value="{course.maDanhMuc}"></Select.Option>
               
-            })}
+            
           </Select>
         </Form.Item>
          {/* Mã nhóm học*/}
@@ -248,4 +238,4 @@ const FormAddCourse = () => {
     </>
   );
 };
-export default () => <FormAddCourse />;
+export default () => <FormUpdateCourse />;
