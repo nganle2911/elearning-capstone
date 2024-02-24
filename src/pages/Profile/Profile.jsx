@@ -16,6 +16,7 @@ import ProfileInfo from "./ProfileInfo/ProfileInfo";
 import EnrolledCourse from "./EnrolledCourse/EnrolledCourse";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../../redux/userSlice/userSlice";
+import { http } from "../../utils/settings";
 
 export default function Profile() {
   const { user } = useSelector((state) => state.userSlice);
@@ -26,20 +27,11 @@ export default function Profile() {
   // todo: fetch profile data
   const fetchProfile = async () => {
     try {
-      const authToken = JSON.parse(
-        localStorage.getItem("USER_LOGIN")
-      )?.accessToken;
-      const res = await axios({
-        method: "POST",
-        url: "https://elearningnew.cybersoft.edu.vn/api/QuanLyNguoiDung/ThongTinNguoiDung",
-        headers: {
-          TokenCybersoft: TOKEN_CYBERSOFT,
-          Authorization: `Bearer ${authToken}`,
-        },
-      });
-      console.log("profile", res.data);
-      dispatch(setUser(res.data));
-      setEditedProfile(res.data);
+      const data = await http.post("/api/QuanLyNguoiDung/ThongTinNguoiDung");
+      console.log("data", data);
+      console.log("profile", data.data);
+      dispatch(setUser(data.data));
+      setEditedProfile(data.data);
     } catch (err) {
       console.log("err", err);
       message.error(err.message);
