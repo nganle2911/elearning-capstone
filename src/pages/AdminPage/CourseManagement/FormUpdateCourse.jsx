@@ -12,11 +12,10 @@ import {
 } from 'antd';
 import { ButtonStyled } from '../../../components/ButtonStyled/ButtonStyled';
 import { https } from '../../../services/api';
-import { useSelector } from 'react-redux';
 
 const FormUpdateCourse = ({record}) => {
- let {course} = useSelector(state=>state.adminCourseSlice)
-console.log("record bên form", record)
+//  let {course} = useSelector(state=>state.adminCourseSlice)
+console.log("record bên form",record)
   let dataJson = JSON.parse(localStorage.getItem("USER_LOGIN"))
   const { TextArea } = Input;
 
@@ -36,8 +35,8 @@ console.log("record bên form", record)
     console.log('Success:', values);
     https.put("/api/QuanLyKhoaHoc/CapNhatKhoaHoc", values)
       .then((res) => {
-        console.log("Thêm khóa học",res.data);
-        message.success("Thêm thành công!")
+        console.log("Update thành công",res.data);
+        message.success("Update thành công!")
       })
       .catch((err) => {
         console.log(err);
@@ -232,10 +231,12 @@ console.log("record bên form", record)
         </div>
         
         <ButtonStyled className=" text-white w-full font-bold text-xl items-center" htmlType="submit">
-            Thêm
+            Cập nhập
           </ButtonStyled>
       </Form>
     </>
   );
 };
 export default () => <FormUpdateCourse />;
+
+
