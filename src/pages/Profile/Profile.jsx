@@ -161,7 +161,7 @@ export default function Profile() {
 
                 {/* Modal update profile */}
                 <Modal 
-                    className='profileModal' 
+                    className='updateModal' 
                     title={
                         <>
                             <h1>Cập nhật thông tin</h1>

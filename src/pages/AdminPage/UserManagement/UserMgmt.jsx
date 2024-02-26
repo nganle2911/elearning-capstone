@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { ButtonStyled } from '../../../components/ButtonStyled/ButtonStyled'
-import { Button, Space, Table, message } from 'antd'
+import { Button, Form, Input, Modal, Select, Space, Table, message } from 'antd'
 import { https } from '../../../services/api'
+import axios from 'axios';
+import { TOKEN_CYBERSOFT } from '../../../services/constant';
 
 export default function UserMgt() {
     let [userList, setUserList] = useState([]);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [userData, setUserData] = useState({});
 
     // todo: fetch user list 
     const fetchUserList = async () => {
@@ -30,6 +34,52 @@ export default function UserMgt() {
     useEffect(() => {
         fetchUserList();
     }, []);
+
+    // todo: handle edit modal 
+    const showModal = (data) => {
+        setIsModalOpen(true);
+    };
+    const handleOk = () => {
+        setIsModalOpen(false);
+    };
+    const handleCancel = () => {
+        setIsModalOpen(false);
+    };
+    // todo: options for select form
+    const options = [{ value: "HV" }, { value: "GV" }];
+    // todo: function to handle changes in form fields
+    const handleFieldChange = (name, value) => {
+        setUserData({
+            ...userData,
+            [name]: value
+        });
+    };
+
+    // todo: handle update user row 
+    const updateUserRow = async (updatedData) => {
+        try {
+            const authToken = JSON.parse(localStorage.getItem("USER_LOGIN"))?.accessToken; 
+            const res = await axios({
+                method: "PUT",
+                url: "https://elearningnew.cybersoft.edu.vn/api/QuanLyNguoiDung/CapNhatThongTinNguoiDung",
+                headers: {
+                    TokenCybersoft: TOKEN_CYBERSOFT,
+                    Authorization: `Bearer ${authToken}`
+                },
+                data: {
+                    email: updatedData.email,
+                    taiKhoan: updatedData.taiKhoan,
+                    hoTen: updatedData.hoTen,
+                    soDT: updatedData.soDT,
+                    matKhau: updatedData.matKhau,
+                    maLoaiNguoiDung: updatedData.maLoaiNguoiDung,
+                    maNhom: "GP01"
+                }
+            });
+        } catch (err) {
+            console.log("err", err);
+        }
+    }
 
     const columns = [
         {
@@ -77,7 +127,7 @@ export default function UserMgt() {
                     </Button>
 
                     {/* EDIT */}
-                    <Button>
+                    <Button onClick={() => {showModal(record)}}>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-yellow-400">
                             <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                         </svg>
@@ -118,6 +168,46 @@ export default function UserMgt() {
                     <Table className='tblContent' columns={columns} dataSource={userList} pagination={{ pageSize: 10 }} />
                 </div>
             </div>
+
+            {/* MODAL EDIT */}
+            <Modal
+                className='updateModal'
+                title={
+                    <>
+                        <h1>Cập nhật thông tin</h1>
+                        <hr className='my-4' />
+                    </>
+                }
+                open={isModalOpen}
+                onCancel={handleCancel}
+                footer={[
+                    <Button key="cancel" onClick={handleCancel}>Huỷ</Button>,
+                    <Button key="submit">Cập nhật</Button>
+                ]}
+            >
+                <Form
+                    layout='vertical'
+                >
+                    <Form.Item label="Tài khoản">
+                        <Input placeholder='Nhập tài khoản' className='h-10' name='taiKhoan' disabled />
+                    </Form.Item>
+                    <Form.Item label="Mật khẩu">
+                        <Input.Password placeholder='Nhập mật khẩu' className='h-10' name='matKhau' />
+                    </Form.Item>
+                    <Form.Item label="Họ tên">
+                        <Input placeholder='Nhập họ tên' className='h-10' name='hoTen' />
+                    </Form.Item>
+                    <Form.Item label="Số điện thoại">
+                        <Input placeholder='Nhập số điện thoại' className='h-10' name='soDT' />
+                    </Form.Item>
+                    <Form.Item label="Email">
+                        <Input placeholder='Nhập email' className='h-10' name='email' />
+                    </Form.Item>
+                    <Form.Item label="Loại">
+                        <Select className='h-10' options={options} name='maLoaiNguoiDung' />
+                    </Form.Item>
+                </Form>
+            </Modal>
         </div>
     )
 }
