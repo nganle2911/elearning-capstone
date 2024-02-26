@@ -38,9 +38,7 @@ export default function UserMgt() {
     // todo: handle edit modal 
     const showModal = (data) => {
         setIsModalOpen(true);
-    };
-    const handleOk = () => {
-        setIsModalOpen(false);
+        setUserData(data);
     };
     const handleCancel = () => {
         setIsModalOpen(false);
@@ -70,14 +68,20 @@ export default function UserMgt() {
                     email: updatedData.email,
                     taiKhoan: updatedData.taiKhoan,
                     hoTen: updatedData.hoTen,
-                    soDT: updatedData.soDT,
+                    soDt: updatedData.soDt,
                     matKhau: updatedData.matKhau,
                     maLoaiNguoiDung: updatedData.maLoaiNguoiDung,
                     maNhom: "GP01"
                 }
             });
+
+            message.success("Cập nhật thành công!");
+            setIsModalOpen(false);
+            setUserData(res.data);
+            fetchUserList();
         } catch (err) {
             console.log("err", err);
+            message.error(err.response.data);
         }
     }
 
@@ -182,29 +186,31 @@ export default function UserMgt() {
                 onCancel={handleCancel}
                 footer={[
                     <Button key="cancel" onClick={handleCancel}>Huỷ</Button>,
-                    <Button key="submit">Cập nhật</Button>
+                    <Button key="submit" onClick={() => {
+                        updateUserRow(userData);
+                    }}>Cập nhật</Button>
                 ]}
             >
                 <Form
                     layout='vertical'
                 >
                     <Form.Item label="Tài khoản">
-                        <Input placeholder='Nhập tài khoản' className='h-10' name='taiKhoan' disabled />
+                        <Input placeholder='Nhập tài khoản' className='h-10' name='taiKhoan' value={userData.taiKhoan} disabled />
                     </Form.Item>
                     <Form.Item label="Mật khẩu">
-                        <Input.Password placeholder='Nhập mật khẩu' className='h-10' name='matKhau' />
+                        <Input.Password placeholder='Nhập mật khẩu' className='h-10' name='matKhau' value={userData.matKhau} onChange={(e) => handleFieldChange('matKhau', e.target.value)} />
                     </Form.Item>
                     <Form.Item label="Họ tên">
-                        <Input placeholder='Nhập họ tên' className='h-10' name='hoTen' />
+                        <Input placeholder='Nhập họ tên' className='h-10' name='hoTen' value={userData.hoTen} onChange={(e) => handleFieldChange('hoTen', e.target.value)} />
                     </Form.Item>
                     <Form.Item label="Số điện thoại">
-                        <Input placeholder='Nhập số điện thoại' className='h-10' name='soDT' />
+                        <Input placeholder='Nhập số điện thoại' className='h-10' name='soDT' value={userData.soDt} onChange={(e) => handleFieldChange('soDt', e.target.value)} />
                     </Form.Item>
                     <Form.Item label="Email">
-                        <Input placeholder='Nhập email' className='h-10' name='email' />
+                        <Input placeholder='Nhập email' className='h-10' name='email' value={userData.email} onChange={(e) => handleFieldChange('email', e.target.value)} />
                     </Form.Item>
                     <Form.Item label="Loại">
-                        <Select className='h-10' options={options} name='maLoaiNguoiDung' />
+                        <Select className='h-10' options={options} name='maLoaiNguoiDung' value={userData.maLoaiNguoiDung} onChange={(value) => handleFieldChange('maLoaiNguoiDung', value)} />
                     </Form.Item>
                 </Form>
             </Modal>
