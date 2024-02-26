@@ -5,6 +5,7 @@ import { ButtonStyled } from '../../../components/ButtonStyled/ButtonStyled';
 import Modal from 'antd/es/modal/Modal';
 import confirm from 'antd/es/modal/confirm';
 import FormAddCourse from './FormAddCourse';
+import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 
 export default function CourseManagement() {
   const [listCourse, setListCourse] = useState([]);
@@ -126,9 +127,11 @@ export default function CourseManagement() {
         </div>
 
         {/* search bar */}
-        <div className='courseMgtCont__searchBar my-6 flex md:block'>
-          <input type='search' placeholder='Nhập mã hoặc tên khoá học' className='searchIn__style h-10 w-full px-2 rounded' />
-          <ButtonStyled className='w-28 ml-4 md:mt-2 md:ml-0'>Tìm kiếm</ButtonStyled>
+        <div className='courseMgtCont__searchBar my-6 flex'>
+          <input type='search' placeholder='Nhập mã hoặc tên khoá học' className='searchIn__style h-10 w-full px-2 rounded relative' />
+          <div className='h-10 w-10 flex items-center justify-center absolute rounded-e right-6 md:right-0' style={{ backgroundColor: "#1d7a85", cursor: "pointer" }}>
+            <MagnifyingGlassIcon className='h-5 w-5 text-white' />
+          </div>
         </div>
 
         {/* table of courses */}
