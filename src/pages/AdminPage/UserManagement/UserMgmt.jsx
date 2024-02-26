@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { ButtonStyled } from '../../../components/ButtonStyled/ButtonStyled'
 import { Button, Form, Input, Modal, Select, Space, Table, message } from 'antd'
 import { https } from '../../../services/api'
 import axios from 'axios';
 import { TOKEN_CYBERSOFT } from '../../../services/constant';
+import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 
 export default function UserMgt() {
     let [userList, setUserList] = useState([]);
@@ -34,6 +35,24 @@ export default function UserMgt() {
     useEffect(() => {
         fetchUserList();
     }, []);
+
+    // todo: handle search user
+    const handleSearchUser = async (e) => {
+        if (e.key === "Enter") {
+            const keyword = e.target.value;
+
+            if (keyword.trim() === "") {
+                fetchUserList();
+            } else {
+                try {
+                    const res = await https.get(`/api/QuanLyNguoiDung/TimKiemNguoiDung?MaNhom=GP01&tuKhoa=${keyword}`);
+                    setUserList(res.data);
+                } catch (err) {
+                    console.log("err", err);
+                }
+            }
+        }
+    }
 
     // todo: handle edit modal 
     const showModal = (data) => {
@@ -161,10 +180,12 @@ export default function UserMgt() {
                     <ButtonStyled>Thêm người dùng</ButtonStyled>
                 </div>
 
-                {/* search bar */}
-                <div className='userMgtCont__searchBar my-6 flex md:block'>
-                    <input type='search' placeholder='Nhập tài khoản hoặc họ tên' className='searchIn__style h-10 w-full px-2 rounded' />
-                    <ButtonStyled className='w-28 ml-4 md:mt-2 md:ml-0'>Tìm kiếm</ButtonStyled>
+                {/* search bar */}                
+                <div className='userMgtCont__searchBar my-6 flex'>
+                    <input type='search' placeholder='Nhập tài khoản hoặc họ tên' className='searchIn__style h-10 w-full px-2 rounded relative' onKeyDown={handleSearchUser} />
+                    <div className='h-10 w-10 flex items-center justify-center absolute rounded-e right-6 md:right-0' style={{ backgroundColor: "#1d7a85", cursor: "pointer" }}>
+                        <MagnifyingGlassIcon className='h-5 w-5 text-white' />
+                    </div>
                 </div>
 
                 {/* table of users */}
