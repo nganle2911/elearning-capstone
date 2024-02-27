@@ -5,6 +5,9 @@ import { https } from '../../../services/api'
 import axios from 'axios';
 import { TOKEN_CYBERSOFT } from '../../../services/constant';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import AddUser from './AddUser';
+const { confirm } = Modal;
+
 
 export default function UserMgt() {
     let [userList, setUserList] = useState([]);
@@ -104,7 +107,29 @@ export default function UserMgt() {
         }
     }
 
-   
+    // todo: handle add new user row 
+    const addNewUser = () => {
+        const handleClose = () => {
+            Modal.destroyAll();
+        };
+
+        confirm({
+            title: (
+                <div className="flex justify-between items-center">
+                    <h1 className="titleFuntion space-x-5">THÊM NGƯỜI DÙNG</h1>
+                    <Button onClick={handleClose} className="bg-red-500 text-white">
+                        <i class="fa fa-times"></i>
+                    </Button>
+                </div>
+            ),
+            content: <AddUser />,
+            okButtonProps: { style: { display: "none" } },
+            onOk() {
+                console.log("OK");
+            },
+            width: "50%",
+        });
+    }
 
     const columns = [
         {
@@ -179,7 +204,7 @@ export default function UserMgt() {
 
                 {/* button add */}
                 <div className='userMgtCont__btnAdd'>
-                    <ButtonStyled>Thêm người dùng</ButtonStyled>
+                    <ButtonStyled onClick={addNewUser}>Thêm người dùng</ButtonStyled>
                 </div>
 
                 {/* search bar */}                
