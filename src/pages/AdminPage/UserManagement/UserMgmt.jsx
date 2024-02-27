@@ -115,7 +115,7 @@ export default function UserMgt() {
     }
 
     // todo: handle add new user row
-    const addNewUser = async (values) => {
+    /* const addNewUser = async (values) => {
         try {
             const authToken = JSON.parse(localStorage.getItem("USER_LOGIN"))?.accessToken; 
             const res = await axios({
@@ -143,6 +143,17 @@ export default function UserMgt() {
             console.log("err", err);
             message.error(err.response.data);
         }
+    } */
+
+    const onFinishUpdate = (values) => {
+        https.post("/api/QuanLyNguoiDung/ThemNguoiDung", values).then((res) => {
+            console.log("new user: ", res);
+            message.success("Tạo người dùng thành công!");
+            setIsAddModal(false);
+        }).catch((err) => {
+            console.log("err", err);
+            message.error(err.response.data);
+        });
     }
 
     const columns = [
@@ -290,11 +301,12 @@ export default function UserMgt() {
                 onCancel={cancelAddModal}
                 footer={[
                     <Button key="cancel" onClick={cancelAddModal}>Huỷ</Button>,
-                    <Button key="submit" onClick={() => {addNewUser(newUser)}}>Thêm người dùng</Button>
+                    <Button htmlType="submit" onClick={onFinishUpdate}>Thêm người dùng</Button>
                 ]}
             >
                 <Form
                     layout='vertical'
+                    onFinish={onFinishUpdate}
                 >
                     <Form.Item label="Tài khoản">
                         <Input placeholder='Nhập tài khoản' className='h-10' name='taiKhoan' />
@@ -312,7 +324,7 @@ export default function UserMgt() {
                         <Input placeholder='Nhập email' className='h-10' name='email' />
                     </Form.Item>
                     <Form.Item label="Loại">
-                        <Select className='h-10' options={options} name='maLoaiNguoiDung' />
+                        <Select className='h-10' options={options} name='maLoaiNguoiDung' defaultValue={"Chọn loại người dùng"} />
                     </Form.Item>
                 </Form>
             </Modal>
