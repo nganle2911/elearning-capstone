@@ -62,19 +62,20 @@ export default function Header() {
         }
     }
 
+    // items for popup avatar 
     const items = [
         {
             label: (<NavLink to={`/profile/${user?.taiKhoan}`} className='text-lg'>
                 <UserOutlined className='mr-2' />
-                Hồ sơ
+                {user?.hoTen}
             </NavLink>),
             key: '0',
         },
         {
-            label: (<a className='text-lg'>
+            label: (<NavLink to={"/admin"} className='text-lg'>
                 <SettingOutlined className='mr-2' />
-                Tuỳ chỉnh
-            </a>),
+                Quản lý
+            </NavLink>),
             key: '1',
         },
         {
@@ -88,22 +89,53 @@ export default function Header() {
             key: '3',
         },
     ];
+    const itemsUser = [
+        {
+            label: (<NavLink to={`/profile/${user?.taiKhoan}`} className='text-lg'>
+                <UserOutlined className='mr-2' />
+                {user?.hoTen}
+            </NavLink>),
+            key: '0',
+        },
+        {
+            label: (<a className='text-lg' onClick={handleSignOut}>
+                <LogoutOutlined className='mr-2' />
+                Đăng xuất
+            </a>),
+            key: '3',
+        },
+    ]
 
     // todo: render user account 
     const renderUserAccount = () => {
         if (user) {
-            return (
-                <>
-                    <div className='item__avatar'>
-                        <Dropdown 
-                            menu={{items}}
-                            trigger={['click']}
-                        >
-                            <Avatar size={48} src={`https://api.dicebear.com/7.x/miniavs/svg?seed=${RANDOM_NUM}`} />
-                        </Dropdown>
-                    </div>
-                </>
-            )
+            if (user.maLoaiNguoiDung === "GV") {
+                return (
+                    <>
+                        <div className='item__avatar'>
+                            <Dropdown
+                                menu={{ items }}
+                                trigger={['click']}
+                            >
+                                <Avatar size={48} src={`https://api.dicebear.com/7.x/miniavs/svg?seed=${RANDOM_NUM}`} />
+                            </Dropdown>
+                        </div>
+                    </>
+                )
+            } else {
+                return (
+                    <>
+                        <div className='item__avatar'>
+                            <Dropdown
+                                menu={{ items: itemsUser }}
+                                trigger={['click']}
+                            >
+                                <Avatar size={48} src={`https://api.dicebear.com/7.x/miniavs/svg?seed=${RANDOM_NUM}`} />
+                            </Dropdown>
+                        </div>
+                    </>
+                )
+            }
         } else {
             return renderButton() || renderButtonMobile();
         }
