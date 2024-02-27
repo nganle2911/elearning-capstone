@@ -1,27 +1,36 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { ButtonStyled } from '../ButtonStyled/ButtonStyled'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Avatar, Dropdown } from 'antd';
 import { RANDOM_NUM } from '../../services/constant';
 import { HomeOutlined, LogoutOutlined, UserOutlined } from '@ant-design/icons';
+import { setUserSignOut } from '../../redux/userSlice/userSlice';
 
 export default function AdminHeader() {
     const { user } = useSelector(state => state.userSlice);
+    const dispatch = useDispatch();
+
+    // todo: handle sign out 
+    const handleSignOut = () => {
+        localStorage.removeItem("USER_LOGIN");
+        localStorage.removeItem("TOKEN");
+        dispatch(setUserSignOut());
+    }
 
     const items = [
         {
-            label: (<a className='text-lg'>
+            label: (<NavLink to={`/profile/${user?.taiKhoan}`} className='text-lg'>
                 <UserOutlined className='mr-2' />
-                {user.hoTen}
-            </a>),
+                {user?.hoTen}
+            </NavLink>),
             key: '0',
         },
         {
-            label: (<a className='text-lg'>
+            label: (<NavLink to={"/login"} className='text-lg' onClick={handleSignOut}>
                 <LogoutOutlined className='mr-2' />
                 Đăng xuất
-            </a>),
+            </NavLink>),
             key: '1',
         },
         {

@@ -53,13 +53,6 @@ export default function Header() {
         localStorage.removeItem("USER_LOGIN");
         localStorage.removeItem("TOKEN");
         dispatch(setUserSignOut());
-        
-        if (location.pathname === "/") {
-            window.location.reload();
-        } else {
-            navigate("/");
-            window.location.reload();
-        }
     }
 
     // items for popup avatar 
@@ -82,10 +75,10 @@ export default function Header() {
             type: 'divider',
         },
         {
-            label: (<a className='text-lg' onClick={handleSignOut}>
+            label: (<NavLink to={"/login"} className='text-lg' onClick={handleSignOut}>
                 <LogoutOutlined className='mr-2' />
                 Đăng xuất
-            </a>),
+            </NavLink>),
             key: '3',
         },
     ];
@@ -98,10 +91,10 @@ export default function Header() {
             key: '0',
         },
         {
-            label: (<a className='text-lg' onClick={handleSignOut}>
+            label: (<NavLink to={"/login"} className='text-lg' onClick={handleSignOut}>
                 <LogoutOutlined className='mr-2' />
                 Đăng xuất
-            </a>),
+            </NavLink>),
             key: '3',
         },
     ]
