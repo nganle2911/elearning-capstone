@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ButtonStyled } from '../../../components/ButtonStyled/ButtonStyled'
 import { Button, Form, Input, Modal, Select, Space, Table, message } from 'antd'
 import { https } from '../../../services/api'
@@ -8,8 +8,10 @@ import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 
 export default function UserMgt() {
     let [userList, setUserList] = useState([]);
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isEditModal, setIsEditModal] = useState(false);
     const [userData, setUserData] = useState({});
+    const [isAddModal, setIsAddModal] = useState(false);
+    const [newUser, setNewUser] = useState({});
 
     // todo: fetch user list 
     const fetchUserList = async () => {
@@ -54,13 +56,13 @@ export default function UserMgt() {
         }
     }
 
-    // todo: handle edit modal 
+    // todo: handle EDIT modal 
     const showModal = (data) => {
-        setIsModalOpen(true);
+        setIsEditModal(true);
         setUserData(data);
     };
     const handleCancel = () => {
-        setIsModalOpen(false);
+        setIsEditModal(false);
     };
     // todo: options for select form
     const options = [{ value: "HV" }, { value: "GV" }];
@@ -95,13 +97,63 @@ export default function UserMgt() {
             });
 
             message.success("Cập nhật thành công!");
-            setIsModalOpen(false);
+            setIsEditModal(false);
             setUserData(res.data);
             fetchUserList();
         } catch (err) {
             console.log("err", err);
             message.error(err.response.data);
         }
+    }
+
+    // todo: handle ADD USER modal
+    const showAddModal = () => {
+        setIsAddModal(true);
+    }
+    const cancelAddModal = () => {
+        setIsAddModal(false);
+    }
+
+    // todo: handle add new user row
+    /* const addNewUser = async (values) => {
+        try {
+            const authToken = JSON.parse(localStorage.getItem("USER_LOGIN"))?.accessToken; 
+            const res = await axios({
+                method: "POST",
+                url: "https://elearningnew.cybersoft.edu.vn/api/QuanLyNguoiDung/ThemNguoiDung",
+                headers: {
+                    TokenCybersoft: TOKEN_CYBERSOFT,
+                    Authorization: `Bearer ${authToken}`
+                },
+                data: {
+                    email: values.email,
+                    taiKhoan: values.taiKhoan,
+                    hoTen: values.hoTen,
+                    soDT: values.soDT,
+                    matKhau: values.matKhau,
+                    maLoaiNguoiDung: values.maLoaiNguoiDung,
+                    maNhom: "GP01"
+                }
+            });
+
+            console.log("new data: ", res.data);
+            setNewUser(res.data);
+            setIsAddModal(false);
+        } catch (err) {
+            console.log("err", err);
+            message.error(err.response.data);
+        }
+    } */
+
+    const onFinishUpdate = (values) => {
+        https.post("/api/QuanLyNguoiDung/ThemNguoiDung", values).then((res) => {
+            console.log("new user: ", res);
+            message.success("Tạo người dùng thành công!");
+            setIsAddModal(false);
+        }).catch((err) => {
+            console.log("err", err);
+            message.error(err.response.data);
+        });
     }
 
     const columns = [
@@ -177,7 +229,7 @@ export default function UserMgt() {
 
                 {/* button add */}
                 <div className='userMgtCont__btnAdd'>
-                    <ButtonStyled>Thêm người dùng</ButtonStyled>
+                    <ButtonStyled onClick={showAddModal}>Thêm người dùng</ButtonStyled>
                 </div>
 
                 {/* search bar */}                
@@ -203,7 +255,7 @@ export default function UserMgt() {
                         <hr className='my-4' />
                     </>
                 }
-                open={isModalOpen}
+                open={isEditModal}
                 onCancel={handleCancel}
                 footer={[
                     <Button key="cancel" onClick={handleCancel}>Huỷ</Button>,
@@ -232,6 +284,47 @@ export default function UserMgt() {
                     </Form.Item>
                     <Form.Item label="Loại">
                         <Select className='h-10' options={options} name='maLoaiNguoiDung' value={userData.maLoaiNguoiDung} onChange={(value) => handleFieldChange('maLoaiNguoiDung', value)} />
+                    </Form.Item>
+                </Form>
+            </Modal>
+
+            {/* MODAL ADD USER */}
+            <Modal
+                className='updateModal addUserModal'
+                title={
+                    <>
+                        <h1>Thêm Người Dùng</h1>
+                        <hr className='my-4' />
+                    </>
+                }
+                open={isAddModal}
+                onCancel={cancelAddModal}
+                footer={[
+                    <Button key="cancel" onClick={cancelAddModal}>Huỷ</Button>,
+                    <Button htmlType="submit" onClick={onFinishUpdate}>Thêm người dùng</Button>
+                ]}
+            >
+                <Form
+                    layout='vertical'
+                    onFinish={onFinishUpdate}
+                >
+                    <Form.Item label="Tài khoản">
+                        <Input placeholder='Nhập tài khoản' className='h-10' name='taiKhoan' />
+                    </Form.Item>
+                    <Form.Item label="Mật khẩu">
+                        <Input.Password placeholder='Nhập mật khẩu' className='h-10' name='matKhau' />
+                    </Form.Item>
+                    <Form.Item label="Họ tên">
+                        <Input placeholder='Nhập họ tên' className='h-10' name='hoTen' />
+                    </Form.Item>
+                    <Form.Item label="Số điện thoại">
+                        <Input placeholder='Nhập số điện thoại' className='h-10' name='soDT' />
+                    </Form.Item>
+                    <Form.Item label="Email">
+                        <Input placeholder='Nhập email' className='h-10' name='email' />
+                    </Form.Item>
+                    <Form.Item label="Loại">
+                        <Select className='h-10' options={options} name='maLoaiNguoiDung' defaultValue={"Chọn loại người dùng"} />
                     </Form.Item>
                 </Form>
             </Modal>
