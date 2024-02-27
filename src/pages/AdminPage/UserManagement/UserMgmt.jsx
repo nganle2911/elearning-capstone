@@ -6,6 +6,7 @@ import axios from 'axios';
 import { TOKEN_CYBERSOFT } from '../../../services/constant';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import AddUser from './AddUser';
+import { PlusCircleOutlined } from '@ant-design/icons';
 const { confirm } = Modal;
 
 
@@ -108,27 +109,17 @@ export default function UserMgt() {
     }
 
     // todo: handle add new user row 
-    const addNewUser = () => {
-        const handleClose = () => {
-            Modal.destroyAll();
-        };
-
+    const showModalAddUser = () => {
         confirm({
-            title: (
-                <div className="flex justify-between items-center">
-                    <h1 className="titleFuntion space-x-5">THÊM NGƯỜI DÙNG</h1>
-                    <Button onClick={handleClose} className="bg-red-500 text-white">
-                        <i class="fa fa-times"></i>
-                    </Button>
-                </div>
-            ),
+            title: <>
+                <h1 className='text-lg'>Thêm người dùng</h1>
+                <hr className='my-4' />
+            </>,
+            icon: <PlusCircleOutlined className='hidden' />,
             content: <AddUser />,
-            okButtonProps: { style: { display: "none" } },
-            onOk() {
-                console.log("OK");
-            },
-            width: "50%",
-        });
+            footer: <Button className='hidden'>Add</Button>,
+            width: "520px",
+        })
     }
 
     const columns = [
@@ -204,7 +195,7 @@ export default function UserMgt() {
 
                 {/* button add */}
                 <div className='userMgtCont__btnAdd'>
-                    <ButtonStyled onClick={addNewUser}>Thêm người dùng</ButtonStyled>
+                    <ButtonStyled onClick={showModalAddUser}>Thêm người dùng</ButtonStyled>
                 </div>
 
                 {/* search bar */}                
