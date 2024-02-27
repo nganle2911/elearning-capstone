@@ -1,5 +1,5 @@
-import React from 'react';
-import {  UploadOutlined } from '@ant-design/icons';
+import React, { useEffect, useState } from 'react';
+import { UploadOutlined } from '@ant-design/icons';
 import {
   Button,
   DatePicker,
@@ -13,12 +13,13 @@ import {
 import { ButtonStyled } from '../../../components/ButtonStyled/ButtonStyled';
 import { https } from '../../../services/api';
 
-const FormAddCourse = () => {
-  //get taiKhoan GV
+const FormUpdateCourse = ({record}) => {
+//  let {course} = useSelector(state=>state.adminCourseSlice)
+console.log("record bên form",record)
   let dataJson = JSON.parse(localStorage.getItem("USER_LOGIN"))
-  
+  const { TextArea } = Input;
 
-  //FORM
+
   //Chuyển đổi tên file hình ảnh
   const normFile = (e) => {
     if (Array.isArray(e)) {
@@ -26,32 +27,16 @@ const FormAddCourse = () => {
     }
     const fileList = e && e.fileList;
     const fileName = fileList && fileList.length > 0 && fileList[0].name;
+  
     return fileName; 
   };
-  //moTa
-  const { TextArea } = Input;
 
-  //Post
   const onFinish = (values) => {
     console.log('Success:', values);
-    https.post("/api/QuanLyKhoaHoc/ThemKhoaHoc", values)
+    https.put("/api/QuanLyKhoaHoc/CapNhatKhoaHoc", values)
       .then((res) => {
-        console.log("Thêm khóa học", res.data);
-        message.success("Thêm thành công!")
-        window.location.reload()
-          //dataImage
-        //   let frm = new FormData();
-        //   const uploadedFile = values.hinhAnh;
-        //   frm.append('file',uploadedFile);
-        //   frm.append('tenKhoaHoc',values.tenKhoaHoc);
-        // https.post("/api/QuanLyKhoaHoc/UploadHinhAnhKhoaHoc",frm)
-        // .then((res) => {
-        //  console.log(res);
-        // })
-        // .catch((err) => {
-        //  console.log(err);
-        //  message.error(err.response)
-        //  });
+        console.log("Update thành công",res.data);
+        message.success("Update thành công!")
       })
       .catch((err) => {
         console.log(err);
@@ -61,8 +46,6 @@ const FormAddCourse = () => {
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
-
-  
   return (
     <>
       <Form
@@ -96,7 +79,7 @@ const FormAddCourse = () => {
             },
           ]}
         >
-          <Input />
+          <Input defaultValue={record}/>
         </Form.Item>
         {/*Tên khóa học */}
         <Form.Item 
@@ -123,12 +106,10 @@ const FormAddCourse = () => {
           ]}
         >
           <Select>
-            <Select.Option value="BackEnd">Lập trình Backend</Select.Option>
-            <Select.Option value="Design">Thiết kế Web</Select.Option>
-            <Select.Option value="DiDong">Lập trình di động</Select.Option>
-            <Select.Option value="FrontEnd">Lập trình Front end</Select.Option>
-            <Select.Option value="FullStack">Lập trình Full Stack</Select.Option>
-            <Select.Option value="TuDuy">Tư duy lập trình</Select.Option>
+            
+              <Select.Option value="{course.maDanhMuc}"></Select.Option>
+              
+            
           </Select>
         </Form.Item>
          {/* Mã nhóm học*/}
@@ -248,12 +229,14 @@ const FormAddCourse = () => {
         </Form.Item>
         </div>
         </div>
-
+        
         <ButtonStyled className=" text-white w-full font-bold text-xl items-center" htmlType="submit">
-          Thêm
-        </ButtonStyled>
+            Cập nhập
+          </ButtonStyled>
       </Form>
     </>
   );
 };
-export default () => <FormAddCourse />;
+export default () => <FormUpdateCourse />;
+
+

@@ -4,24 +4,24 @@ import CourseManagement from './CourseManagement/CourseManagement';
 import UserMgmt from './UserManagement/UserMgmt';
 const { Content } = Layout;
 
-const items = [
-    {
-        key: '1',
-        label: 'Quản lý khoá học',
-        children: <CourseManagement/>,
-    },
-    {
-        key: '2',
-        label: 'Quản lý người dùng',
-        children: <UserMgmt />,
-    },
-];
-
-const onChange = (key) => {
-    console.log(key);
-};
 
 export default function AdminPage() {
+    const items = [
+        {
+            key: '1',
+            label: 'Quản lý khoá học',
+            children: <CourseManagement/>,
+        },
+        {
+            key: '2',
+            label: 'Quản lý người dùng',
+            children: <UserMgmt />,
+        },
+    ];
+    
+    const onChange = (key) => {
+        console.log(key);
+    };
     const {
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
