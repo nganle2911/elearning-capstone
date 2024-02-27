@@ -16,7 +16,16 @@ import { https } from '../../../services/api';
 const FormAddCourse = () => {
   //get taiKhoan GV
   let dataJson = JSON.parse(localStorage.getItem("USER_LOGIN"))
-
+  
+  let fetchCourseList = () => {
+    https.get("api/QuanLyKhoaHoc/LayDanhSachKhoaHoc?MaNhom=GP01")
+      .then((res) => {
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+  
   const [danhMuc, setDanhMuc] = useState([])
   useEffect(() => {
     https.get("api/QuanLyKhoaHoc/LayDanhMucKhoaHoc")
@@ -48,6 +57,20 @@ const FormAddCourse = () => {
       .then((res) => {
         console.log("Thêm khóa học",res.data);
         message.success("Thêm thành công!")
+        fetchCourseList()
+          //dataImage
+          let frm = new FormData();
+          const uploadedFile = values.hinhAnh;
+          frm.append('file',uploadedFile);
+          frm.append('tenKhoaHoc',values.tenKhoaHoc);
+        https.post("/api/QuanLyKhoaHoc/UploadHinhAnhKhoaHoc",frm)
+        .then((res) => {
+         console.log(res);
+        })
+        .catch((err) => {
+         console.log(err);
+         message.error(err.response)
+         });
       })
       .catch((err) => {
         console.log(err);
