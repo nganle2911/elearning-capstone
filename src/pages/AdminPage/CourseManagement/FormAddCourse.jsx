@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {  UploadOutlined } from '@ant-design/icons';
 import {
   Button,
@@ -17,25 +17,6 @@ const FormAddCourse = () => {
   //get taiKhoan GV
   let dataJson = JSON.parse(localStorage.getItem("USER_LOGIN"))
   
-  let fetchCourseList = () => {
-    https.get("api/QuanLyKhoaHoc/LayDanhSachKhoaHoc?MaNhom=GP01")
-      .then((res) => {
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-  
-  const [danhMuc, setDanhMuc] = useState([])
-  useEffect(() => {
-    https.get("api/QuanLyKhoaHoc/LayDanhMucKhoaHoc")
-    .then((res) => {
-     setDanhMuc(res.data)
-    })
-    .catch((err) => {
-     console.log(err);
-     });
-  },[])
 
   //FORM
   //Chuyển đổi tên file hình ảnh
@@ -57,20 +38,20 @@ const FormAddCourse = () => {
       .then((res) => {
         console.log("Thêm khóa học",res.data);
         message.success("Thêm thành công!")
-        fetchCourseList()
+        window.location.reload()
           //dataImage
-          let frm = new FormData();
-          const uploadedFile = values.hinhAnh;
-          frm.append('file',uploadedFile);
-          frm.append('tenKhoaHoc',values.tenKhoaHoc);
-        https.post("/api/QuanLyKhoaHoc/UploadHinhAnhKhoaHoc",frm)
-        .then((res) => {
-         console.log(res);
-        })
-        .catch((err) => {
-         console.log(err);
-         message.error(err.response)
-         });
+        //   let frm = new FormData();
+        //   const uploadedFile = values.hinhAnh;
+        //   frm.append('file',uploadedFile);
+        //   frm.append('tenKhoaHoc',values.tenKhoaHoc);
+        // https.post("/api/QuanLyKhoaHoc/UploadHinhAnhKhoaHoc",frm)
+        // .then((res) => {
+        //  console.log(res);
+        // })
+        // .catch((err) => {
+        //  console.log(err);
+        //  message.error(err.response)
+        //  });
       })
       .catch((err) => {
         console.log(err);
@@ -140,10 +121,12 @@ const FormAddCourse = () => {
           ]}
         >
           <Select>
-            {danhMuc.map((course, index) => {
-              return <Select.Option value={course.maDanhMuc}>{course.tenDanhMuc}</Select.Option>
-              
-            })}
+            <Select.Option value="BackEnd">Lập trình Backend</Select.Option>
+            <Select.Option value="Design">Thiết kế Web</Select.Option>
+            <Select.Option value="DiDong">Lập trình di động</Select.Option>
+            <Select.Option value="FrontEnd">Lập trình Front end</Select.Option>
+            <Select.Option value="FullStack">Lập trình Full Stack</Select.Option>
+            <Select.Option value="TuDuy">Tư duy lập trình</Select.Option>
           </Select>
         </Form.Item>
          {/* Mã nhóm học*/}

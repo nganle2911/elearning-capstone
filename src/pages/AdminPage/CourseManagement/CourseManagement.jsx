@@ -8,6 +8,7 @@ import FormAddCourse from './FormAddCourse';
 import FormUpdateCourse from './FormUpdateCourse';
 import { useDispatch } from 'react-redux';
 import { setCourse } from '../../../redux/adminCourseSlice/adminCourseSlice';
+import FormRegister from './FormRegister';
 
 
 
@@ -75,6 +76,23 @@ let UpdateConfirm = (record) => {
     width: '50%'
 })
 }
+
+let RegisterConFirm = (id) => {
+  console.log(id)
+   //Close modal
+   const handleClose = () => {
+    Modal.destroyAll(); 
+  };
+  confirm({
+      title: <div className='flex justify-between items-center'>
+        <h1 className='titleFuntion space-x-5'>GHI DANH NGƯỜI DÙNG</h1>
+        <Button onClick={handleClose} className="bg-red-500 text-white"><i class="fa fa-times"></i></Button>
+      </div> ,
+      content: <FormRegister/>,
+      okButtonProps: { style: { display: 'none' } },
+      width: '50%'
+  })
+}
 //Search Course
 const handleSearch = () => {
   //get key -> delete space -> convert font
@@ -135,7 +153,7 @@ const handleSearch = () => {
       render: (_, record) => (
         <Space size="large">  
           {/* Duyệt  */}
-          <Button>
+          <Button onClick={() => {RegisterConFirm(record.maKhoaHoc)}}>
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-green-400">
           <path stroke-linecap="round" stroke-linejoin="round" d="M12 10.5v6m3-3H9m4.06-7.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
           </svg>
