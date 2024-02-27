@@ -57,7 +57,7 @@ const FormAddCourse = () => {
     console.log('Failed:', errorInfo);
   };
 
-  
+
   return (
     <>
       <Form
