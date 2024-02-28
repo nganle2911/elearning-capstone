@@ -5,14 +5,7 @@ import axios from 'axios';
 import { TOKEN_CYBERSOFT } from '../../../services/constant';
 
 export default function AddUser() {
-    const [formValue, setFormValue] = useState({});
-
-    const handleInput = (name, value) => {
-        setFormValue({
-            ...formValue,
-            [name]: value
-        })
-    }
+    // const [formValue, setFormValue] = useState({});
 
     const closeModal = () => {
         Modal.destroyAll();
@@ -32,7 +25,7 @@ export default function AddUser() {
                     soDT: values.soDT,
                     email: values.email,
                     maLoaiNguoiDung: values.maLoaiNguoiDung,
-                    maNhom: "GP01"
+                    maNhom: values.maNhom
                 },
                 headers: {
                     'Content-Type': 'application/json',
@@ -42,7 +35,7 @@ export default function AddUser() {
             });
             
             console.log("new user: ", res.data);
-            setFormValue(res.data);
+            // setFormValue(res.data);
             message.success("Thêm thành công!");
         } catch (err) {
             console.log("err", err);
@@ -61,24 +54,37 @@ export default function AddUser() {
             onFinish={addNewUser}
         >
             <Form.Item label="Tài khoản">
-                <Input placeholder='Nhập tài khoản' className='h-10' name='taiKhoan' value={formValue.taiKhoan} />
+                <Input placeholder='Nhập tài khoản' className='h-10' name='taiKhoan' />
             </Form.Item>
             <Form.Item label="Mật khẩu">
-                <Input placeholder='Nhập mật khẩu' className='h-10' name='matKhau' value={formValue.matKhau} />
+                <Input placeholder='Nhập mật khẩu' className='h-10' name='matKhau' />
             </Form.Item>
             <Form.Item label="Họ tên">
-                <Input placeholder='Nhập họ tên' className='h-10' name='hoTen' value={formValue.hoTen} />
+                <Input placeholder='Nhập họ tên' className='h-10' name='hoTen' />
             </Form.Item>
             <Form.Item label="Số điện thoại">
-                <Input placeholder='Nhập số điện thoại' className='h-10' name='soDT' value={formValue.soDT} />
+                <Input placeholder='Nhập số điện thoại' className='h-10' name='soDT' />
             </Form.Item>
             <Form.Item label="Email">
-                <Input placeholder='Nhập email' className='h-10' name='email' value={formValue.email} />
+                <Input placeholder='Nhập email' className='h-10' name='email' />
             </Form.Item>
             <Form.Item label="Loại">
-                <Select className='h-10' placeholder="Chọn loại người dùng" name='maLoaiNguoiDung' value={formValue.maLoaiNguoiDung}>
+                <Select className='h-10' placeholder="Chọn loại người dùng" name='maLoaiNguoiDung'>
                     <Option value="GV">GV</Option>
                     <Option value="HV">HV</Option>
+                </Select>
+            </Form.Item>
+            <Form.Item label="Nhóm">
+                <Select className='h-10' placeholder="Chọn nhóm" name='maNhom'>
+                    <Option value="GP01">GP01</Option>
+                    <Option value="GP02">GP02</Option>
+                    <Option value="GP03">GP03</Option>
+                    <Option value="GP04">GP04</Option>
+                    <Option value="GP05">GP05</Option>
+                    <Option value="GP06">GP06</Option>
+                    <Option value="GP07">GP07</Option>
+                    <Option value="GP08">GP08</Option>
+                    <Option value="GP09">GP09</Option>
                 </Select>
             </Form.Item>
 
