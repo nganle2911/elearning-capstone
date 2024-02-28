@@ -13,9 +13,9 @@ import {
 import { ButtonStyled } from "../../../components/ButtonStyled/ButtonStyled";
 import { https } from "../../../services/api";
 
-const FormUpdateCourse = ({ record }) => {
+const FormUpdateCourse = (courseUpdate) => {
   //  let {course} = useSelector(state=>state.adminCourseSlice)
-  console.log("record bên form", record);
+  console.log("record bên form", courseUpdate);
   let dataJson = JSON.parse(localStorage.getItem("USER_LOGIN"));
   const { TextArea } = Input;
 
@@ -79,7 +79,7 @@ const FormUpdateCourse = ({ record }) => {
                 },
               ]}
             >
-              <Input defaultValue={record} />
+              <Input defaultValue={courseUpdate} />
             </Form.Item>
             {/*Tên khóa học */}
             <Form.Item

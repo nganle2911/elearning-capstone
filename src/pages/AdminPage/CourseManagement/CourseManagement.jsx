@@ -68,6 +68,7 @@ export default function CourseManagement() {
     const handleClose = () => {
       Modal.destroyAll();
     };
+    let courseUpdate = record;
     confirm({
       title: (
         <div className="flex justify-between items-center">
@@ -77,7 +78,7 @@ export default function CourseManagement() {
           </Button>
         </div>
       ),
-      content: <FormUpdateCourse record={record} />,
+      content: <FormUpdateCourse courseUpdate={courseUpdate} />,
       okButtonProps: { style: { display: "none" } },
       width: "50%",
     });
@@ -115,7 +116,7 @@ export default function CourseManagement() {
 
     let cloneList = [...listCourse];
 
-    let newList = "";
+    let newList = null;
 
     if (keySearch !== "") {
       if (isMaKhoaHoc) {
@@ -126,10 +127,20 @@ export default function CourseManagement() {
         );
       }
     } else {
+      fetchCourseList();
       message.error("Vui lòng nhập mã hoặc tên khóa học để tìm kiếm!");
       newList = [...listCourse];
     }
     setListCourse(newList);
+  };
+
+  // FetchSearch;
+  let previousSearch = "";
+  let handleFetchSearch = (e) => {
+    if (e.target.value === "" && e.target.value !== previousSearch) {
+      fetchCourseList();
+    }
+    previousSearch = e.target.value;
   };
 
   const columns = [
@@ -255,6 +266,7 @@ export default function CourseManagement() {
             type="search"
             placeholder="Nhập mã hoặc tên khoá học"
             className="searchIn__style h-10 w-full px-2 rounded"
+            onKeyDown={handleFetchSearch}
           />
           <ButtonStyled
             onClick={handleSearch}
