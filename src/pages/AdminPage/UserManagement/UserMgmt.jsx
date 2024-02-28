@@ -5,7 +5,6 @@ import { https } from '../../../services/api'
 import axios from 'axios';
 import { TOKEN_CYBERSOFT } from '../../../services/constant';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
-import AddUser from './AddUser';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import AddNewUser from './AddNewUser';
 const { confirm } = Modal;
@@ -109,7 +108,7 @@ export default function UserMgt() {
         }
     }
 
-    // todo: handle add new user row 
+    // todo: show modal add new user row 
     const showModalAddUser = () => {
         confirm({
             title: <>
@@ -225,7 +224,7 @@ export default function UserMgt() {
                 open={isEditModal}
                 onCancel={handleCancel}
                 footer={[
-                    <Button key="cancel" onClick={handleCancel}>Huỷ</Button>,
+                    <Button key="cancel" onClick={handleCancel}>Đóng</Button>,
                     <Button key="submit" onClick={() => {
                         updateUserRow(userData);
                     }}>Cập nhật</Button>
