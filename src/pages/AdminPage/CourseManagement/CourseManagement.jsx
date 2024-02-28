@@ -67,6 +67,7 @@ export default function CourseManagement() {
     const handleClose = () => {
       Modal.destroyAll();
     };
+    let courseUpdate = record;
     confirm({
       title: (
         <div className="flex justify-between items-center">
@@ -76,7 +77,7 @@ export default function CourseManagement() {
           </Button>
         </div>
       ),
-      content: <FormUpdateCourse record={record} />,
+      content: <FormUpdateCourse courseUpdate={courseUpdate} />,
       okButtonProps: { style: { display: "none" } },
       width: "50%",
     });
@@ -129,6 +130,13 @@ export default function CourseManagement() {
       newList = [...listCourse];
     }
     setListCourse(newList);
+  };
+
+  // FetchSearch;
+  let handleFetchSearch = (e) => {
+    if (e.key == "") {
+      fetchCourseList();
+    }
   };
 
   const columns = [
@@ -253,6 +261,7 @@ export default function CourseManagement() {
             type="search"
             placeholder="Nhập mã hoặc tên khoá học"
             className="searchIn__style h-10 w-full px-2 rounded"
+            onKeyDown={handleFetchSearch}
           />
           <ButtonStyled
             onClick={handleSearch}
