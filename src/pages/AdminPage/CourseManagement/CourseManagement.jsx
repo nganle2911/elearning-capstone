@@ -9,14 +9,9 @@ import FormUpdateCourse from "./FormUpdateCourse";
 import { useDispatch } from "react-redux";
 import { setCourse } from "../../../redux/adminCourseSlice/adminCourseSlice";
 import FormRegister from "./FormRegister";
-import {
-  setIsLoadingOff,
-  setIsLoadingOn,
-} from "../../../redux/spinnerSlice/spinnerSlice";
 
 export default function CourseManagement() {
   const [listCourse, setListCourse] = useState([]);
-  const [isSearching, setIsSearching] = useState(false);
   let dispatch = useDispatch({});
   let fetchCourseList = () => {
     https
@@ -139,18 +134,12 @@ export default function CourseManagement() {
   };
 
   // FetchSearch;
-  let handleFetchSearch = () => {
-    // // Lấy giá trị từ thanh input
-    // let keySearch = document.getElementById("keySearch").value.trim();
-    // // Nếu giá trị nhập vào rỗng thì fetch lại danh sách
-    // if (keySearch === "") {
-    //   setIsSearching(false);
-    //   fetchCourseList();
-    // }
-    // if ((e.key = "")) {
-    //   fetchCourseList();
-    //   setIsSearching(false);
-    // }
+  let previousSearch = "";
+  let handleFetchSearch = (e) => {
+    if (e.target.value === "" && e.target.value !== previousSearch) {
+      fetchCourseList();
+    }
+    previousSearch = e.target.value;
   };
 
   const columns = [
