@@ -105,7 +105,7 @@ const FormLogin = () => {
             span: 24,
           }}
         >
-          <ButtonStyled className=" text-white w-full font-bold text-xl items-center" htmlType="submit">
+          <ButtonStyled className=" text-white w-full font-bold text-xl items-center mt-3" htmlType="submit">
             Đăng nhập
           </ButtonStyled>
         </Form.Item>
