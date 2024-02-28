@@ -1,14 +1,16 @@
-import { Form, Input, message } from 'antd'
+import { Form, Input, Select, message } from 'antd'
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { ButtonStyled } from '../../components/ButtonStyled/ButtonStyled';
 import { https } from '../../services/api';
 
 export default function FormRegister() {
+    const navigate = useNavigate();
+
     const onFinish = (values) => {
         https.post("/api/QuanLyNguoiDung/DangKy", values).then((res) => {
-            console.log("Success", res.data);
             message.success("Đăng ký thành công!");
+            navigate("/login");
         }).catch((err) => {
             console.log("err", err);
             message.error("Đăng ký thất bại!");
@@ -137,7 +139,7 @@ export default function FormRegister() {
 
                 {/* id group */}
                 <Form.Item
-                    label="Mã nhóm"
+                    label="Nhóm"
                     name="maNhom"
                     rules={[
                         {
@@ -146,7 +148,11 @@ export default function FormRegister() {
                         },
                     ]}
                 >
-                    <Input />
+                    <Select
+                        options={[
+                            {value: "GP01"}, {value: "GP02"}, {value: "GP03"}, {value: "GP04"}, {value: "GP05"}, {value: "GP06"}, {value: "GP07"}, {value: "GP08"}, {value: "GP09"}
+                        ]}
+                    />
                 </Form.Item>
 
                 {/* button */}
