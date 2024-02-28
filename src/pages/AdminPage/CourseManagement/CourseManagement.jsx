@@ -9,9 +9,14 @@ import FormUpdateCourse from "./FormUpdateCourse";
 import { useDispatch } from "react-redux";
 import { setCourse } from "../../../redux/adminCourseSlice/adminCourseSlice";
 import FormRegister from "./FormRegister";
+import {
+  setIsLoadingOff,
+  setIsLoadingOn,
+} from "../../../redux/spinnerSlice/spinnerSlice";
 
 export default function CourseManagement() {
   const [listCourse, setListCourse] = useState([]);
+  const [isSearching, setIsSearching] = useState(false);
   let dispatch = useDispatch({});
   let fetchCourseList = () => {
     https
@@ -115,7 +120,7 @@ export default function CourseManagement() {
 
     let cloneList = [...listCourse];
 
-    let newList = "";
+    let newList = null;
 
     if (keySearch !== "") {
       if (isMaKhoaHoc) {
@@ -126,6 +131,7 @@ export default function CourseManagement() {
         );
       }
     } else {
+      fetchCourseList();
       message.error("Vui lòng nhập mã hoặc tên khóa học để tìm kiếm!");
       newList = [...listCourse];
     }
@@ -133,10 +139,18 @@ export default function CourseManagement() {
   };
 
   // FetchSearch;
-  let handleFetchSearch = (e) => {
-    if (e.key == "") {
-      fetchCourseList();
-    }
+  let handleFetchSearch = () => {
+    // // Lấy giá trị từ thanh input
+    // let keySearch = document.getElementById("keySearch").value.trim();
+    // // Nếu giá trị nhập vào rỗng thì fetch lại danh sách
+    // if (keySearch === "") {
+    //   setIsSearching(false);
+    //   fetchCourseList();
+    // }
+    // if ((e.key = "")) {
+    //   fetchCourseList();
+    //   setIsSearching(false);
+    // }
   };
 
   const columns = [
