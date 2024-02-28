@@ -90,6 +90,10 @@ export default function FormRegister() {
                             required: true,
                             message: 'Vui lòng nhập mật khẩu!',
                         },
+                        {
+                            min: 6,
+                            message: 'Mật khẩu phải có ít nhất 6 ký tự!'
+                        }
                     ]}
                 >
                     <Input.Password />
@@ -118,6 +122,10 @@ export default function FormRegister() {
                             required: true,
                             message: 'Vui lòng nhập email!',
                         },
+                        {
+                            type: 'email',
+                            message: 'Email không hợp lệ!'
+                        }
                     ]}
                 >
                     <Input />
@@ -132,6 +140,10 @@ export default function FormRegister() {
                             required: true,
                             message: 'Vui lòng nhập số điện thoại!',
                         },
+                        {
+                            pattern: /^(?:\d\s?){10,12}$/,
+                            message: 'Số điện thoại không hợp lệ!'
+                        }
                     ]}
                 >
                     <Input />
@@ -144,7 +156,7 @@ export default function FormRegister() {
                     rules={[
                         {
                             required: true,
-                            message: 'Vui lòng nhập mã nhóm!',
+                            message: 'Vui lòng chọn mã nhóm!',
                         },
                     ]}
                 >
