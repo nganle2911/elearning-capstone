@@ -32,7 +32,8 @@ export default function UserMgt() {
             fetchUserList();
             message.success("Xoá thành công!");
         } catch (err) {
-            message.error(err.response.data);
+            console.log("err", err);
+            message.error("Xoá thất bại!");
         }
     }
 
