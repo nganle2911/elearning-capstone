@@ -7,6 +7,7 @@ import { TOKEN_CYBERSOFT } from '../../../services/constant';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import AddUser from './AddUser';
 import { PlusCircleOutlined } from '@ant-design/icons';
+import AddNewUser from './AddNewUser';
 const { confirm } = Modal;
 
 
@@ -116,7 +117,7 @@ export default function UserMgt() {
                 <hr className='my-4' />
             </>,
             icon: <PlusCircleOutlined className='hidden' />,
-            content: <AddUser />,
+            content: <AddNewUser />,
             footer: <Button className='hidden'>Add</Button>,
             width: "520px",
         })
