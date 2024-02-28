@@ -1,6 +1,7 @@
 import { CalendarOutlined, EyeOutlined, UsergroupAddOutlined } from '@ant-design/icons';
 import React from 'react';
 import { Avatar, Flex, List, Rate, Space } from 'antd';
+import { NavLink } from 'react-router-dom';
 
 export default function CourseFound({ courseFound }) {
 
@@ -15,6 +16,7 @@ export default function CourseFound({ courseFound }) {
             date: `${course.ngayTao}`,
             member: `${course.soLuongHocVien}`,
             author: `${course.nguoiTao.hoTen}`,
+            idCourse: `${course.maKhoaHoc}`
         })
     })
 
@@ -56,7 +58,7 @@ export default function CourseFound({ courseFound }) {
                 >
                     <List.Item.Meta
                         className='itemFound__title'
-                        title={<a href={item.href}>{item.title}</a>}
+                        title={<NavLink to={`/detail/${item.idCourse}`}>{item.title}</NavLink>}
                     />
                     {item.content}
                     <List.Item.Meta
