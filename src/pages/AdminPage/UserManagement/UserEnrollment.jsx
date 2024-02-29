@@ -1,4 +1,4 @@
-import { Select, Table, message } from 'antd'
+import { Button, Select, Space, Table, message } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { ButtonStyled } from '../../../components/ButtonStyled/ButtonStyled'
 import { https } from '../../../services/api';
@@ -7,10 +7,14 @@ export default function UserEnrollment({ data }) {
     console.log("data", data);
     const [unregisteredCourse, setUnregisteredCourse] = useState([]);
     const [options, setOptions] = useState([]);
+    const [awaitingCourses, setAwaitingCourses] = useState([]);
 
     useEffect(() => {
         // fetch unregistered courses when component mounts
         getUnregisteredCourses(data.taiKhoan);
+
+        // fetch awaiting courses 
+        getAwaitingCourses(data.taiKhoan);
     }, [data.taiKhoan]);
 
     // todo: get unregistered courses list according to account user 
@@ -35,8 +39,19 @@ export default function UserEnrollment({ data }) {
         });
     }
 
-    // columns for tables
-    const columns = [
+    // todo: get awaiting courses list according to account user
+    const getAwaitingCourses = async (account) => {
+        https.post("/api/QuanLyNguoiDung/LayDanhSachKhoaHocChoXetDuyet", { "taiKhoan": account }).then((res) => {
+            console.log("res list", res);
+            setAwaitingCourses(res.data);
+        }).catch((err) => {
+            console.log("err", err);
+            message.error(err.response.data);
+        });
+    }
+
+    // columns for awaiting courses
+    const columnsAwait = [
         {
             title: 'STT',
             dataIndex: 'order',
@@ -51,7 +66,60 @@ export default function UserEnrollment({ data }) {
         {
             title: 'Chờ xác nhận',
             dataIndex: 'choXacNhan',
-            key: 'choXacNhan'
+            key: 'choXacNhan',
+            render: (_, record) => (
+                <>
+                    <Space size="large">
+                        {/* Authentication */}
+                        <Button>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-blue-500">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
+                            </svg>
+                        </Button>
+
+                        {/* Delete */}
+                        <Button>
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6" className="w-6 h-6 text-red-400">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                            </svg>
+                        </Button>
+                    </Space>
+                </>
+            )
+        }
+    ]
+
+    // columns for enrolled courses
+    const columnsEnrolled = [
+        {
+            title: 'STT',
+            dataIndex: 'order',
+            key: 'order',
+            render: (text, record, index) => index + 1
+        },
+        {
+            title: 'Tên khoá học',
+            dataIndex: 'tenKhoaHoc',
+            key: 'tenKhoaHoc'
+        },
+        {
+            title: 'Chờ xác nhận',
+            dataIndex: 'choXacNhan',
+            key: 'choXacNhan',
+            render: (_, record) => (
+                <>
+                    <Space size="large">
+                        {/* Delete */}
+                        <Button>
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6" className="w-6 h-6 text-red-400">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                            </svg>
+                        </Button>
+                    </Space>
+                </>
+            )
         }
     ]
 
@@ -70,14 +138,14 @@ export default function UserEnrollment({ data }) {
             {/* Course awaiting validation */}
             <div className='awaitingCourse'>
                 <h3 className='text-xl font-medium capitalize mb-3'>khoá học chờ xác thực</h3>
-                <Table className='tblAwaitCourse' columns={columns} pagination={{ pageSize: 5 }} />
+                <Table className='tblAwaitCourse' columns={columnsAwait} dataSource={awaitingCourses} pagination={{ pageSize: 5 }} />
             </div>
             <hr className='my-8' />
 
             {/* Enrolled course */}
             <div className='enrolledCourse'>
                 <h3 className='text-xl font-medium capitalize mb-3'>khoá học đã ghi danh</h3>
-                <Table className='tblEnrolledCourse' columns={columns} pagination={{ pageSize: 5 }} />
+                <Table className='tblEnrolledCourse' columns={columnsEnrolled} pagination={{ pageSize: 5 }} />
             </div>
         </div>
     )

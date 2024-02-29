@@ -8,8 +8,6 @@ import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import AddNewUser from './AddNewUser';
 import UserEnrollment from './UserEnrollment';
-import { useDispatch, useSelector } from 'react-redux';
-import { setCourseList } from '../../../redux/courseSlice/courseSlice';
 const { confirm } = Modal;
 
 
