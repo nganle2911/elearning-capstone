@@ -7,6 +7,7 @@ import confirm from "antd/es/modal/confirm";
 import FormAddCourse from "./FormAddCourse";
 import FormUpdateCourse from "./FormUpdateCourse";
 import FormRegister from "./FormRegister";
+import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 
 export default function CourseManagement() {
   const [listCourse, setListCourse] = useState([]);
@@ -105,7 +106,7 @@ export default function CourseManagement() {
     });
   };
   //Search Course
-  const handleSearch = () => {
+  /* const handleSearch = () => {
     //get key -> delete space -> convert font
     let keySearch = document
       .getElementById("keySearch")
@@ -132,16 +133,33 @@ export default function CourseManagement() {
       newList = [...listCourse];
     }
     setListCourse(newList);
-  };
+  }; */
 
   // FetchSearch;
-  let previousSearch = "";
+  /* let previousSearch = "";
   let handleFetchSearch = (e) => {
     if (e.target.value === "" && e.target.value !== previousSearch) {
       fetchCourseList();
     }
     previousSearch = e.target.value;
-  };
+  }; */
+
+  // todo: handle search course
+  const handleSearchCourse = async (e) => {
+    if (e.key === "Enter") {
+      const keyword = e.target.value;
+
+      if (keyword === "") {
+        fetchCourseList();
+      } else {
+        https.get(`/api/QuanLyKhoaHoc/LayDanhSachKhoaHoc?tenKhoaHoc=${keyword}&MaNhom=GP01`).then((res) => {
+          setListCourse(res.data);
+        }).catch((err) => {
+          console.log("err", err);
+        });
+      }
+    }
+  }
 
   const columns = [
     {
@@ -259,7 +277,7 @@ export default function CourseManagement() {
         </div>
 
         {/* search bar */}
-        <div className="courseMgtCont__searchBar my-6 flex md:block">
+        {/* <div className="courseMgtCont__searchBar my-6 flex md:block">
           <input
             id="keySearch"
             type="search"
@@ -273,6 +291,12 @@ export default function CourseManagement() {
           >
             Tìm kiếm
           </ButtonStyled>
+        </div> */}
+        <div className='courseMgtCont__searchBar my-6 flex'>
+          <input type='search' placeholder='Nhập mã hoặc tên khoá học' className='searchIn__style h-10 w-full px-2 rounded relative' onKeyDown={handleSearchCourse} />
+          <div className='h-10 w-10 flex items-center justify-center absolute rounded-e right-6 md:right-0' style={{ backgroundColor: "#1d7a85", cursor: "pointer" }}>
+            <MagnifyingGlassIcon className='h-5 w-5 text-white' />
+          </div>
         </div>
 
         {/* table of courses */}
