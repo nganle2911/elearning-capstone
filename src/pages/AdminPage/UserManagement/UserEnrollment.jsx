@@ -1,10 +1,11 @@
-import { Button, Select, Space, Table, message } from 'antd'
+import { Button, Pagination, Select, Space, Table, message } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { ButtonStyled } from '../../../components/ButtonStyled/ButtonStyled'
 import { https } from '../../../services/api';
 
 export default function UserEnrollment({ data }) {
     console.log("data", data);
+    const [currentPage, setCurrentPage] = useState(1);
     const [unregisteredCourse, setUnregisteredCourse] = useState([]);
     const [options, setOptions] = useState([]);
     const [awaitingCourses, setAwaitingCourses] = useState([]);
@@ -71,7 +72,7 @@ export default function UserEnrollment({ data }) {
             title: 'STT',
             dataIndex: 'order',
             key: 'order',
-            render: (text, record, index) => index + 1
+            render: (_, __, index) => (currentPage - 1) * 5 + index + 1
         },
         {
             title: 'Tên khoá học',
@@ -111,7 +112,7 @@ export default function UserEnrollment({ data }) {
             title: 'STT',
             dataIndex: 'order',
             key: 'order',
-            render: (text, record, index) => index + 1
+            render: (_, __, index) => (currentPage - 1) * 5 + index + 1
         },
         {
             title: 'Tên khoá học',
@@ -153,14 +154,20 @@ export default function UserEnrollment({ data }) {
             {/* Course awaiting validation */}
             <div className='styleCustom awaitingCourse'>
                 <h3 className='text-xl font-medium capitalize mb-3'>khoá học chờ xác thực</h3>
-                <Table className='tblStyle tblAwaitCourse' columns={columnsAwait} dataSource={awaitingCourses} pagination={{ pageSize: 5 }} />
+                <Table className='tblStyle tblAwaitCourse' columns={columnsAwait} dataSource={awaitingCourses} pagination={{
+                    pageSize: 5,
+                    onChange: (page, pageSize) => {setCurrentPage(page)}
+                }} />
             </div>
             <hr className='my-8' />
 
             {/* Enrolled course */}
             <div className='styleCustom enrolledCourse'>
                 <h3 className='text-xl font-medium capitalize mb-3'>khoá học đã ghi danh</h3>
-                <Table className='tblStyle tblEnrolledCourse' columns={columnsEnrolled} dataSource={enrolledCourses} pagination={{ pageSize: 5 }} />
+                <Table className='tblStyle tblEnrolledCourse' columns={columnsEnrolled} dataSource={enrolledCourses} pagination={{
+                    pageSize: 5,
+                    onChange: (page, pageSize) => {setCurrentPage(page)}
+                }} />
             </div>
         </div>
     )
