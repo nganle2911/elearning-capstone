@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Space, Table, Tag, message } from "antd";
+import { Button, Space, Table, message } from "antd";
 import { https } from "../../../services/api";
 import { ButtonStyled } from "../../../components/ButtonStyled/ButtonStyled";
 import Modal from "antd/es/modal/Modal";
@@ -7,7 +7,6 @@ import confirm from "antd/es/modal/confirm";
 import FormAddCourse from "./FormAddCourse";
 import FormUpdateCourse from "./FormUpdateCourse";
 import FormRegister from "./FormRegister";
-import { PlusCircleOutlined } from "@ant-design/icons";
 
 export default function CourseManagement() {
   const [listCourse, setListCourse] = useState([]);
@@ -44,7 +43,6 @@ export default function CourseManagement() {
     const handleClose = () => {
       Modal.destroyAll();
     };
-
     confirm({
       title: (
         <div className="flex justify-between items-center">
@@ -248,7 +246,6 @@ export default function CourseManagement() {
       ),
     },
   ];
-
   return (
     <div className="admin__courseMgt">
       <div className="courseMgt__content">
