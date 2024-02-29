@@ -17,7 +17,7 @@ export default function Spinner() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        zIndex: 50,
+        zIndex: 3000,
       }}
     >
       <HashLoader size={150} color="#1d7a85" />
