@@ -78,7 +78,7 @@ export default function CourseManagement() {
       ),
       content: (
         <div>
-          <FormUpdateCourse courseUpdate={record} />
+          <FormUpdateCourse record={record} />
         </div>
       ),
       okButtonProps: { style: { display: "none" } },

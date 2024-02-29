@@ -13,20 +13,23 @@ import {
 import { ButtonStyled } from "../../../components/ButtonStyled/ButtonStyled";
 import { https } from "../../../services/api";
 
-export default function FormUpdateCourse({ courseUpdate }) {
+export default function FormUpdateCourse({ record }) {
+  const [courseUpdate, setCourseUpdate] = useState({record});
   console.log("courseUpdate", courseUpdate);
 
-  useEffect(() => {
+
+  /* useEffect(() => {
     https
       .get(`api/QuanLyKhoaHoc/LayThongTinKhoaHoc?maKhoaHoc=${record}`)
       .then((res) => {
         console.log("khóa học cần update", res.data);
-        // setCourseUpdate(res.data);
+        setCourseUpdate(res.data);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, []); */
+
   let dataJson = JSON.parse(localStorage.getItem("USER_LOGIN"));
   const { TextArea } = Input;
 
@@ -82,20 +85,26 @@ export default function FormUpdateCourse({ courseUpdate }) {
         <div className="grid grid-cols-2 lg:grid-cols-1 gap-5">
           <div>
             {/* Mã khóa học */}
+            {/* <Form.Item
+              label="Mã khóa học"
+              name="maKhoaHoc"
+              rules={[
+                {
+                  required: true,
+                  message: "Vui lòng nhập mã khóa học!",
+                },
+              ]}
+            >
+              <Input disabled name="maKhoaHoc" placeholder={courseUpdate.maKhoaHoc} />
+            </Form.Item> */}
             <Form.Item
               label="Mã khóa học"
-              // name="maKhoaHoc"
-              // rules={[
-              //   {
-              //     required: true,
-              //     message: "Vui lòng nhập mã khóa học!",
-              //   },
-              // ]}
             >
-              <Input disabled name="maKhoaHoc" />
+              <Input disabled name="maKhoaHoc" value={courseUpdate.record.maKhoaHoc} />
             </Form.Item>
+
             {/*Tên khóa học */}
-            <Form.Item
+            {/* <Form.Item
               label="Tên khóa học"
               name="tenKhoaHoc"
               rules={[
@@ -106,6 +115,11 @@ export default function FormUpdateCourse({ courseUpdate }) {
               ]}
             >
               <Input placeholder={courseUpdate.tenKhoaHoc} />
+            </Form.Item> */}
+            <Form.Item
+              label="Tên khóa học"
+              >
+              <Input name="tenKhoaHoc" value={courseUpdate.record.tenKhoaHoc} />
             </Form.Item>
             {/* Danh mục khóa học */}
             <Form.Item
