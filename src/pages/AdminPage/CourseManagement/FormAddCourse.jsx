@@ -41,19 +41,19 @@ const FormAddCourse = () => {
         setTimeout(function () {
           window.location.reload();
         }, 500);
-        //dataImage
-        //   let frm = new FormData();
-        //   const uploadedFile = values.hinhAnh;
-        //   frm.append('file',uploadedFile);
-        //   frm.append('tenKhoaHoc',values.tenKhoaHoc);
-        // https.post("/api/QuanLyKhoaHoc/UploadHinhAnhKhoaHoc",frm)
-        // .then((res) => {
-        //  console.log(res);
-        // })
-        // .catch((err) => {
-        //  console.log(err);
-        //  message.error(err.response)
-        //  });
+        // let frm = new FormData();
+        // const uploadedFile = values.hinhAnh;
+        // frm.append("file", uploadedFile);
+        // frm.append("tenKhoaHoc", values.tenKhoaHoc);
+        // https
+        //   .post("/api/QuanLyKhoaHoc/UploadHinhAnhKhoaHoc", frm)
+        //   .then((res) => {
+        //     console.log(res);
+        //   })
+        //   .catch((err) => {
+        //     console.log(err);
+        //     message.error(err.response);
+        //   });
       })
       .catch((err) => {
         console.log(err);
@@ -242,7 +242,7 @@ const FormAddCourse = () => {
               name="hinhAnh"
               getValueFromEvent={normFile}
             >
-              <Upload action="/api/upload/image" listType="picture">
+              <Upload action={normFile} listType="picture">
                 <Button icon={<UploadOutlined />}>Tải lên</Button>
               </Upload>
             </Form.Item>
