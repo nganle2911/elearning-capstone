@@ -14,18 +14,6 @@ import { ButtonStyled } from "../../../components/ButtonStyled/ButtonStyled";
 import { https } from "../../../services/api";
 
 export default function FormUpdateCourse({ record }) {
-  const [courseUpdate, setCourseUpdate] = useState({});
-  useEffect(() => {
-    https
-      .get(`api/QuanLyKhoaHoc/LayThongTinKhoaHoc?maKhoaHoc=${record}`)
-      .then((res) => {
-        console.log("khóa học cần update", res.data);
-        setCourseUpdate(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
   let dataJson = JSON.parse(localStorage.getItem("USER_LOGIN"));
   const { TextArea } = Input;
 
@@ -73,7 +61,9 @@ export default function FormUpdateCourse({ record }) {
         style={{
           maxWidth: 600,
         }}
-        initialValues={courseUpdate}
+        initialValues={{
+          remember: true,
+        }}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
         autoComplete="off"
@@ -91,7 +81,7 @@ export default function FormUpdateCourse({ record }) {
                 },
               ]}
             >
-              <Input disabled placeholder={courseUpdate.maKhoaHoc} />
+              <Input disabled placeholder={record.maKhoaHoc} />
             </Form.Item>
             {/*Tên khóa học */}
             <Form.Item
@@ -104,7 +94,7 @@ export default function FormUpdateCourse({ record }) {
                 },
               ]}
             >
-              <Input placeholder={courseUpdate.tenKhoaHoc} />
+              <Input placeholder={record.tenKhoaHoc} />
             </Form.Item>
             {/* Danh mục khóa học */}
             <Form.Item
@@ -117,9 +107,7 @@ export default function FormUpdateCourse({ record }) {
                 },
               ]}
             >
-              <Select
-                placeholder={courseUpdate.danhMucKhoaHoc?.tenDanhMucKhoaHoc}
-              >
+              <Select placeholder={record.danhMucKhoaHoc?.tenDanhMucKhoaHoc}>
                 <Select.Option value="BackEnd">Lập trình Backend</Select.Option>
                 <Select.Option value="Design">Thiết kế Web</Select.Option>
                 <Select.Option value="DiDong">Lập trình di động</Select.Option>
@@ -143,7 +131,7 @@ export default function FormUpdateCourse({ record }) {
                 },
               ]}
             >
-              <Select placeholder={courseUpdate.maNhom}>
+              <Select placeholder={record.maNhom}>
                 <Select.Option value="GP01">GP01</Select.Option>
                 <Select.Option value="GP02">GP02</Select.Option>
                 <Select.Option value="GP03">GP03</Select.Option>
@@ -172,7 +160,7 @@ export default function FormUpdateCourse({ record }) {
                 },
               ]}
             >
-              <Select placeholder={courseUpdate.nguoiTao?.maLoaiNguoiDung}>
+              <Select placeholder={record.nguoiTao?.maLoaiNguoiDung}>
                 <Select.Option value={dataJson.taiKhoan}>GV</Select.Option>
               </Select>
             </Form.Item>
@@ -189,7 +177,7 @@ export default function FormUpdateCourse({ record }) {
                 },
               ]}
             >
-              <DatePicker placeholder={courseUpdate.ngayTao} />
+              <DatePicker placeholder={record.ngayTao} />
             </Form.Item>
             {/* Đánh giá */}
             <Form.Item
@@ -202,7 +190,7 @@ export default function FormUpdateCourse({ record }) {
                 },
               ]}
             >
-              <InputNumber placeholder={courseUpdate.danhGia} />
+              <InputNumber placeholder={record.danhGia} />
             </Form.Item>
             {/* Lượt xem */}
             <Form.Item
@@ -218,7 +206,7 @@ export default function FormUpdateCourse({ record }) {
                 },
               ]}
             >
-              <InputNumber placeholder={courseUpdate.luotXem} />
+              <InputNumber placeholder={record.luotXem} />
             </Form.Item>
             {/* Mô tả */}
             <Form.Item
@@ -231,7 +219,7 @@ export default function FormUpdateCourse({ record }) {
                 },
               ]}
             >
-              <TextArea rows={4} placeholder={courseUpdate.moTa} />
+              <TextArea rows={4} placeholder={record.moTa} />
             </Form.Item>
             {/* Hình ảnh */}
             <Form.Item
@@ -240,7 +228,7 @@ export default function FormUpdateCourse({ record }) {
               getValueFromEvent={normFile}
             >
               <Upload
-                placeholder={courseUpdate.hinhAnh}
+                placeholder={record.hinhAnh}
                 action="/api/upload/image"
                 listType="picture"
               >

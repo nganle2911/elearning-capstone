@@ -200,7 +200,7 @@ export default function CourseManagement() {
           {/* SỬA */}
           <Button
             onClick={() => {
-              UpdateConfirm(record.maKhoaHoc);
+              UpdateConfirm(record);
             }}
           >
             <svg
