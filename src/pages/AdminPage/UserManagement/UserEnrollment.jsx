@@ -8,6 +8,7 @@ export default function UserEnrollment({ data }) {
     const [unregisteredCourse, setUnregisteredCourse] = useState([]);
     const [options, setOptions] = useState([]);
     const [awaitingCourses, setAwaitingCourses] = useState([]);
+    const [enrolledCourses, setEnrolledCourses] = useState([]);
 
     useEffect(() => {
         // fetch unregistered courses when component mounts
@@ -15,6 +16,9 @@ export default function UserEnrollment({ data }) {
 
         // fetch awaiting courses 
         getAwaitingCourses(data.taiKhoan);
+
+        // fetch enrolled courses
+        getEnrolledCourses(data.taiKhoan);
     }, [data.taiKhoan]);
 
     // todo: get unregistered courses list according to account user 
@@ -40,10 +44,21 @@ export default function UserEnrollment({ data }) {
     }
 
     // todo: get awaiting courses list according to account user
-    const getAwaitingCourses = async (account) => {
+    const getAwaitingCourses = (account) => {
         https.post("/api/QuanLyNguoiDung/LayDanhSachKhoaHocChoXetDuyet", { "taiKhoan": account }).then((res) => {
-            console.log("res list", res);
+            console.log("awaiting list", res);
             setAwaitingCourses(res.data);
+        }).catch((err) => {
+            console.log("err", err);
+            message.error(err.response.data);
+        });
+    }
+
+    // todo: get enrolled courses list according to account user
+    const getEnrolledCourses = (account) => {
+        https.post("/api/QuanLyNguoiDung/LayDanhSachKhoaHocDaXetDuyet", { "taiKhoan": account }).then((res) => {
+            console.log("enrolled list: ", res.data);
+            setEnrolledCourses(res.data);
         }).catch((err) => {
             console.log("err", err);
             message.error(err.response.data);
@@ -145,7 +160,7 @@ export default function UserEnrollment({ data }) {
             {/* Enrolled course */}
             <div className='enrolledCourse'>
                 <h3 className='text-xl font-medium capitalize mb-3'>khoá học đã ghi danh</h3>
-                <Table className='tblEnrolledCourse' columns={columnsEnrolled} pagination={{ pageSize: 5 }} />
+                <Table className='tblEnrolledCourse' columns={columnsEnrolled} dataSource={enrolledCourses} pagination={{ pageSize: 5 }} />
             </div>
         </div>
     )
