@@ -2,11 +2,10 @@ import { Button, Form, Input, Modal, Select, message } from 'antd'
 import { useFormik } from 'formik';
 import React from 'react'
 import { https } from '../../../services/api';
+import { ButtonStyled } from '../../../components/ButtonStyled/ButtonStyled';
 
 export default function AddNewUser() {
-    const closeModal = () => {
-        Modal.destroyAll();
-    }
+
 
     const formik = useFormik({
         initialValues: {
@@ -19,7 +18,6 @@ export default function AddNewUser() {
             maNhom: "GP01"
         },
         onSubmit: (values) => {
-            console.log("submit with values: ", values);
             https.post("/api/QuanLyNguoiDung/ThemNguoiDung", values).then((res) => {
                 console.log("add user: ", res.data);
                 message.success("Thêm người dùng thành công!");
@@ -41,25 +39,22 @@ export default function AddNewUser() {
     return (
         <Form
             layout='vertical'
+            className='modal__addUser'
             labelCol={{
-                span: 8,
-            }}
-            wrapperCol={{
-                offset: 0,
                 span: 24,
             }}
-            style={{
-                maxWidth: 500,
+            wrapperCol={{
+                span: 24,
             }}
-            className='modal__addUser'
             initialValues={{
                 remember: true
             }}
+            
             onFinishFailed={onFinishFailed}
             autoComplete="off"
-            onSubmitCapture={formik.handleSubmit}
+            onFinish={formik.handleSubmit}
         >
-            <Form.Item label="Tài khoản" rules={[
+            <Form.Item label="Tài khoản" name="taiKhoan" rules={[
                 {
                     required: true,
                     message: 'Vui lòng nhập tài khoản!',
@@ -67,7 +62,7 @@ export default function AddNewUser() {
             ]}>
                 <Input placeholder='Nhập tài khoản' className='h-10' name='taiKhoan' value={formik.values.taiKhoan} onChange={formik.handleChange} />
             </Form.Item>
-            <Form.Item label="Mật khẩu" rules={[
+            <Form.Item label="Mật khẩu" name="matKhau" rules={[
                 {
                     required: true,
                     message: 'Vui lòng nhập mật khẩu!',
@@ -79,7 +74,7 @@ export default function AddNewUser() {
             ]}>
                 <Input placeholder='Nhập mật khẩu' className='h-10' name='matKhau' value={formik.values.matKhau} onChange={formik.handleChange} />
             </Form.Item>
-            <Form.Item label="Họ tên" rules={[
+            <Form.Item label="Họ tên" name="hoTen" rules={[
                 {
                     required: true,
                     message: 'Vui lòng nhập họ tên!',
@@ -87,7 +82,7 @@ export default function AddNewUser() {
             ]}>
                 <Input placeholder='Nhập họ tên' className='h-10' name='hoTen' value={formik.values.hoTen} onChange={formik.handleChange} />
             </Form.Item>
-            <Form.Item label="Số điện thoại" rules={[
+            <Form.Item label="Số điện thoại" name="soDT" rules={[
                 {
                     required: true,
                     message: 'Vui lòng nhập số điện thoại!',
@@ -99,7 +94,7 @@ export default function AddNewUser() {
             ]}>
                 <Input placeholder='Nhập số điện thoại' className='h-10' name='soDT' value={formik.values.soDT} onChange={formik.handleChange} />
             </Form.Item>
-            <Form.Item label="Email" rules={[
+            <Form.Item label="Email" name="email" rules={[
                 {
                     required: true,
                     message: 'Vui lòng nhập email!',
@@ -111,15 +106,15 @@ export default function AddNewUser() {
             ]}>
                 <Input placeholder='Nhập email' className='h-10' name='email' value={formik.values.email} onChange={formik.handleChange} />
             </Form.Item>
-            <Form.Item label="Loại" rules={[
+            <Form.Item label="Loại" name="maLoaiNguoiDung" rules={[
                 {
                     required: true,
                     message: 'Vui lòng chọn mã nhóm!',
                 },
             ]}>
-                <Select 
-                    className='h-10' 
-                    placeholder="Chọn loại người dùng" 
+                <Select
+                    className='h-10'
+                    placeholder="Chọn loại người dùng"
                     name='maLoaiNguoiDung'
                     options={[
                         {
@@ -136,10 +131,8 @@ export default function AddNewUser() {
                 />
             </Form.Item>
 
-            {/* Buttons */}
             <div className='flex justify-end'>
-                <Button onClick={closeModal}>Đóng</Button>
-                <Button className='ml-2' style={{ backgroundColor: "#1d7a85", color: "white" }} htmlType='submit'>Thêm Người Dùng</Button>
+                <ButtonStyled className='mt-3 w-full font-bold text-xl' style={{ backgroundColor: "#1d7a85", color: "white" }} htmlType='submit'>Thêm Người Dùng</ButtonStyled>
             </div>
         </Form>
     )

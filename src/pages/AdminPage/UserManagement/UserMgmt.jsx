@@ -111,15 +111,35 @@ export default function UserMgt() {
 
     // todo: show modal add new user row 
     const showModalAddUser = () => {
+
+        const closeModal = () => {
+            Modal.destroyAll();
+        }
+
         confirm({
-            title: <>
-                <h1 className='text-lg'>Thêm người dùng</h1>
-                <hr className='my-4' />
-            </>,
+            className: "addUserModal",
+            title: (
+                <>
+                    <div className='flex justify-between items-center mb-3'>
+                        <h1 className='uppercase text-2xl'>thêm người dùng</h1>
+                        <Button
+                            className='bg-red-500 text-white'
+                            onClick={closeModal}
+                            style={{
+                                color: "white",
+                                borderColor: "white"
+                            }}
+                        >
+                            <i class="fa fa-times"></i>
+                        </Button>
+                    </div>
+                </>
+            ),
             icon: <PlusCircleOutlined className='hidden' />,
             content: <AddNewUser />,
-            footer: <Button className='hidden'>Add</Button>,
-            width: "520px",
+            cancelButtonProps: {style: {display: "none"}},
+            okButtonProps: {style: {display: "none"}},
+            width: "600px"
         })
     }
 
