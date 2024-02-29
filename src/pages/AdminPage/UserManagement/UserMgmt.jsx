@@ -127,10 +127,15 @@ export default function UserMgt() {
                             onClick={closeModal}
                             style={{
                                 color: "white",
-                                borderColor: "white"
+                                borderColor: "white",
+                                width: "30px",
+                                height: "30px",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center"
                             }}
                         >
-                            <i class="fa fa-times"></i>
+                            <i className="fa fa-times text-xl"></i>
                         </Button>
                     </div>
                 </>
@@ -238,17 +243,15 @@ export default function UserMgt() {
                 className='updateModal'
                 title={
                     <>
-                        <h1>Cập nhật thông tin</h1>
-                        <hr className='my-4' />
+                        <h1 className='mb-3 uppercase'>Cập nhật thông tin</h1>
                     </>
                 }
                 open={isEditModal}
                 onCancel={handleCancel}
                 footer={[
-                    <Button key="cancel" onClick={handleCancel}>Đóng</Button>,
-                    <Button key="submit" onClick={() => {
+                    <ButtonStyled className='w-full font-bold capitalize text-xl' key="submit" onClick={() => {
                         updateUserRow(userData);
-                    }}>Cập nhật</Button>
+                    }}>Cập nhật</ButtonStyled>
                 ]}
             >
                 <Form

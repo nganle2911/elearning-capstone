@@ -3,6 +3,16 @@
     .ant-modal-wrap {
         .updateModal {
             .ant-modal-content {
+                .ant-modal-close {
+                    background-color: $red-2;
+                    width: 30px;
+                    height: 30px;
+
+                    .ant-modal-close-x {
+                        color: $white-1;
+                    }
+                }
+
                 .ant-modal-header {
                     .ant-modal-title {
                         h1 {
