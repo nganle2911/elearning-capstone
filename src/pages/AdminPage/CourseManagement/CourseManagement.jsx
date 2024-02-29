@@ -11,6 +11,7 @@ import { PlusCircleOutlined } from "@ant-design/icons";
 
 export default function CourseManagement() {
   const [listCourse, setListCourse] = useState([]);
+
   let fetchCourseList = () => {
     https
       .get("api/QuanLyKhoaHoc/LayDanhSachKhoaHoc?MaNhom=GP01")
@@ -65,6 +66,7 @@ export default function CourseManagement() {
     const handleClose = () => {
       Modal.destroyAll();
     };
+    
     return confirm({
       title: (
         <div className="flex justify-between items-center">
@@ -76,7 +78,7 @@ export default function CourseManagement() {
       ),
       content: (
         <div>
-          <FormUpdateCourse record={record} />
+          <FormUpdateCourse courseUpdate={record} />
         </div>
       ),
       okButtonProps: { style: { display: "none" } },
@@ -202,7 +204,7 @@ export default function CourseManagement() {
           {/* SỬA */}
           <Button
             onClick={() => {
-              UpdateConfirm(record.maKhoaHoc);
+              UpdateConfirm(record);
             }}
           >
             <svg

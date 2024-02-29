@@ -13,14 +13,15 @@ import {
 import { ButtonStyled } from "../../../components/ButtonStyled/ButtonStyled";
 import { https } from "../../../services/api";
 
-export default function FormUpdateCourse({ record }) {
-  const [courseUpdate, setCourseUpdate] = useState({});
+export default function FormUpdateCourse({ courseUpdate }) {
+  console.log("courseUpdate", courseUpdate);
+
   useEffect(() => {
     https
       .get(`api/QuanLyKhoaHoc/LayThongTinKhoaHoc?maKhoaHoc=${record}`)
       .then((res) => {
         console.log("khóa học cần update", res.data);
-        setCourseUpdate(res.data);
+        // setCourseUpdate(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -83,15 +84,15 @@ export default function FormUpdateCourse({ record }) {
             {/* Mã khóa học */}
             <Form.Item
               label="Mã khóa học"
-              name="maKhoaHoc"
-              rules={[
-                {
-                  required: true,
-                  message: "Vui lòng nhập mã khóa học!",
-                },
-              ]}
+              // name="maKhoaHoc"
+              // rules={[
+              //   {
+              //     required: true,
+              //     message: "Vui lòng nhập mã khóa học!",
+              //   },
+              // ]}
             >
-              <Input disabled placeholder={courseUpdate.maKhoaHoc} />
+              <Input disabled name="maKhoaHoc" />
             </Form.Item>
             {/*Tên khóa học */}
             <Form.Item
