@@ -12,8 +12,6 @@ import DetailPage from "./pages/DetailPage/DetailPage";
 import AdminLayout from "./layout/AdminLayout";
 import AdminPage from "./pages/AdminPage/AdminPage";
 import SecureGate from "./layout/SecureGate";
-import CourseManagement from "./pages/AdminPage/CourseManagement/CourseManagement";
-import FormUpdateCourse from "./pages/AdminPage/CourseManagement/FormUpdateCourse";
 
 function App() {
   return (

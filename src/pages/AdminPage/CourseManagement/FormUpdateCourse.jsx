@@ -13,9 +13,19 @@ import {
 import { ButtonStyled } from "../../../components/ButtonStyled/ButtonStyled";
 import { https } from "../../../services/api";
 
-const FormUpdateCourse = (courseUpdate) => {
-  //  let {course} = useSelector(state=>state.adminCourseSlice)
-  console.log("record bên form", courseUpdate);
+export default function FormUpdateCourse({ record }) {
+  const [courseUpdate, setCourseUpdate] = useState({});
+  useEffect(() => {
+    https
+      .get(`api/QuanLyKhoaHoc/LayThongTinKhoaHoc?maKhoaHoc=${record}`)
+      .then((res) => {
+        console.log("khóa học cần update", res.data);
+        setCourseUpdate(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
   let dataJson = JSON.parse(localStorage.getItem("USER_LOGIN"));
   const { TextArea } = Input;
 
@@ -37,6 +47,9 @@ const FormUpdateCourse = (courseUpdate) => {
       .then((res) => {
         console.log("Update thành công", res.data);
         message.success("Update thành công!");
+        setTimeout(function () {
+          window.location.reload();
+        }, 500);
       })
       .catch((err) => {
         console.log(err);
@@ -46,8 +59,9 @@ const FormUpdateCourse = (courseUpdate) => {
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
+
   return (
-    <>
+    <div>
       <Form
         labelCol={{
           span: 24,
@@ -59,9 +73,7 @@ const FormUpdateCourse = (courseUpdate) => {
         style={{
           maxWidth: 600,
         }}
-        initialValues={{
-          remember: true,
-        }}
+        initialValues={courseUpdate}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
         autoComplete="off"
@@ -79,7 +91,7 @@ const FormUpdateCourse = (courseUpdate) => {
                 },
               ]}
             >
-              <Input defaultValue={courseUpdate} />
+              <Input disabled placeholder={courseUpdate.maKhoaHoc} />
             </Form.Item>
             {/*Tên khóa học */}
             <Form.Item
@@ -92,7 +104,7 @@ const FormUpdateCourse = (courseUpdate) => {
                 },
               ]}
             >
-              <Input />
+              <Input placeholder={courseUpdate.tenKhoaHoc} />
             </Form.Item>
             {/* Danh mục khóa học */}
             <Form.Item
@@ -105,8 +117,19 @@ const FormUpdateCourse = (courseUpdate) => {
                 },
               ]}
             >
-              <Select>
-                <Select.Option value="{course.maDanhMuc}"></Select.Option>
+              <Select
+                placeholder={courseUpdate.danhMucKhoaHoc?.tenDanhMucKhoaHoc}
+              >
+                <Select.Option value="BackEnd">Lập trình Backend</Select.Option>
+                <Select.Option value="Design">Thiết kế Web</Select.Option>
+                <Select.Option value="DiDong">Lập trình di động</Select.Option>
+                <Select.Option value="FrontEnd">
+                  Lập trình Front end
+                </Select.Option>
+                <Select.Option value="FullStack">
+                  Lập trình Full Stack
+                </Select.Option>
+                <Select.Option value="TuDuy">Tư duy lập trình</Select.Option>
               </Select>
             </Form.Item>
             {/* Mã nhóm học*/}
@@ -120,7 +143,7 @@ const FormUpdateCourse = (courseUpdate) => {
                 },
               ]}
             >
-              <Select>
+              <Select placeholder={courseUpdate.maNhom}>
                 <Select.Option value="GP01">GP01</Select.Option>
                 <Select.Option value="GP02">GP02</Select.Option>
                 <Select.Option value="GP03">GP03</Select.Option>
@@ -149,7 +172,7 @@ const FormUpdateCourse = (courseUpdate) => {
                 },
               ]}
             >
-              <Select>
+              <Select placeholder={courseUpdate.nguoiTao?.maLoaiNguoiDung}>
                 <Select.Option value={dataJson.taiKhoan}>GV</Select.Option>
               </Select>
             </Form.Item>
@@ -166,7 +189,7 @@ const FormUpdateCourse = (courseUpdate) => {
                 },
               ]}
             >
-              <DatePicker />
+              <DatePicker placeholder={courseUpdate.ngayTao} />
             </Form.Item>
             {/* Đánh giá */}
             <Form.Item
@@ -179,7 +202,7 @@ const FormUpdateCourse = (courseUpdate) => {
                 },
               ]}
             >
-              <InputNumber />
+              <InputNumber placeholder={courseUpdate.danhGia} />
             </Form.Item>
             {/* Lượt xem */}
             <Form.Item
@@ -195,7 +218,7 @@ const FormUpdateCourse = (courseUpdate) => {
                 },
               ]}
             >
-              <InputNumber />
+              <InputNumber placeholder={courseUpdate.luotXem} />
             </Form.Item>
             {/* Mô tả */}
             <Form.Item
@@ -208,7 +231,7 @@ const FormUpdateCourse = (courseUpdate) => {
                 },
               ]}
             >
-              <TextArea rows={4} />
+              <TextArea rows={4} placeholder={courseUpdate.moTa} />
             </Form.Item>
             {/* Hình ảnh */}
             <Form.Item
@@ -216,7 +239,11 @@ const FormUpdateCourse = (courseUpdate) => {
               name="hinhAnh"
               getValueFromEvent={normFile}
             >
-              <Upload action="/api/upload/image" listType="picture">
+              <Upload
+                placeholder={courseUpdate.hinhAnh}
+                action="/api/upload/image"
+                listType="picture"
+              >
                 <Button icon={<UploadOutlined />}>Tải lên</Button>
               </Upload>
             </Form.Item>
@@ -230,7 +257,6 @@ const FormUpdateCourse = (courseUpdate) => {
           Cập nhập
         </ButtonStyled>
       </Form>
-    </>
+    </div>
   );
-};
-export default () => <FormUpdateCourse />;
+}

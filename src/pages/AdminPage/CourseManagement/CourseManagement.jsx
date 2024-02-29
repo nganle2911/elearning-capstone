@@ -6,14 +6,11 @@ import Modal from "antd/es/modal/Modal";
 import confirm from "antd/es/modal/confirm";
 import FormAddCourse from "./FormAddCourse";
 import FormUpdateCourse from "./FormUpdateCourse";
-import { useDispatch } from "react-redux";
-import { setCourse } from "../../../redux/adminCourseSlice/adminCourseSlice";
 import FormRegister from "./FormRegister";
 import { PlusCircleOutlined } from "@ant-design/icons";
 
 export default function CourseManagement() {
   const [listCourse, setListCourse] = useState([]);
-  let dispatch = useDispatch({});
   let fetchCourseList = () => {
     https
       .get("api/QuanLyKhoaHoc/LayDanhSachKhoaHoc?MaNhom=GP01")
@@ -64,13 +61,11 @@ export default function CourseManagement() {
 
   let UpdateConfirm = (record) => {
     console.log("record nè", record);
-    dispatch(setCourse(record));
     //Close modal
     const handleClose = () => {
       Modal.destroyAll();
     };
-    let courseUpdate = record;
-    confirm({
+    return confirm({
       title: (
         <div className="flex justify-between items-center">
           <h1 className="titleFuntion space-x-5">CẬP NHẬT KHÓA HỌC</h1>
@@ -79,7 +74,11 @@ export default function CourseManagement() {
           </Button>
         </div>
       ),
-      content: <FormUpdateCourse courseUpdate={courseUpdate} />,
+      content: (
+        <div>
+          <FormUpdateCourse record={record} />
+        </div>
+      ),
       okButtonProps: { style: { display: "none" } },
       width: "50%",
     });
@@ -203,7 +202,7 @@ export default function CourseManagement() {
           {/* SỬA */}
           <Button
             onClick={() => {
-              UpdateConfirm(record);
+              UpdateConfirm(record.maKhoaHoc);
             }}
           >
             <svg
