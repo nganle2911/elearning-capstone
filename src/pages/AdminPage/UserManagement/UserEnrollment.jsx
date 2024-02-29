@@ -151,16 +151,16 @@ export default function UserEnrollment({ data }) {
             <hr className='my-8'/>
 
             {/* Course awaiting validation */}
-            <div className='awaitingCourse'>
+            <div className='styleCustom awaitingCourse'>
                 <h3 className='text-xl font-medium capitalize mb-3'>khoá học chờ xác thực</h3>
-                <Table className='tblAwaitCourse' columns={columnsAwait} dataSource={awaitingCourses} pagination={{ pageSize: 5 }} />
+                <Table className='tblStyle tblAwaitCourse' columns={columnsAwait} dataSource={awaitingCourses} pagination={{ pageSize: 5 }} />
             </div>
             <hr className='my-8' />
 
             {/* Enrolled course */}
-            <div className='enrolledCourse'>
+            <div className='styleCustom enrolledCourse'>
                 <h3 className='text-xl font-medium capitalize mb-3'>khoá học đã ghi danh</h3>
-                <Table className='tblEnrolledCourse' columns={columnsEnrolled} dataSource={enrolledCourses} pagination={{ pageSize: 5 }} />
+                <Table className='tblStyle tblEnrolledCourse' columns={columnsEnrolled} dataSource={enrolledCourses} pagination={{ pageSize: 5 }} />
             </div>
         </div>
     )

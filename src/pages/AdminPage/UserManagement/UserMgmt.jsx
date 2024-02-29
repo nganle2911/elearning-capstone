@@ -152,7 +152,7 @@ export default function UserMgt() {
     // todo: show modal handle enrollment 
     const showModalEnrollment = (data) => {
         confirm({
-            className: "addUserModal",
+            className: "enrollmentModal",
             title: (
                 <>
                     <div className='flex justify-between items-center mb-3'>
