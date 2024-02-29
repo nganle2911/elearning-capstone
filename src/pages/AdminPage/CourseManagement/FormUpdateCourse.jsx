@@ -81,7 +81,7 @@ export default function FormUpdateCourse({ record }) {
                 },
               ]}
             >
-              <Input placeholder={record.maKhoaHoc} />
+              <Input defaultValue={record.maKhoaHoc} />
             </Form.Item>
 
             {/*Tên khóa học */}
@@ -95,7 +95,7 @@ export default function FormUpdateCourse({ record }) {
                 },
               ]}
             >
-              <Input placeholder={record.tenKhoaHoc} />
+              <Input defaultValue={record.tenKhoaHoc} />
             </Form.Item>
             {/* Danh mục khóa học */}
             <Form.Item
@@ -108,7 +108,7 @@ export default function FormUpdateCourse({ record }) {
                 },
               ]}
             >
-              <Select placeholder={record.danhMucKhoaHoc?.tenDanhMucKhoaHoc}>
+              <Select defaultValue={record.danhMucKhoaHoc?.tenDanhMucKhoaHoc}>
                 <Select.Option value="BackEnd">Lập trình Backend</Select.Option>
                 <Select.Option value="Design">Thiết kế Web</Select.Option>
                 <Select.Option value="DiDong">Lập trình di động</Select.Option>
@@ -132,7 +132,7 @@ export default function FormUpdateCourse({ record }) {
                 },
               ]}
             >
-              <Select placeholder={record.maNhom}>
+              <Select defaultValue={record.maNhom}>
                 <Select.Option value="GP01">GP01</Select.Option>
                 <Select.Option value="GP02">GP02</Select.Option>
                 <Select.Option value="GP03">GP03</Select.Option>
@@ -161,7 +161,7 @@ export default function FormUpdateCourse({ record }) {
                 },
               ]}
             >
-              <Select placeholder={record.nguoiTao?.maLoaiNguoiDung}>
+              <Select defaultValue={record.nguoiTao?.maLoaiNguoiDung}>
                 <Select.Option value={dataJson.taiKhoan}>GV</Select.Option>
               </Select>
             </Form.Item>
@@ -191,7 +191,7 @@ export default function FormUpdateCourse({ record }) {
                 },
               ]}
             >
-              <InputNumber placeholder={record.danhGia} />
+              <InputNumber defaultValue={record.danhGia} />
             </Form.Item>
             {/* Lượt xem */}
             <Form.Item
@@ -207,7 +207,7 @@ export default function FormUpdateCourse({ record }) {
                 },
               ]}
             >
-              <InputNumber placeholder={record.luotXem} />
+              <InputNumber defaultValue={record.luotXem} />
             </Form.Item>
             {/* Mô tả */}
             <Form.Item
@@ -220,7 +220,7 @@ export default function FormUpdateCourse({ record }) {
                 },
               ]}
             >
-              <TextArea rows={4} placeholder={record.moTa} />
+              <TextArea rows={4} defaultValue={record.moTa} />
             </Form.Item>
             {/* Hình ảnh */}
             <Form.Item
@@ -229,7 +229,7 @@ export default function FormUpdateCourse({ record }) {
               getValueFromEvent={normFile}
             >
               <Upload
-                placeholder={record.hinhAnh}
+                defaultValue={record.hinhAnh}
                 action="/api/upload/image"
                 listType="picture"
               >
