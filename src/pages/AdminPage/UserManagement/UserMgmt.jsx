@@ -7,6 +7,7 @@ import { TOKEN_CYBERSOFT } from '../../../services/constant';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import AddNewUser from './AddNewUser';
+import EditUser from './EditUser';
 const { confirm } = Modal;
 
 
@@ -148,6 +149,44 @@ export default function UserMgt() {
         })
     }
 
+    // todo: show modal edit user row
+    const showModalEditUser = (record) => {
+        const closeModal = () => {
+            Modal.destroyAll();
+        }
+
+        confirm({
+            className: "addUserModal",
+            title: (
+                <>
+                    <div className='flex justify-between items-center mb-3'>
+                        <h1 className='uppercase text-2xl'>update người dùng</h1>
+                        <Button
+                            className='bg-red-500 text-white'
+                            onClick={closeModal}
+                            style={{
+                                color: "white",
+                                borderColor: "white",
+                                width: "30px",
+                                height: "30px",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center"
+                            }}
+                        >
+                            <i className="fa fa-times text-xl"></i>
+                        </Button>
+                    </div>
+                </>
+            ),
+            icon: <PlusCircleOutlined className='hidden' />,
+            content: <EditUser record={record} close={closeModal} />,
+            cancelButtonProps: {style: {display: "none"}},
+            okButtonProps: {style: {display: "none"}},
+            width: "600px"
+        })
+    }
+
     const columns = [
         {
             title: 'Tài khoản',
@@ -194,7 +233,12 @@ export default function UserMgt() {
                     </Button>
 
                     {/* EDIT */}
-                    <Button onClick={() => {showModal(record)}}>
+                    {/* <Button onClick={() => {showModal(record)}}>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-yellow-400">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                        </svg>
+                    </Button> */}
+                    <Button onClick={() => {showModalEditUser(record)}}>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-yellow-400">
                             <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                         </svg>
@@ -239,7 +283,7 @@ export default function UserMgt() {
             </div>
 
             {/* MODAL EDIT */}
-            <Modal
+            {/* <Modal
                 className='updateModal'
                 title={
                     <>
@@ -276,7 +320,7 @@ export default function UserMgt() {
                         <Select className='h-10' options={options} name='maLoaiNguoiDung' value={userData.maLoaiNguoiDung} onChange={(value) => handleFieldChange('maLoaiNguoiDung', value)} />
                     </Form.Item>
                 </Form>
-            </Modal>
+            </Modal> */}
         </div>
     )
 }
