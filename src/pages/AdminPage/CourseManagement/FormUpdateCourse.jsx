@@ -16,6 +16,7 @@ export default function FormUpdateCourse({ record }) {
   const [courseUpdate, setCourseUpdate] = useState(record);
   const [category, setCategory] = useState([]);
   const [options, setOptions] = useState([]);
+  const [imageURL, setImageURL] = useState(record.hinhAnh);
   console.log("courseUpdate", courseUpdate);
 
   let dataJson = JSON.parse(localStorage.getItem("USER_LOGIN"));
@@ -58,6 +59,40 @@ export default function FormUpdateCourse({ record }) {
     return fileName;
   };
 
+  // todo: handle change for image upload 
+  /* const handleImageChange = async (info) => {
+    console.log("info", info);
+    if (info.file.status === 'done') {
+      // Check if the uploaded file is an image
+      if (info.file.type.startsWith('image')) {
+        const formData = new FormData();
+        formData.append('image', info.file.originFileObj);
+  
+        try {
+          const response = await https.post('/api/QuanLyKhoaHoc/UploadHinhAnhKhoaHoc', {
+            body: formData,
+          });
+  
+          if (response.ok) {
+            const responseData = await response.json();
+            // Assuming your API returns the URL of the uploaded image
+            setImageURL(responseData.imageUrl);
+          } else {
+            throw new Error('Failed to upload image');
+          }
+        } catch (error) {
+          console.error('Error uploading image:', error);
+          message.error('Failed to upload image');
+        }
+      } else {
+        // If the uploaded file is not an image, display an error message
+        message.error('Uploaded file is not an image');
+      }
+    }
+  }; */
+  
+
+  // todo: handle change for form 
   const handleChange = (name, value) => {
     // update nested object if name == "danhMucKhoaHoc"
     if (name === "danhMucKhoaHoc") {
@@ -237,10 +272,11 @@ export default function FormUpdateCourse({ record }) {
 
             {/* Hình ảnh */}
             <Form.Item label="Hình ảnh khóa học">
-              <Upload name="hinhAnh" action="/api/upload/image" listType="pictures">
+              <Upload name="hinhAnh" action="/upload.do" listType="pictures">
                 <Button icon={<UploadOutlined />}>Tải lên</Button>
               </Upload>
-              <img src={courseUpdate.hinhAnh} alt="img" className="mt-2" style={{width: "150px", height: "150px", objectFit: "cover"}} />
+              {/* render image  */}
+              {imageURL && <img src={imageURL} alt="img" className="mt-2" style={{width: "150px", height: "150px", objectFit: "cover"}} />}
             </Form.Item>
           </div>
         </div>
