@@ -65,7 +65,7 @@ export default function CourseManagement() {
     const handleClose = () => {
       Modal.destroyAll();
     };
-    
+
     return confirm({
       title: (
         <div className="flex justify-between items-center">
@@ -85,8 +85,8 @@ export default function CourseManagement() {
     });
   };
 
-  let RegisterConFirm = (id) => {
-    console.log(id);
+  let RegisterConFirm = (record) => {
+    console.log(record);
     //Close modal
     const handleClose = () => {
       Modal.destroyAll();
@@ -100,7 +100,7 @@ export default function CourseManagement() {
           </Button>
         </div>
       ),
-      content: <FormRegister />,
+      content: <FormRegister record={record} />,
       okButtonProps: { style: { display: "none" } },
       width: "50%",
     });
@@ -152,14 +152,19 @@ export default function CourseManagement() {
       if (keyword === "") {
         fetchCourseList();
       } else {
-        https.get(`/api/QuanLyKhoaHoc/LayDanhSachKhoaHoc?tenKhoaHoc=${keyword}&MaNhom=GP01`).then((res) => {
-          setListCourse(res.data);
-        }).catch((err) => {
-          console.log("err", err);
-        });
+        https
+          .get(
+            `/api/QuanLyKhoaHoc/LayDanhSachKhoaHoc?tenKhoaHoc=${keyword}&MaNhom=GP01`
+          )
+          .then((res) => {
+            setListCourse(res.data);
+          })
+          .catch((err) => {
+            console.log("err", err);
+          });
       }
     }
-  }
+  };
 
   const columns = [
     {
@@ -198,7 +203,7 @@ export default function CourseManagement() {
           {/* Duyệt  */}
           <Button
             onClick={() => {
-              RegisterConFirm(record.maKhoaHoc);
+              RegisterConFirm(record);
             }}
           >
             <svg
@@ -292,10 +297,18 @@ export default function CourseManagement() {
             Tìm kiếm
           </ButtonStyled>
         </div> */}
-        <div className='courseMgtCont__searchBar my-6 flex'>
-          <input type='search' placeholder='Nhập mã hoặc tên khoá học' className='searchIn__style h-10 w-full px-2 rounded relative' onKeyDown={handleSearchCourse} />
-          <div className='h-10 w-10 flex items-center justify-center absolute rounded-e right-6 md:right-0' style={{ backgroundColor: "#1d7a85", cursor: "pointer" }}>
-            <MagnifyingGlassIcon className='h-5 w-5 text-white' />
+        <div className="courseMgtCont__searchBar my-6 flex">
+          <input
+            type="search"
+            placeholder="Nhập mã hoặc tên khoá học"
+            className="searchIn__style h-10 w-full px-2 rounded relative"
+            onKeyDown={handleSearchCourse}
+          />
+          <div
+            className="h-10 w-10 flex items-center justify-center absolute rounded-e right-6 md:right-0"
+            style={{ backgroundColor: "#1d7a85", cursor: "pointer" }}
+          >
+            <MagnifyingGlassIcon className="h-5 w-5 text-white" />
           </div>
         </div>
 
