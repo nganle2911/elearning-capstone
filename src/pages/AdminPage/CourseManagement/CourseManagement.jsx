@@ -60,7 +60,7 @@ export default function CourseManagement() {
   };
 
   let UpdateConfirm = (record) => {
-    console.log("record nè", record);
+    // console.log("record nè", record);
     //Close modal
     const handleClose = () => {
       Modal.destroyAll();
@@ -105,6 +105,7 @@ export default function CourseManagement() {
       width: "50%",
     });
   };
+
   //Search Course
   /* const handleSearch = () => {
     //get key -> delete space -> convert font

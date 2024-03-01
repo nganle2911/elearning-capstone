@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { UploadOutlined } from "@ant-design/icons";
 import {
   Button,
-  DatePicker,
   Form,
   Input,
   InputNumber,
@@ -14,11 +13,47 @@ import { ButtonStyled } from "../../../components/ButtonStyled/ButtonStyled";
 import { https } from "../../../services/api";
 
 export default function FormUpdateCourse({ record }) {
-  console.log("record", record);
   const [courseUpdate, setCourseUpdate] = useState(record);
+  const [category, setCategory] = useState([]);
+  const [options, setOptions] = useState([]);
   console.log("courseUpdate", courseUpdate);
+
   let dataJson = JSON.parse(localStorage.getItem("USER_LOGIN"));
   const { TextArea } = Input;
+
+  // todo: get category list
+  const getCategory = () => {
+    https
+      .get("/api/QuanLyKhoaHoc/LayDanhMucKhoaHoc")
+      .then((res) => {
+        setCategory(res.data);
+
+        // generate options array from category
+        const optionsArr = res.data.map((course) => {
+          return {
+            value: course.maDanhMuc,
+            label: course.tenDanhMuc,
+          };
+        });
+        setOptions(optionsArr);
+        console.log("options", optionsArr);
+      })
+      .catch((err) => {
+        console.log("err", err);
+      });
+  };
+
+  useEffect(() => {
+    getCategory();
+    // setCourseUpdate({
+    //   ...courseUpdate,
+    //   maDanhMucKhoahoc: courseUpdate.danhMucKhoaHoc.maDanhMucKhoahoc
+    // })
+    setCourseUpdate({
+      ...courseUpdate,
+      maDanhMucKhoahoc: courseUpdate.danhMucKhoaHoc.maDanhMucKhoahoc,
+    });
+  }, []);
 
   //Chuyển đổi tên file hình ảnh
   const normFile = (e) => {
@@ -31,11 +66,21 @@ export default function FormUpdateCourse({ record }) {
     return fileName;
   };
 
-  let handleChange = (e) => {
+  /* let handleChange = (e) => {
     let { name, value } = e.target ?? {};
     let data = { ...courseUpdate, [name]: value };
-    setCourseUpdate(data);
-  };
+    // setCourseUpdate(data);
+  }; */
+
+  const handleChange = (name, value) => {
+    setCourseUpdate({
+      ...courseUpdate,
+      danhMucKhoaHoc: {
+        [name]: value
+      }
+    })
+  }
+
 
   const onFinish = (values) => {
     console.log("Success:", values);
@@ -56,6 +101,34 @@ export default function FormUpdateCourse({ record }) {
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
+
+  // todo: category options
+  /* const options = [
+    {
+      value: "BackEnd",
+      label: "Lập trình Backend"
+    },
+    {
+      value: "Design",
+      label: "Thiết kế Web"
+    },
+    {
+      value: "DiDong",
+      label: "Lập trình di động"
+    },
+    {
+      value: "FrontEnd",
+      label: "Lập trình Front end"
+    },
+    {
+      value: "FullStack",
+      label: "Lập trình Full Stack"
+    },
+    {
+      value: "TuDuy",
+      label: "Tư duy lập trình"
+    }
+  ]; */
 
   return (
     <div>
@@ -82,30 +155,33 @@ export default function FormUpdateCourse({ record }) {
             {/* Mã khóa học */}
             <Form.Item
               label="Mã khóa học"
-              name="maKhoaHoc"
-              rules={[
-                {
-                  required: true,
-                  message: "Vui lòng nhập mã khóa học!",
-                },
-              ]}
+              // name="maKhoaHoc"
+              // rules={[
+              //   {
+              //     required: true,
+              //     message: "Vui lòng nhập mã khóa học!",
+              //   },
+              // ]}
             >
-              <Input name="maKhoaHoc" value={courseUpdate.maKhoaHoc} />
+              <Input
+                name="maKhoaHoc"
+                value={courseUpdate.maKhoaHoc}
+              />
+              <Input name="maKhoaHoc" value={courseUpdate.maKhoaHoc} disabled />
             </Form.Item>
 
             {/*Tên khóa học */}
             <Form.Item
               label="Tên khóa học"
-              name="tenKhoaHoc"
-              rules={[
-                {
-                  required: true,
-                  message: "Vui lòng tên khóa học!",
-                },
-              ]}
+              // name="tenKhoaHoc"
+              // rules={[
+              //   {
+              //     required: true,
+              //     message: "Vui lòng tên khóa học!",
+              //   },
+              // ]}
             >
               <Input
-                onChange={handleChange}
                 name="tenKhoaHoc"
                 value={courseUpdate.tenKhoaHoc}
               />
@@ -114,19 +190,21 @@ export default function FormUpdateCourse({ record }) {
             {/* Danh mục khóa học */}
             <Form.Item
               label="Danh mục khóa học"
-              name="maDanhMucKhoaHoc"
-              rules={[
-                {
-                  required: true,
-                  message: "Vui lòng chọn danh mục khóa học!",
-                },
-              ]}
+              // name="maDanhMucKhoaHoc"
+              // rules={[
+              //   {
+              //     required: true,
+              //     message: "Vui lòng chọn danh mục khóa học!",
+              //   },
+              // ]}
             >
               <Select
-                name="maDanhMucKhoaHoc"
-                value={courseUpdate.danhMucKhoaHoc?.tenDanhMucKhoaHoc}
+                name="maDanhMucKhoahoc"
+                options={options}
+                value={courseUpdate.danhMucKhoaHoc.maDanhMucKhoahoc}
+                onChange={(value) => {handleChange("maDanhMucKhoahoc", value)}}
               >
-                <Select.Option value="BackEnd">Lập trình Backend</Select.Option>
+                {/* <Select.Option value="BackEnd">Lập trình Backend</Select.Option>
                 <Select.Option value="Design">Thiết kế Web</Select.Option>
                 <Select.Option value="DiDong">Lập trình di động</Select.Option>
                 <Select.Option value="FrontEnd">
@@ -135,22 +213,26 @@ export default function FormUpdateCourse({ record }) {
                 <Select.Option value="FullStack">
                   Lập trình Full Stack
                 </Select.Option>
-                <Select.Option value="TuDuy">Tư duy lập trình</Select.Option>
+                <Select.Option value="TuDuy">Tư duy lập trình</Select.Option> */}
               </Select>
             </Form.Item>
 
             {/* Mã nhóm học*/}
             <Form.Item
               label="Mã nhóm học"
-              name="maNhom"
-              rules={[
-                {
-                  required: true,
-                  message: "Vui lòng chọn nhóm học!",
-                },
-              ]}
+              // name="maNhom"
+              // rules={[
+              //   {
+              //     required: true,
+              //     message: "Vui lòng chọn nhóm học!",
+              //   },
+              // ]}
             >
-              <Select name="maNhom" value={courseUpdate.maNhom}>
+              <Select
+                name="maNhom"
+                defaultValue={courseUpdate.maNhom}
+                value={courseUpdate.maNhom}
+              >
                 <Select.Option value="GP01">GP01</Select.Option>
                 <Select.Option value="GP02">GP02</Select.Option>
                 <Select.Option value="GP03">GP03</Select.Option>
@@ -182,6 +264,7 @@ export default function FormUpdateCourse({ record }) {
             >
               <Select
                 name="taiKhoanNguoiTao"
+                defaultValue={courseUpdate.nguoiTao?.maLoaiNguoiDung}
                 value={courseUpdate.nguoiTao?.maLoaiNguoiDung}
               >
                 <Select.Option value={dataJson.taiKhoan}>GV</Select.Option>
@@ -200,10 +283,11 @@ export default function FormUpdateCourse({ record }) {
                 },
               ]}
             >
-              <DatePicker
+              <Input
                 onChange={handleChange}
                 name="ngayTao"
-                placeholder={courseUpdate.ngayTao}
+                value={courseUpdate.ngayTao}
+                defaultValue={courseUpdate.ngayTao}
               />
             </Form.Item>
 
@@ -221,6 +305,7 @@ export default function FormUpdateCourse({ record }) {
               <InputNumber
                 onChange={handleChange}
                 name="danhGia"
+                defaultValue={courseUpdate.danhGia}
                 value={courseUpdate.danhGia}
               />
             </Form.Item>
@@ -234,7 +319,7 @@ export default function FormUpdateCourse({ record }) {
               name="luotXem"
               rules={[
                 {
-                  required: true,
+                  required: false,
                   message: "Lượt xem không được để trống!",
                 },
               ]}
@@ -242,6 +327,7 @@ export default function FormUpdateCourse({ record }) {
               <InputNumber
                 onChange={handleChange}
                 name="luotXem"
+                defaultValue={courseUpdate.luotXem}
                 value={courseUpdate.luotXem}
               />
             </Form.Item>
@@ -252,7 +338,7 @@ export default function FormUpdateCourse({ record }) {
               name="moTa"
               rules={[
                 {
-                  required: true,
+                  required: false,
                   message: "Mô tả không được để trống!",
                 },
               ]}
@@ -261,6 +347,7 @@ export default function FormUpdateCourse({ record }) {
                 onChange={handleChange}
                 name="moTa"
                 rows={4}
+                defaultValue={courseUpdate.moTa}
                 value={courseUpdate.moTa}
               />
             </Form.Item>
@@ -275,6 +362,8 @@ export default function FormUpdateCourse({ record }) {
                 onChange={handleChange}
                 action="/api/upload/image"
                 listType="picture"
+                defaultValue={courseUpdate.hinhAnh}
+                value={courseUpdate.hinhAnh}
               >
                 <Button icon={<UploadOutlined />}>Tải lên</Button>
               </Upload>
@@ -286,7 +375,7 @@ export default function FormUpdateCourse({ record }) {
           className=" text-white w-full font-bold text-xl items-center"
           htmlType="submit"
         >
-          Cập nhập
+          Cập nhật
         </ButtonStyled>
       </Form>
     </div>
