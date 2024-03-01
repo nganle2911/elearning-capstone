@@ -19,7 +19,7 @@ export default function FormUpdateCourse({ record }) {
   const [category, setCategory] = useState([]);
   const [options, setOptions] = useState([]);
   const [imageURL, setImageURL] = useState(record.hinhAnh);
-  console.log("courseUpdate", courseUpdate); 
+  console.log("courseUpdate", courseUpdate);
 
   let dataJson = JSON.parse(localStorage.getItem("USER_LOGIN"));
   const { TextArea } = Input;
@@ -61,7 +61,7 @@ export default function FormUpdateCourse({ record }) {
     return fileName;
   };
 
-  // todo: handle change for image upload 
+  // todo: handle change for image upload
   /* const handleImageChange = async (info) => {
     console.log("info", info);
     if (info.file.status === 'done') {
@@ -92,35 +92,37 @@ export default function FormUpdateCourse({ record }) {
       }
     }
   }; */
-  
 
-  // todo: handle change for form 
+  // todo: handle change for form
   const handleChange = (name, value) => {
     // update nested object if name == "danhMucKhoaHoc"
     if (name === "danhMucKhoaHoc") {
       setCourseUpdate({
         ...courseUpdate,
         danhMucKhoaHoc: {
-          maDanhMucKhoahoc: value
-        }
-      })
+          maDanhMucKhoahoc: value,
+        },
+      });
     } else {
-      // for other fields 
+      // for other fields
       setCourseUpdate({
         ...courseUpdate,
-        [name]: value
-      })
+        [name]: value,
+      });
     }
-  }
+  };
 
   const onFinish = () => {
-    https.put("/api/QuanLyKhoaHoc/CapNhatKhoaHoc", courseUpdate).then((res) => {
-      console.log("res", res.data);
-      setCourseUpdate(res.data);
-    }).catch((err) => {
-      console.log("err", err);
-    });
-  }
+    https
+      .put("/api/QuanLyKhoaHoc/CapNhatKhoaHoc", courseUpdate)
+      .then((res) => {
+        console.log("res", res.data);
+        setCourseUpdate(res.data);
+      })
+      .catch((err) => {
+        console.log("err", err);
+      });
+  };
 
   /* const onFinish = async () => {
     try {
@@ -194,7 +196,9 @@ export default function FormUpdateCourse({ record }) {
               <Input
                 name="tenKhoaHoc"
                 value={courseUpdate.tenKhoaHoc}
-                onChange={(e) => { handleChange("tenKhoaHoc", e.target.value) }}
+                onChange={(e) => {
+                  handleChange("tenKhoaHoc", e.target.value);
+                }}
               />
             </Form.Item>
 
@@ -207,9 +211,10 @@ export default function FormUpdateCourse({ record }) {
                 name="maDanhMucKhoahoc"
                 options={options}
                 value={courseUpdate.danhMucKhoaHoc.maDanhMucKhoahoc}
-                onChange={(value) => { handleChange('danhMucKhoaHoc', value) }}
-              >
-              </Select>
+                onChange={(value) => {
+                  handleChange("danhMucKhoaHoc", value);
+                }}
+              ></Select>
             </Form.Item>
 
             {/* Mã nhóm học*/}
@@ -220,7 +225,9 @@ export default function FormUpdateCourse({ record }) {
               <Select
                 name="maNhom"
                 value={courseUpdate.maNhom}
-                onChange={(value) => { handleChange("maNhom", value) }}
+                onChange={(value) => {
+                  handleChange("maNhom", value);
+                }}
               >
                 <Select.Option value="GP01">GP01</Select.Option>
                 <Select.Option value="GP02">GP02</Select.Option>
@@ -249,8 +256,7 @@ export default function FormUpdateCourse({ record }) {
                 name="nguoiTao"
                 value="GV"
                 options={[{ value: "GV" }]}
-              >
-              </Select>
+              ></Select>
             </Form.Item>
           </div>
 
@@ -263,7 +269,9 @@ export default function FormUpdateCourse({ record }) {
               <Input
                 name="ngayTao"
                 value={courseUpdate.ngayTao}
-                onChange={(e) => { handleChange("ngayTao", e.target.value) }}
+                onChange={(e) => {
+                  handleChange("ngayTao", e.target.value);
+                }}
               />
             </Form.Item>
 
@@ -275,7 +283,9 @@ export default function FormUpdateCourse({ record }) {
               <InputNumber
                 name="danhGia"
                 defaultValue="0"
-                onChange={(value) => { handleChange("danhGia", value) }}
+                onChange={(value) => {
+                  handleChange("danhGia", value);
+                }}
               />
             </Form.Item>
 
@@ -290,7 +300,9 @@ export default function FormUpdateCourse({ record }) {
               <InputNumber
                 name="luotXem"
                 value={courseUpdate.luotXem}
-                onChange={(value) => { handleChange("luotXem", value) }}
+                onChange={(value) => {
+                  handleChange("luotXem", value);
+                }}
               />
             </Form.Item>
 
@@ -303,7 +315,9 @@ export default function FormUpdateCourse({ record }) {
                 name="moTa"
                 rows={4}
                 value={courseUpdate.moTa}
-                onChange={(e) => { handleChange("moTa", e.target.value) }}
+                onChange={(e) => {
+                  handleChange("moTa", e.target.value);
+                }}
               />
             </Form.Item>
 
@@ -313,7 +327,18 @@ export default function FormUpdateCourse({ record }) {
                 <Button icon={<UploadOutlined />}>Tải lên</Button>
               </Upload>
               {/* render image  */}
-              {imageURL && <img src={imageURL} alt="img" className="mt-2" style={{width: "100px", height: "100px", objectFit: "cover"}} />}
+              {imageURL && (
+                <img
+                  src={imageURL}
+                  alt="img"
+                  className="mt-2"
+                  style={{
+                    width: "100px",
+                    height: "100px",
+                    objectFit: "cover",
+                  }}
+                />
+              )}
             </Form.Item>
           </div>
         </div>
