@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { UploadOutlined } from "@ant-design/icons";
 import {
   Button,
-  DatePicker,
   Form,
   Input,
   InputNumber,
@@ -14,12 +13,9 @@ import { ButtonStyled } from "../../../components/ButtonStyled/ButtonStyled";
 import { https } from "../../../services/api";
 
 export default function FormUpdateCourse({ record }) {
-  console.log("record", record);
   const [courseUpdate, setCourseUpdate] = useState(record);
-  console.log("courseUpdate", courseUpdate);
   let dataJson = JSON.parse(localStorage.getItem("USER_LOGIN"));
   const { TextArea } = Input;
-
   //Chuyển đổi tên file hình ảnh
   const normFile = (e) => {
     if (Array.isArray(e)) {
@@ -90,7 +86,11 @@ export default function FormUpdateCourse({ record }) {
                 },
               ]}
             >
-              <Input name="maKhoaHoc" value={courseUpdate.maKhoaHoc} />
+              <Input
+                name="maKhoaHoc"
+                defaultValue={courseUpdate.maKhoaHoc}
+                value={courseUpdate.maKhoaHoc}
+              />
             </Form.Item>
 
             {/*Tên khóa học */}
@@ -108,6 +108,7 @@ export default function FormUpdateCourse({ record }) {
                 onChange={handleChange}
                 name="tenKhoaHoc"
                 value={courseUpdate.tenKhoaHoc}
+                defaultValue={courseUpdate.tenKhoaHoc}
               />
             </Form.Item>
 
@@ -124,6 +125,7 @@ export default function FormUpdateCourse({ record }) {
             >
               <Select
                 name="maDanhMucKhoaHoc"
+                defaultValue={courseUpdate.danhMucKhoaHoc?.tenDanhMucKhoaHoc}
                 value={courseUpdate.danhMucKhoaHoc?.tenDanhMucKhoaHoc}
               >
                 <Select.Option value="BackEnd">Lập trình Backend</Select.Option>
@@ -150,7 +152,11 @@ export default function FormUpdateCourse({ record }) {
                 },
               ]}
             >
-              <Select name="maNhom" value={courseUpdate.maNhom}>
+              <Select
+                name="maNhom"
+                defaultValue={courseUpdate.maNhom}
+                value={courseUpdate.maNhom}
+              >
                 <Select.Option value="GP01">GP01</Select.Option>
                 <Select.Option value="GP02">GP02</Select.Option>
                 <Select.Option value="GP03">GP03</Select.Option>
@@ -182,6 +188,7 @@ export default function FormUpdateCourse({ record }) {
             >
               <Select
                 name="taiKhoanNguoiTao"
+                defaultValue={courseUpdate.nguoiTao?.maLoaiNguoiDung}
                 value={courseUpdate.nguoiTao?.maLoaiNguoiDung}
               >
                 <Select.Option value={dataJson.taiKhoan}>GV</Select.Option>
@@ -200,10 +207,11 @@ export default function FormUpdateCourse({ record }) {
                 },
               ]}
             >
-              <DatePicker
+              <Input
                 onChange={handleChange}
                 name="ngayTao"
-                placeholder={courseUpdate.ngayTao}
+                value={courseUpdate.ngayTao}
+                defaultValue={courseUpdate.ngayTao}
               />
             </Form.Item>
 
@@ -221,6 +229,7 @@ export default function FormUpdateCourse({ record }) {
               <InputNumber
                 onChange={handleChange}
                 name="danhGia"
+                defaultValue={courseUpdate.danhGia}
                 value={courseUpdate.danhGia}
               />
             </Form.Item>
@@ -234,7 +243,7 @@ export default function FormUpdateCourse({ record }) {
               name="luotXem"
               rules={[
                 {
-                  required: true,
+                  required: false,
                   message: "Lượt xem không được để trống!",
                 },
               ]}
@@ -242,6 +251,7 @@ export default function FormUpdateCourse({ record }) {
               <InputNumber
                 onChange={handleChange}
                 name="luotXem"
+                defaultValue={courseUpdate.luotXem}
                 value={courseUpdate.luotXem}
               />
             </Form.Item>
@@ -252,7 +262,7 @@ export default function FormUpdateCourse({ record }) {
               name="moTa"
               rules={[
                 {
-                  required: true,
+                  required: false,
                   message: "Mô tả không được để trống!",
                 },
               ]}
@@ -261,6 +271,7 @@ export default function FormUpdateCourse({ record }) {
                 onChange={handleChange}
                 name="moTa"
                 rows={4}
+                defaultValue={courseUpdate.moTa}
                 value={courseUpdate.moTa}
               />
             </Form.Item>
@@ -275,6 +286,8 @@ export default function FormUpdateCourse({ record }) {
                 onChange={handleChange}
                 action="/api/upload/image"
                 listType="picture"
+                defaultValue={courseUpdate.hinhAnh}
+                value={courseUpdate.hinhAnh}
               >
                 <Button icon={<UploadOutlined />}>Tải lên</Button>
               </Upload>
@@ -286,7 +299,7 @@ export default function FormUpdateCourse({ record }) {
           className=" text-white w-full font-bold text-xl items-center"
           htmlType="submit"
         >
-          Cập nhập
+          Cập nhật
         </ButtonStyled>
       </Form>
     </div>
