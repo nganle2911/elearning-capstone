@@ -45,17 +45,6 @@ export default function FormUpdateCourse({ record }) {
 
   useEffect(() => {
     getCategory();
-<<<<<<< HEAD
-    // setCourseUpdate({
-    //   ...courseUpdate,
-    //   maDanhMucKhoahoc: courseUpdate.danhMucKhoaHoc.maDanhMucKhoahoc
-    // })
-=======
-    setCourseUpdate({
-      ...courseUpdate,
-      maDanhMucKhoahoc: courseUpdate.danhMucKhoaHoc.maDanhMucKhoahoc,
-    });
->>>>>>> main
   }, []);
 
   //Chuyển đổi tên file hình ảnh
@@ -69,26 +58,23 @@ export default function FormUpdateCourse({ record }) {
     return fileName;
   };
 
-  /* let handleChange = (e) => {
-    let { name, value } = e.target ?? {};
-    let data = { ...courseUpdate, [name]: value };
-    // setCourseUpdate(data);
-  }; */
-
   const handleChange = (name, value) => {
-    setCourseUpdate({
-      ...courseUpdate,
-<<<<<<< HEAD
-      danhMucKhoaHoc: {
+    // update nested object if name == "danhMucKhoaHoc"
+    if (name === "danhMucKhoaHoc") {
+      setCourseUpdate({
+        ...courseUpdate,
+        danhMucKhoaHoc: {
+          maDanhMucKhoahoc: value
+        }
+      })
+    } else {
+      // for other fields 
+      setCourseUpdate({
+        ...courseUpdate,
         [name]: value
-      }
-    })
+      })
+    }
   }
-=======
-      [name]: value,
-    });
-  };
->>>>>>> main
 
   const onFinish = (values) => {
     console.log("Success:", values);
@@ -97,9 +83,6 @@ export default function FormUpdateCourse({ record }) {
       .then((res) => {
         console.log("Update thành công", res.data);
         message.success("Update thành công!");
-        // setTimeout(function () {
-        //   window.location.reload();
-        // }, 500);
       })
       .catch((err) => {
         console.log(err);
@@ -109,34 +92,6 @@ export default function FormUpdateCourse({ record }) {
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
-
-  // todo: category options
-  /* const options = [
-    {
-      value: "BackEnd",
-      label: "Lập trình Backend"
-    },
-    {
-      value: "Design",
-      label: "Thiết kế Web"
-    },
-    {
-      value: "DiDong",
-      label: "Lập trình di động"
-    },
-    {
-      value: "FrontEnd",
-      label: "Lập trình Front end"
-    },
-    {
-      value: "FullStack",
-      label: "Lập trình Full Stack"
-    },
-    {
-      value: "TuDuy",
-      label: "Tư duy lập trình"
-    }
-  ]; */
 
   return (
     <div>
@@ -163,97 +118,42 @@ export default function FormUpdateCourse({ record }) {
             {/* Mã khóa học */}
             <Form.Item
               label="Mã khóa học"
-              // name="maKhoaHoc"
-              // rules={[
-              //   {
-              //     required: true,
-              //     message: "Vui lòng nhập mã khóa học!",
-              //   },
-              // ]}
             >
-              <Input
-                name="maKhoaHoc"
-                value={courseUpdate.maKhoaHoc}
-              />
               <Input name="maKhoaHoc" value={courseUpdate.maKhoaHoc} disabled />
             </Form.Item>
 
             {/*Tên khóa học */}
             <Form.Item
               label="Tên khóa học"
-              // name="tenKhoaHoc"
-              // rules={[
-              //   {
-              //     required: true,
-              //     message: "Vui lòng tên khóa học!",
-              //   },
-              // ]}
             >
               <Input
                 name="tenKhoaHoc"
                 value={courseUpdate.tenKhoaHoc}
-<<<<<<< HEAD
-                onChange={(e) => {handleChange("tenKhoaHoc", e.target.label)}}
-=======
-                defaultValue={courseUpdate.tenKhoaHoc}
-                onChange={(e) => {
-                  handleChange("tenKhoaHoc", e.target.label);
-                }}
->>>>>>> main
+                onChange={(e) => { handleChange("tenKhoaHoc", e.target.value) }}
               />
             </Form.Item>
 
             {/* Danh mục khóa học */}
             <Form.Item
               label="Danh mục khóa học"
-              // name="maDanhMucKhoaHoc"
-              // rules={[
-              //   {
-              //     required: true,
-              //     message: "Vui lòng chọn danh mục khóa học!",
-              //   },
-              // ]}
             >
               <Select
                 name="maDanhMucKhoahoc"
                 options={options}
                 value={courseUpdate.danhMucKhoaHoc.maDanhMucKhoahoc}
-<<<<<<< HEAD
-                onChange={(value) => {handleChange("maDanhMucKhoahoc", value)}}
-=======
-                onChange={(value) => {
-                  handleChange("maDanhMucKhoaHoc", value);
-                }}
->>>>>>> main
+                onChange={(value) => { handleChange('danhMucKhoaHoc', value) }}
               >
-                {/* <Select.Option value="BackEnd">Lập trình Backend</Select.Option>
-                <Select.Option value="Design">Thiết kế Web</Select.Option>
-                <Select.Option value="DiDong">Lập trình di động</Select.Option>
-                <Select.Option value="FrontEnd">
-                  Lập trình Front end
-                </Select.Option>
-                <Select.Option value="FullStack">
-                  Lập trình Full Stack
-                </Select.Option>
-                <Select.Option value="TuDuy">Tư duy lập trình</Select.Option> */}
               </Select>
             </Form.Item>
 
             {/* Mã nhóm học*/}
             <Form.Item
               label="Mã nhóm học"
-              // name="maNhom"
-              // rules={[
-              //   {
-              //     required: true,
-              //     message: "Vui lòng chọn nhóm học!",
-              //   },
-              // ]}
             >
               <Select
                 name="maNhom"
-                defaultValue={courseUpdate.maNhom}
                 value={courseUpdate.maNhom}
+                onChange={(value) => { handleChange("maNhom", value) }}
               >
                 <Select.Option value="GP01">GP01</Select.Option>
                 <Select.Option value="GP02">GP02</Select.Option>
@@ -276,59 +176,36 @@ export default function FormUpdateCourse({ record }) {
             {/* Nguời tạo */}
             <Form.Item
               label="Người tạo"
-              name="taiKhoanNguoiTao"
-              rules={[
-                {
-                  required: true,
-                  message: "Người tạo phải là GV!",
-                },
-              ]}
             >
               <Select
-                name="taiKhoanNguoiTao"
-                defaultValue={courseUpdate.nguoiTao?.maLoaiNguoiDung}
-                value={courseUpdate.nguoiTao?.maLoaiNguoiDung}
+                name="nguoiTao"
+                value="GV"
+                options={[{ value: "GV" }]}
               >
-                <Select.Option value={dataJson.taiKhoan}>GV</Select.Option>
               </Select>
             </Form.Item>
           </div>
+
           <div>
             {/* Ngày tạo */}
             <Form.Item
               label="Ngày tạo"
-              name="ngayTao"
-              rules={[
-                {
-                  required: true,
-                  message: "Ngày tạo không được để trống!",
-                },
-              ]}
             >
               <Input
-                onChange={handleChange}
                 name="ngayTao"
                 value={courseUpdate.ngayTao}
-                defaultValue={courseUpdate.ngayTao}
+                onChange={(e) => { handleChange("ngayTao", e.target.value) }}
               />
             </Form.Item>
 
             {/* Đánh giá */}
             <Form.Item
               label="Đánh giá"
-              name="danhGia"
-              rules={[
-                {
-                  required: true,
-                  message: "Đánh giá không được để trống!",
-                },
-              ]}
             >
               <InputNumber
-                onChange={handleChange}
                 name="danhGia"
-                defaultValue={courseUpdate.danhGia}
-                value={courseUpdate.danhGia}
+                value="0"
+                onChange={(value) => { handleChange("danhGia", value) }}
               />
             </Form.Item>
 
@@ -338,57 +215,32 @@ export default function FormUpdateCourse({ record }) {
                 width: "100%",
               }}
               label="Lượt xem"
-              name="luotXem"
-              rules={[
-                {
-                  required: false,
-                  message: "Lượt xem không được để trống!",
-                },
-              ]}
             >
               <InputNumber
-                onChange={handleChange}
                 name="luotXem"
-                defaultValue={courseUpdate.luotXem}
                 value={courseUpdate.luotXem}
+                onChange={(value) => { handleChange("luotXem", value) }}
               />
             </Form.Item>
 
             {/* Mô tả */}
             <Form.Item
               label="Mô tả khóa học"
-              name="moTa"
-              rules={[
-                {
-                  required: false,
-                  message: "Mô tả không được để trống!",
-                },
-              ]}
             >
               <TextArea
-                onChange={handleChange}
                 name="moTa"
                 rows={4}
-                defaultValue={courseUpdate.moTa}
                 value={courseUpdate.moTa}
+                onChange={(e) => { handleChange("moTa", e.target.value) }}
               />
             </Form.Item>
 
             {/* Hình ảnh */}
-            <Form.Item
-              label="Hình ảnh khóa học"
-              name="hinhAnh"
-              getValueFromEvent={normFile}
-            >
-              <Upload
-                onChange={handleChange}
-                action="/api/upload/image"
-                listType="picture"
-                defaultValue={courseUpdate.hinhAnh}
-                value={courseUpdate.hinhAnh}
-              >
+            <Form.Item label="Hình ảnh khóa học">
+              <Upload name="hinhAnh" action="/api/upload/image" listType="pictures">
                 <Button icon={<UploadOutlined />}>Tải lên</Button>
               </Upload>
+              <img src={courseUpdate.hinhAnh} alt="img" className="mt-2" style={{width: "150px", height: "150px", objectFit: "cover"}} />
             </Form.Item>
           </div>
         </div>
