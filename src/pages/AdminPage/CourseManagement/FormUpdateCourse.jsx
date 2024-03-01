@@ -48,17 +48,6 @@ export default function FormUpdateCourse({ record }) {
 
   useEffect(() => {
     getCategory();
-<<<<<<< HEAD
-    // setCourseUpdate({
-    //   ...courseUpdate,
-    //   maDanhMucKhoahoc: courseUpdate.danhMucKhoaHoc.maDanhMucKhoahoc
-    // })
-    setCourseUpdate({
-      ...courseUpdate,
-      maDanhMucKhoahoc: courseUpdate.danhMucKhoaHoc.maDanhMucKhoahoc,
-    });
-=======
->>>>>>> ngan/admin-course
   }, []);
 
   //Chuyển đổi tên file hình ảnh
@@ -72,23 +61,6 @@ export default function FormUpdateCourse({ record }) {
     return fileName;
   };
 
-<<<<<<< HEAD
-  /* let handleChange = (e) => {
-    let { name, value } = e.target ?? {};
-    let data = { ...courseUpdate, [name]: value };
-    // setCourseUpdate(data);
-  }; */
-
-  const handleChange = (name, value) => {
-    setCourseUpdate({
-      ...courseUpdate,
-      danhMucKhoaHoc: {
-        [name]: value
-      }
-    })
-  }
-
-=======
   // todo: handle change for image upload 
   /* const handleImageChange = async (info) => {
     console.log("info", info);
@@ -121,7 +93,6 @@ export default function FormUpdateCourse({ record }) {
     }
   }; */
   
->>>>>>> ngan/admin-course
 
   // todo: handle change for form 
   const handleChange = (name, value) => {
@@ -223,10 +194,7 @@ export default function FormUpdateCourse({ record }) {
               <Input
                 name="tenKhoaHoc"
                 value={courseUpdate.tenKhoaHoc}
-<<<<<<< HEAD
-=======
                 onChange={(e) => { handleChange("tenKhoaHoc", e.target.value) }}
->>>>>>> ngan/admin-course
               />
             </Form.Item>
 
@@ -239,11 +207,7 @@ export default function FormUpdateCourse({ record }) {
                 name="maDanhMucKhoahoc"
                 options={options}
                 value={courseUpdate.danhMucKhoaHoc.maDanhMucKhoahoc}
-<<<<<<< HEAD
-                onChange={(value) => {handleChange("maDanhMucKhoahoc", value)}}
-=======
                 onChange={(value) => { handleChange('danhMucKhoaHoc', value) }}
->>>>>>> ngan/admin-course
               >
               </Select>
             </Form.Item>
