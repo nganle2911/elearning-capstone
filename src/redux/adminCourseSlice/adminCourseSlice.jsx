@@ -14,6 +14,6 @@ const adminCourseSlice = createSlice({
   }
 });
 
-export const {setCourse} = adminCourseSlice.actions
+export const { setCourse } = adminCourseSlice.actions
 
 export default adminCourseSlice.reducer
