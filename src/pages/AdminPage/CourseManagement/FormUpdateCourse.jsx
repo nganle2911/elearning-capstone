@@ -154,15 +154,12 @@ export default function FormUpdateCourse({ record }) {
               //   },
               // ]}
             >
-<<<<<<< HEAD
               <Input
                 name="maKhoaHoc"
                 defaultValue={courseUpdate.maKhoaHoc}
                 value={courseUpdate.maKhoaHoc}
               />
-=======
               <Input name="maKhoaHoc" value={courseUpdate.maKhoaHoc} disabled />
->>>>>>> ngan/admin
             </Form.Item>
 
             {/*Tên khóa học */}
