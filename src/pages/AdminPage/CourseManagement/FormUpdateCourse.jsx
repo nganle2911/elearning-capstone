@@ -90,7 +90,7 @@ export default function FormUpdateCourse({ record }) {
                 },
               ]}
             >
-              <Input disabled name="maKhoaHoc" value={courseUpdate.maKhoaHoc} />
+              <Input name="maKhoaHoc" value={courseUpdate.maKhoaHoc} />
             </Form.Item>
 
             {/*Tên khóa học */}
@@ -271,7 +271,11 @@ export default function FormUpdateCourse({ record }) {
               name="hinhAnh"
               getValueFromEvent={normFile}
             >
-              <Upload action="/api/upload/image" listType="picture">
+              <Upload
+                onChange={handleChange}
+                action="/api/upload/image"
+                listType="picture"
+              >
                 <Button icon={<UploadOutlined />}>Tải lên</Button>
               </Upload>
             </Form.Item>
