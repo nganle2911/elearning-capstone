@@ -54,5 +54,5 @@ PHÂN CHIA CÔNG VIỆC
 
 KẾT QUẢ CÔNG VIỆC:
 - Link github: https://github.com/nganle2911/elearning-capstone 
-- Link deploy: 
+- Link deploy: https://elearning-capstone-seven.vercel.app/ 
 - Link youtube: 
