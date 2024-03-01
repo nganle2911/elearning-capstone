@@ -43,10 +43,10 @@ export default function FormUpdateCourse({ record }) {
 
   useEffect(() => {
     getCategory();
-    setCourseUpdate({
-      ...courseUpdate,
-      maDanhMucKhoahoc: courseUpdate.danhMucKhoaHoc.maDanhMucKhoahoc
-    })
+    // setCourseUpdate({
+    //   ...courseUpdate,
+    //   maDanhMucKhoahoc: courseUpdate.danhMucKhoaHoc.maDanhMucKhoahoc
+    // })
   }, []);
 
   //Chuyển đổi tên file hình ảnh
@@ -69,7 +69,9 @@ export default function FormUpdateCourse({ record }) {
   const handleChange = (name, value) => {
     setCourseUpdate({
       ...courseUpdate,
-      [name]: value
+      danhMucKhoaHoc: {
+        [name]: value
+      }
     })
   }
 
@@ -156,7 +158,6 @@ export default function FormUpdateCourse({ record }) {
             >
               <Input
                 name="maKhoaHoc"
-                defaultValue={courseUpdate.maKhoaHoc}
                 value={courseUpdate.maKhoaHoc}
               />
               <Input name="maKhoaHoc" value={courseUpdate.maKhoaHoc} disabled />
@@ -176,7 +177,6 @@ export default function FormUpdateCourse({ record }) {
               <Input
                 name="tenKhoaHoc"
                 value={courseUpdate.tenKhoaHoc}
-                defaultValue={courseUpdate.tenKhoaHoc}
                 onChange={(e) => {handleChange("tenKhoaHoc", e.target.label)}}
               />
             </Form.Item>
@@ -193,10 +193,10 @@ export default function FormUpdateCourse({ record }) {
               // ]}
             >
               <Select
-                name="maDanhMucKhoaHoc"
+                name="maDanhMucKhoahoc"
                 options={options}
                 value={courseUpdate.danhMucKhoaHoc.maDanhMucKhoahoc}
-                onChange={(value) => {handleChange("maDanhMucKhoaHoc", value)}}
+                onChange={(value) => {handleChange("maDanhMucKhoahoc", value)}}
               >
                 {/* <Select.Option value="BackEnd">Lập trình Backend</Select.Option>
                 <Select.Option value="Design">Thiết kế Web</Select.Option>
