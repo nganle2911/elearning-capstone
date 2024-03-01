@@ -11,13 +11,15 @@ import {
 } from "antd";
 import { ButtonStyled } from "../../../components/ButtonStyled/ButtonStyled";
 import { https } from "../../../services/api";
+import axios from "axios";
+import { TOKEN_CYBERSOFT } from "../../../services/constant";
 
 export default function FormUpdateCourse({ record }) {
   const [courseUpdate, setCourseUpdate] = useState(record);
   const [category, setCategory] = useState([]);
   const [options, setOptions] = useState([]);
   const [imageURL, setImageURL] = useState(record.hinhAnh);
-  console.log("courseUpdate", courseUpdate);
+  console.log("courseUpdate", courseUpdate); 
 
   let dataJson = JSON.parse(localStorage.getItem("USER_LOGIN"));
   const { TextArea } = Input;
@@ -111,19 +113,45 @@ export default function FormUpdateCourse({ record }) {
     }
   }
 
-  const onFinish = (values) => {
-    console.log("Success:", values);
-    https
-      .put("/api/QuanLyKhoaHoc/CapNhatKhoaHoc", values)
-      .then((res) => {
-        console.log("Update thành công", res.data);
-        message.success("Update thành công!");
-      })
-      .catch((err) => {
-        console.log(err);
-        message.error(err.response.data);
+  const onFinish = () => {
+    https.put("/api/QuanLyKhoaHoc/CapNhatKhoaHoc", courseUpdate).then((res) => {
+      console.log("res", res.data);
+      setCourseUpdate(res.data);
+    }).catch((err) => {
+      console.log("err", err);
+    });
+  }
+
+  /* const onFinish = async () => {
+    try {
+      const res = await axios({
+        method: "PUT",
+        url: "https://elearningnew.cybersoft.edu.vn/api/QuanLyKhoaHoc/CapNhatKhoaHoc",
+        headers: ({
+          TokenCybersoft: TOKEN_CYBERSOFT,
+        }),
+        data: {
+          "maKhoaHoc": courseUpdate.maKhoaHoc,
+          "biDanh": courseUpdate.biDanh,
+          "tenKhoaHoc": courseUpdate.tenKhoaHoc,
+          "moTa": courseUpdate.moTa,
+          "luotXem": courseUpdate.luotXem,
+          "danhGia": courseUpdate.danhGia,
+          "hinhAnh": courseUpdate.hinhAnh,
+          "maNhom": courseUpdate.maNhom,
+          "ngayTao": courseUpdate.ngayTao,
+          "maDanhMucKhoaHoc": courseUpdate.danhMucKhoaHoc?.maDanhMucKhoahoc,
+          "taiKhoanNguoiTao": courseUpdate.taiKhoanNguoiTao
+        }
       });
-  };
+      setCourseUpdate(res.data)
+      console.log("success"); 
+      console.log("values update", res.data);
+    } catch (err) {
+      console.log("err", err);
+    }
+  } */
+
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
@@ -153,6 +181,7 @@ export default function FormUpdateCourse({ record }) {
             {/* Mã khóa học */}
             <Form.Item
               label="Mã khóa học"
+              // name="maKhoaHoc"
             >
               <Input name="maKhoaHoc" value={courseUpdate.maKhoaHoc} disabled />
             </Form.Item>
@@ -160,6 +189,7 @@ export default function FormUpdateCourse({ record }) {
             {/*Tên khóa học */}
             <Form.Item
               label="Tên khóa học"
+              // name="tenKhoaHoc"
             >
               <Input
                 name="tenKhoaHoc"
@@ -171,6 +201,7 @@ export default function FormUpdateCourse({ record }) {
             {/* Danh mục khóa học */}
             <Form.Item
               label="Danh mục khóa học"
+              // name="maDanhMucKhoahoc"
             >
               <Select
                 name="maDanhMucKhoahoc"
@@ -184,6 +215,7 @@ export default function FormUpdateCourse({ record }) {
             {/* Mã nhóm học*/}
             <Form.Item
               label="Mã nhóm học"
+              // name="maNhom"
             >
               <Select
                 name="maNhom"
@@ -211,6 +243,7 @@ export default function FormUpdateCourse({ record }) {
             {/* Nguời tạo */}
             <Form.Item
               label="Người tạo"
+              // name="nguoiTao"
             >
               <Select
                 name="nguoiTao"
@@ -225,6 +258,7 @@ export default function FormUpdateCourse({ record }) {
             {/* Ngày tạo */}
             <Form.Item
               label="Ngày tạo"
+              // name="ngayTao"
             >
               <Input
                 name="ngayTao"
@@ -236,10 +270,11 @@ export default function FormUpdateCourse({ record }) {
             {/* Đánh giá */}
             <Form.Item
               label="Đánh giá"
+              // name="danhGia"
             >
               <InputNumber
                 name="danhGia"
-                value="0"
+                defaultValue="0"
                 onChange={(value) => { handleChange("danhGia", value) }}
               />
             </Form.Item>
@@ -250,6 +285,7 @@ export default function FormUpdateCourse({ record }) {
                 width: "100%",
               }}
               label="Lượt xem"
+              // name="luotXem"
             >
               <InputNumber
                 name="luotXem"
@@ -261,6 +297,7 @@ export default function FormUpdateCourse({ record }) {
             {/* Mô tả */}
             <Form.Item
               label="Mô tả khóa học"
+              // name="moTa"
             >
               <TextArea
                 name="moTa"
@@ -271,12 +308,12 @@ export default function FormUpdateCourse({ record }) {
             </Form.Item>
 
             {/* Hình ảnh */}
-            <Form.Item label="Hình ảnh khóa học">
+            <Form.Item label="Hình ảnh khóa học" name="hinhAnh">
               <Upload name="hinhAnh" action="/upload.do" listType="pictures">
                 <Button icon={<UploadOutlined />}>Tải lên</Button>
               </Upload>
               {/* render image  */}
-              {imageURL && <img src={imageURL} alt="img" className="mt-2" style={{width: "150px", height: "150px", objectFit: "cover"}} />}
+              {imageURL && <img src={imageURL} alt="img" className="mt-2" style={{width: "100px", height: "100px", objectFit: "cover"}} />}
             </Form.Item>
           </div>
         </div>
