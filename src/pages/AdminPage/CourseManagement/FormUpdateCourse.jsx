@@ -14,13 +14,13 @@ import { https } from "../../../services/api";
 
 export default function FormUpdateCourse({ record }) {
   const [courseUpdate, setCourseUpdate] = useState(record);
-  let dataJson = JSON.parse(localStorage.getItem("USER_LOGIN"));
-  const { TextArea } = Input;
   const [category, setCategory] = useState([]);
   const [options, setOptions] = useState([]);
+  console.log("courseUpdate", courseUpdate);
+
+
   let dataJson = JSON.parse(localStorage.getItem("USER_LOGIN"));
   const { TextArea } = Input;
-  console.log("courseUpdate", courseUpdate);
 
   // todo: get category list
   const getCategory = () => {
@@ -194,8 +194,6 @@ export default function FormUpdateCourse({ record }) {
             >
               <Select
                 name="maDanhMucKhoaHoc"
-                defaultValue={courseUpdate.danhMucKhoaHoc?.tenDanhMucKhoaHoc}
-                value={courseUpdate.danhMucKhoaHoc?.tenDanhMucKhoaHoc}
                 options={options}
                 value={courseUpdate.danhMucKhoaHoc.maDanhMucKhoahoc}
                 onChange={(value) => {handleChange("maDanhMucKhoaHoc", value)}}
