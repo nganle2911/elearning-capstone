@@ -18,35 +18,37 @@ export default function FormUpdateCourse({ record }) {
   const [options, setOptions] = useState([]);
   console.log("courseUpdate", courseUpdate);
 
-
   let dataJson = JSON.parse(localStorage.getItem("USER_LOGIN"));
   const { TextArea } = Input;
 
   // todo: get category list
   const getCategory = () => {
-    https.get("/api/QuanLyKhoaHoc/LayDanhMucKhoaHoc").then((res) => {
-      setCategory(res.data);
+    https
+      .get("/api/QuanLyKhoaHoc/LayDanhMucKhoaHoc")
+      .then((res) => {
+        setCategory(res.data);
 
-      // generate options array from category
-      const optionsArr = res.data.map((course) => {
-        return {
-          value: course.maDanhMuc,
-          label: course.tenDanhMuc
-        }
+        // generate options array from category
+        const optionsArr = res.data.map((course) => {
+          return {
+            value: course.maDanhMuc,
+            label: course.tenDanhMuc,
+          };
+        });
+        setOptions(optionsArr);
+        console.log("options", optionsArr);
+      })
+      .catch((err) => {
+        console.log("err", err);
       });
-      setOptions(optionsArr);
-      console.log("options", optionsArr);
-    }).catch((err) => {
-      console.log("err", err);
-    });
-  }
+  };
 
   useEffect(() => {
     getCategory();
     setCourseUpdate({
       ...courseUpdate,
-      maDanhMucKhoahoc: courseUpdate.danhMucKhoaHoc.maDanhMucKhoahoc
-    })
+      maDanhMucKhoahoc: courseUpdate.danhMucKhoaHoc.maDanhMucKhoahoc,
+    });
   }, []);
 
   //Chuyển đổi tên file hình ảnh
@@ -69,9 +71,9 @@ export default function FormUpdateCourse({ record }) {
   const handleChange = (name, value) => {
     setCourseUpdate({
       ...courseUpdate,
-      [name]: value
-    })
-  }
+      [name]: value,
+    });
+  };
 
   const onFinish = (values) => {
     console.log("Success:", values);
@@ -177,7 +179,9 @@ export default function FormUpdateCourse({ record }) {
                 name="tenKhoaHoc"
                 value={courseUpdate.tenKhoaHoc}
                 defaultValue={courseUpdate.tenKhoaHoc}
-                onChange={(e) => {handleChange("tenKhoaHoc", e.target.label)}}
+                onChange={(e) => {
+                  handleChange("tenKhoaHoc", e.target.label);
+                }}
               />
             </Form.Item>
 
@@ -196,7 +200,9 @@ export default function FormUpdateCourse({ record }) {
                 name="maDanhMucKhoaHoc"
                 options={options}
                 value={courseUpdate.danhMucKhoaHoc.maDanhMucKhoahoc}
-                onChange={(value) => {handleChange("maDanhMucKhoaHoc", value)}}
+                onChange={(value) => {
+                  handleChange("maDanhMucKhoaHoc", value);
+                }}
               >
                 {/* <Select.Option value="BackEnd">Lập trình Backend</Select.Option>
                 <Select.Option value="Design">Thiết kế Web</Select.Option>
