@@ -161,7 +161,12 @@ export default function DetailPage() {
             style={{
               width: "100%",
             }}
-            cover={<img alt="example" src={detail.hinhAnh} />}
+            // cover={<img alt="example" src={detail.hinhAnh}  />}
+            cover={(
+              <div style={{width: "360px", height: "200px"}}>
+                <img alt="example" src={detail.hinhAnh} style={{width: "100%", height: "100%", objectFit: "cover"}}  />
+              </div>
+            )}
           >
             <Meta className=' border-none' />
             <h1>{detail.tenKhoaHoc}</h1>
