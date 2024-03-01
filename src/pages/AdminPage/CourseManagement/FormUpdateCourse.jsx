@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { UploadOutlined } from "@ant-design/icons";
 import {
   Button,
@@ -14,6 +14,9 @@ import { ButtonStyled } from "../../../components/ButtonStyled/ButtonStyled";
 import { https } from "../../../services/api";
 
 export default function FormUpdateCourse({ record }) {
+  console.log("record", record);
+  const [courseUpdate, setCourseUpdate] = useState(record);
+  console.log("courseUpdate", courseUpdate);
   let dataJson = JSON.parse(localStorage.getItem("USER_LOGIN"));
   const { TextArea } = Input;
 
@@ -28,6 +31,12 @@ export default function FormUpdateCourse({ record }) {
     return fileName;
   };
 
+  let handleChange = (e) => {
+    let { name, value } = e.target ?? {};
+    let data = { ...courseUpdate, [name]: value };
+    setCourseUpdate(data);
+  };
+
   const onFinish = (values) => {
     console.log("Success:", values);
     https
@@ -35,9 +44,9 @@ export default function FormUpdateCourse({ record }) {
       .then((res) => {
         console.log("Update thành công", res.data);
         message.success("Update thành công!");
-        setTimeout(function () {
-          window.location.reload();
-        }, 500);
+        // setTimeout(function () {
+        //   window.location.reload();
+        // }, 500);
       })
       .catch((err) => {
         console.log(err);
@@ -81,7 +90,7 @@ export default function FormUpdateCourse({ record }) {
                 },
               ]}
             >
-              <Input defaultValue={record.maKhoaHoc} />
+              <Input disabled name="maKhoaHoc" value={courseUpdate.maKhoaHoc} />
             </Form.Item>
 
             {/*Tên khóa học */}
@@ -91,12 +100,17 @@ export default function FormUpdateCourse({ record }) {
               rules={[
                 {
                   required: true,
-                  message: "Vui lòng nhập tên khóa học!",
+                  message: "Vui lòng tên khóa học!",
                 },
               ]}
             >
-              <Input defaultValue={record.tenKhoaHoc} />
+              <Input
+                onChange={handleChange}
+                name="tenKhoaHoc"
+                value={courseUpdate.tenKhoaHoc}
+              />
             </Form.Item>
+
             {/* Danh mục khóa học */}
             <Form.Item
               label="Danh mục khóa học"
@@ -108,7 +122,10 @@ export default function FormUpdateCourse({ record }) {
                 },
               ]}
             >
-              <Select defaultValue={record.danhMucKhoaHoc?.tenDanhMucKhoaHoc}>
+              <Select
+                name="maDanhMucKhoaHoc"
+                value={courseUpdate.danhMucKhoaHoc?.tenDanhMucKhoaHoc}
+              >
                 <Select.Option value="BackEnd">Lập trình Backend</Select.Option>
                 <Select.Option value="Design">Thiết kế Web</Select.Option>
                 <Select.Option value="DiDong">Lập trình di động</Select.Option>
@@ -121,6 +138,7 @@ export default function FormUpdateCourse({ record }) {
                 <Select.Option value="TuDuy">Tư duy lập trình</Select.Option>
               </Select>
             </Form.Item>
+
             {/* Mã nhóm học*/}
             <Form.Item
               label="Mã nhóm học"
@@ -132,7 +150,7 @@ export default function FormUpdateCourse({ record }) {
                 },
               ]}
             >
-              <Select defaultValue={record.maNhom}>
+              <Select name="maNhom" value={courseUpdate.maNhom}>
                 <Select.Option value="GP01">GP01</Select.Option>
                 <Select.Option value="GP02">GP02</Select.Option>
                 <Select.Option value="GP03">GP03</Select.Option>
@@ -150,6 +168,7 @@ export default function FormUpdateCourse({ record }) {
                 <Select.Option value="GP15">GP15</Select.Option>
               </Select>
             </Form.Item>
+
             {/* Nguời tạo */}
             <Form.Item
               label="Người tạo"
@@ -161,7 +180,10 @@ export default function FormUpdateCourse({ record }) {
                 },
               ]}
             >
-              <Select defaultValue={record.nguoiTao?.maLoaiNguoiDung}>
+              <Select
+                name="taiKhoanNguoiTao"
+                value={courseUpdate.nguoiTao?.maLoaiNguoiDung}
+              >
                 <Select.Option value={dataJson.taiKhoan}>GV</Select.Option>
               </Select>
             </Form.Item>
@@ -178,8 +200,13 @@ export default function FormUpdateCourse({ record }) {
                 },
               ]}
             >
-              <DatePicker placeholder={record.ngayTao} />
+              <DatePicker
+                onChange={handleChange}
+                name="ngayTao"
+                placeholder={courseUpdate.ngayTao}
+              />
             </Form.Item>
+
             {/* Đánh giá */}
             <Form.Item
               label="Đánh giá"
@@ -191,8 +218,13 @@ export default function FormUpdateCourse({ record }) {
                 },
               ]}
             >
-              <InputNumber defaultValue={record.danhGia} />
+              <InputNumber
+                onChange={handleChange}
+                name="danhGia"
+                value={courseUpdate.danhGia}
+              />
             </Form.Item>
+
             {/* Lượt xem */}
             <Form.Item
               style={{
@@ -207,8 +239,13 @@ export default function FormUpdateCourse({ record }) {
                 },
               ]}
             >
-              <InputNumber defaultValue={record.luotXem} />
+              <InputNumber
+                onChange={handleChange}
+                name="luotXem"
+                value={courseUpdate.luotXem}
+              />
             </Form.Item>
+
             {/* Mô tả */}
             <Form.Item
               label="Mô tả khóa học"
@@ -220,19 +257,21 @@ export default function FormUpdateCourse({ record }) {
                 },
               ]}
             >
-              <TextArea rows={4} defaultValue={record.moTa} />
+              <TextArea
+                onChange={handleChange}
+                name="moTa"
+                rows={4}
+                value={courseUpdate.moTa}
+              />
             </Form.Item>
+
             {/* Hình ảnh */}
             <Form.Item
               label="Hình ảnh khóa học"
               name="hinhAnh"
               getValueFromEvent={normFile}
             >
-              <Upload
-                defaultValue={record.hinhAnh}
-                action="/api/upload/image"
-                listType="picture"
-              >
+              <Upload action="/api/upload/image" listType="picture">
                 <Button icon={<UploadOutlined />}>Tải lên</Button>
               </Upload>
             </Form.Item>
