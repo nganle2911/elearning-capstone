@@ -11,12 +11,15 @@ import {
 } from "antd";
 import { ButtonStyled } from "../../../components/ButtonStyled/ButtonStyled";
 import { https } from "../../../services/api";
+import axios from "axios";
+import { TOKEN_CYBERSOFT } from "../../../services/constant";
 
 export default function FormUpdateCourse({ record }) {
   const [courseUpdate, setCourseUpdate] = useState(record);
   const [category, setCategory] = useState([]);
   const [options, setOptions] = useState([]);
-  console.log("courseUpdate", courseUpdate);
+  const [imageURL, setImageURL] = useState(record.hinhAnh);
+  console.log("courseUpdate", courseUpdate); 
 
   let dataJson = JSON.parse(localStorage.getItem("USER_LOGIN"));
   const { TextArea } = Input;
@@ -45,6 +48,7 @@ export default function FormUpdateCourse({ record }) {
 
   useEffect(() => {
     getCategory();
+<<<<<<< HEAD
     // setCourseUpdate({
     //   ...courseUpdate,
     //   maDanhMucKhoahoc: courseUpdate.danhMucKhoaHoc.maDanhMucKhoahoc
@@ -53,6 +57,8 @@ export default function FormUpdateCourse({ record }) {
       ...courseUpdate,
       maDanhMucKhoahoc: courseUpdate.danhMucKhoaHoc.maDanhMucKhoahoc,
     });
+=======
+>>>>>>> ngan/admin-course
   }, []);
 
   //Chuyển đổi tên file hình ảnh
@@ -66,6 +72,7 @@ export default function FormUpdateCourse({ record }) {
     return fileName;
   };
 
+<<<<<<< HEAD
   /* let handleChange = (e) => {
     let { name, value } = e.target ?? {};
     let data = { ...courseUpdate, [name]: value };
@@ -81,54 +88,102 @@ export default function FormUpdateCourse({ record }) {
     })
   }
 
+=======
+  // todo: handle change for image upload 
+  /* const handleImageChange = async (info) => {
+    console.log("info", info);
+    if (info.file.status === 'done') {
+      // Check if the uploaded file is an image
+      if (info.file.type.startsWith('image')) {
+        const formData = new FormData();
+        formData.append('image', info.file.originFileObj);
+  
+        try {
+          const response = await https.post('/api/QuanLyKhoaHoc/UploadHinhAnhKhoaHoc', {
+            body: formData,
+          });
+  
+          if (response.ok) {
+            const responseData = await response.json();
+            // Assuming your API returns the URL of the uploaded image
+            setImageURL(responseData.imageUrl);
+          } else {
+            throw new Error('Failed to upload image');
+          }
+        } catch (error) {
+          console.error('Error uploading image:', error);
+          message.error('Failed to upload image');
+        }
+      } else {
+        // If the uploaded file is not an image, display an error message
+        message.error('Uploaded file is not an image');
+      }
+    }
+  }; */
+  
+>>>>>>> ngan/admin-course
 
-  const onFinish = (values) => {
-    console.log("Success:", values);
-    https
-      .put("/api/QuanLyKhoaHoc/CapNhatKhoaHoc", values)
-      .then((res) => {
-        console.log("Update thành công", res.data);
-        message.success("Update thành công!");
-        // setTimeout(function () {
-        //   window.location.reload();
-        // }, 500);
+  // todo: handle change for form 
+  const handleChange = (name, value) => {
+    // update nested object if name == "danhMucKhoaHoc"
+    if (name === "danhMucKhoaHoc") {
+      setCourseUpdate({
+        ...courseUpdate,
+        danhMucKhoaHoc: {
+          maDanhMucKhoahoc: value
+        }
       })
-      .catch((err) => {
-        console.log(err);
-        message.error(err.response.data);
+    } else {
+      // for other fields 
+      setCourseUpdate({
+        ...courseUpdate,
+        [name]: value
+      })
+    }
+  }
+
+  const onFinish = () => {
+    https.put("/api/QuanLyKhoaHoc/CapNhatKhoaHoc", courseUpdate).then((res) => {
+      console.log("res", res.data);
+      setCourseUpdate(res.data);
+    }).catch((err) => {
+      console.log("err", err);
+    });
+  }
+
+  /* const onFinish = async () => {
+    try {
+      const res = await axios({
+        method: "PUT",
+        url: "https://elearningnew.cybersoft.edu.vn/api/QuanLyKhoaHoc/CapNhatKhoaHoc",
+        headers: ({
+          TokenCybersoft: TOKEN_CYBERSOFT,
+        }),
+        data: {
+          "maKhoaHoc": courseUpdate.maKhoaHoc,
+          "biDanh": courseUpdate.biDanh,
+          "tenKhoaHoc": courseUpdate.tenKhoaHoc,
+          "moTa": courseUpdate.moTa,
+          "luotXem": courseUpdate.luotXem,
+          "danhGia": courseUpdate.danhGia,
+          "hinhAnh": courseUpdate.hinhAnh,
+          "maNhom": courseUpdate.maNhom,
+          "ngayTao": courseUpdate.ngayTao,
+          "maDanhMucKhoaHoc": courseUpdate.danhMucKhoaHoc?.maDanhMucKhoahoc,
+          "taiKhoanNguoiTao": courseUpdate.taiKhoanNguoiTao
+        }
       });
-  };
+      setCourseUpdate(res.data)
+      console.log("success"); 
+      console.log("values update", res.data);
+    } catch (err) {
+      console.log("err", err);
+    }
+  } */
+
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
-
-  // todo: category options
-  /* const options = [
-    {
-      value: "BackEnd",
-      label: "Lập trình Backend"
-    },
-    {
-      value: "Design",
-      label: "Thiết kế Web"
-    },
-    {
-      value: "DiDong",
-      label: "Lập trình di động"
-    },
-    {
-      value: "FrontEnd",
-      label: "Lập trình Front end"
-    },
-    {
-      value: "FullStack",
-      label: "Lập trình Full Stack"
-    },
-    {
-      value: "TuDuy",
-      label: "Tư duy lập trình"
-    }
-  ]; */
 
   return (
     <div>
@@ -156,17 +211,7 @@ export default function FormUpdateCourse({ record }) {
             <Form.Item
               label="Mã khóa học"
               // name="maKhoaHoc"
-              // rules={[
-              //   {
-              //     required: true,
-              //     message: "Vui lòng nhập mã khóa học!",
-              //   },
-              // ]}
             >
-              <Input
-                name="maKhoaHoc"
-                value={courseUpdate.maKhoaHoc}
-              />
               <Input name="maKhoaHoc" value={courseUpdate.maKhoaHoc} disabled />
             </Form.Item>
 
@@ -174,46 +219,32 @@ export default function FormUpdateCourse({ record }) {
             <Form.Item
               label="Tên khóa học"
               // name="tenKhoaHoc"
-              // rules={[
-              //   {
-              //     required: true,
-              //     message: "Vui lòng tên khóa học!",
-              //   },
-              // ]}
             >
               <Input
                 name="tenKhoaHoc"
                 value={courseUpdate.tenKhoaHoc}
+<<<<<<< HEAD
+=======
+                onChange={(e) => { handleChange("tenKhoaHoc", e.target.value) }}
+>>>>>>> ngan/admin-course
               />
             </Form.Item>
 
             {/* Danh mục khóa học */}
             <Form.Item
               label="Danh mục khóa học"
-              // name="maDanhMucKhoaHoc"
-              // rules={[
-              //   {
-              //     required: true,
-              //     message: "Vui lòng chọn danh mục khóa học!",
-              //   },
-              // ]}
+              // name="maDanhMucKhoahoc"
             >
               <Select
                 name="maDanhMucKhoahoc"
                 options={options}
                 value={courseUpdate.danhMucKhoaHoc.maDanhMucKhoahoc}
+<<<<<<< HEAD
                 onChange={(value) => {handleChange("maDanhMucKhoahoc", value)}}
+=======
+                onChange={(value) => { handleChange('danhMucKhoaHoc', value) }}
+>>>>>>> ngan/admin-course
               >
-                {/* <Select.Option value="BackEnd">Lập trình Backend</Select.Option>
-                <Select.Option value="Design">Thiết kế Web</Select.Option>
-                <Select.Option value="DiDong">Lập trình di động</Select.Option>
-                <Select.Option value="FrontEnd">
-                  Lập trình Front end
-                </Select.Option>
-                <Select.Option value="FullStack">
-                  Lập trình Full Stack
-                </Select.Option>
-                <Select.Option value="TuDuy">Tư duy lập trình</Select.Option> */}
               </Select>
             </Form.Item>
 
@@ -221,17 +252,11 @@ export default function FormUpdateCourse({ record }) {
             <Form.Item
               label="Mã nhóm học"
               // name="maNhom"
-              // rules={[
-              //   {
-              //     required: true,
-              //     message: "Vui lòng chọn nhóm học!",
-              //   },
-              // ]}
             >
               <Select
                 name="maNhom"
-                defaultValue={courseUpdate.maNhom}
                 value={courseUpdate.maNhom}
+                onChange={(value) => { handleChange("maNhom", value) }}
               >
                 <Select.Option value="GP01">GP01</Select.Option>
                 <Select.Option value="GP02">GP02</Select.Option>
@@ -254,59 +279,39 @@ export default function FormUpdateCourse({ record }) {
             {/* Nguời tạo */}
             <Form.Item
               label="Người tạo"
-              name="taiKhoanNguoiTao"
-              rules={[
-                {
-                  required: true,
-                  message: "Người tạo phải là GV!",
-                },
-              ]}
+              // name="nguoiTao"
             >
               <Select
-                name="taiKhoanNguoiTao"
-                defaultValue={courseUpdate.nguoiTao?.maLoaiNguoiDung}
-                value={courseUpdate.nguoiTao?.maLoaiNguoiDung}
+                name="nguoiTao"
+                value="GV"
+                options={[{ value: "GV" }]}
               >
-                <Select.Option value={dataJson.taiKhoan}>GV</Select.Option>
               </Select>
             </Form.Item>
           </div>
+
           <div>
             {/* Ngày tạo */}
             <Form.Item
               label="Ngày tạo"
-              name="ngayTao"
-              rules={[
-                {
-                  required: true,
-                  message: "Ngày tạo không được để trống!",
-                },
-              ]}
+              // name="ngayTao"
             >
               <Input
-                onChange={handleChange}
                 name="ngayTao"
                 value={courseUpdate.ngayTao}
-                defaultValue={courseUpdate.ngayTao}
+                onChange={(e) => { handleChange("ngayTao", e.target.value) }}
               />
             </Form.Item>
 
             {/* Đánh giá */}
             <Form.Item
               label="Đánh giá"
-              name="danhGia"
-              rules={[
-                {
-                  required: true,
-                  message: "Đánh giá không được để trống!",
-                },
-              ]}
+              // name="danhGia"
             >
               <InputNumber
-                onChange={handleChange}
                 name="danhGia"
-                defaultValue={courseUpdate.danhGia}
-                value={courseUpdate.danhGia}
+                defaultValue="0"
+                onChange={(value) => { handleChange("danhGia", value) }}
               />
             </Form.Item>
 
@@ -316,57 +321,35 @@ export default function FormUpdateCourse({ record }) {
                 width: "100%",
               }}
               label="Lượt xem"
-              name="luotXem"
-              rules={[
-                {
-                  required: false,
-                  message: "Lượt xem không được để trống!",
-                },
-              ]}
+              // name="luotXem"
             >
               <InputNumber
-                onChange={handleChange}
                 name="luotXem"
-                defaultValue={courseUpdate.luotXem}
                 value={courseUpdate.luotXem}
+                onChange={(value) => { handleChange("luotXem", value) }}
               />
             </Form.Item>
 
             {/* Mô tả */}
             <Form.Item
               label="Mô tả khóa học"
-              name="moTa"
-              rules={[
-                {
-                  required: false,
-                  message: "Mô tả không được để trống!",
-                },
-              ]}
+              // name="moTa"
             >
               <TextArea
-                onChange={handleChange}
                 name="moTa"
                 rows={4}
-                defaultValue={courseUpdate.moTa}
                 value={courseUpdate.moTa}
+                onChange={(e) => { handleChange("moTa", e.target.value) }}
               />
             </Form.Item>
 
             {/* Hình ảnh */}
-            <Form.Item
-              label="Hình ảnh khóa học"
-              name="hinhAnh"
-              getValueFromEvent={normFile}
-            >
-              <Upload
-                onChange={handleChange}
-                action="/api/upload/image"
-                listType="picture"
-                defaultValue={courseUpdate.hinhAnh}
-                value={courseUpdate.hinhAnh}
-              >
+            <Form.Item label="Hình ảnh khóa học" name="hinhAnh">
+              <Upload name="hinhAnh" action="/upload.do" listType="pictures">
                 <Button icon={<UploadOutlined />}>Tải lên</Button>
               </Upload>
+              {/* render image  */}
+              {imageURL && <img src={imageURL} alt="img" className="mt-2" style={{width: "100px", height: "100px", objectFit: "cover"}} />}
             </Form.Item>
           </div>
         </div>
