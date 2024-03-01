@@ -1,5 +1,5 @@
 import { Button, Select, Space, Table, message } from 'antd'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { ButtonStyled } from '../../../components/ButtonStyled/ButtonStyled'
 import { https } from '../../../services/api';
 
@@ -9,6 +9,7 @@ export default function UserEnrollment({ data }) {
     const [options, setOptions] = useState([]);
     const [awaitingCourses, setAwaitingCourses] = useState([]);
     const [enrolledCourses, setEnrolledCourses] = useState([]);
+    const [selectedCourse, setSelectedCourse] = useState(null);
 
     useEffect(() => {
         // fetch unregistered courses when component mounts
@@ -57,7 +58,6 @@ export default function UserEnrollment({ data }) {
     // todo: get enrolled courses list according to account user
     const getEnrolledCourses = (account) => {
         https.post("/api/QuanLyNguoiDung/LayDanhSachKhoaHocDaXetDuyet", { "taiKhoan": account }).then((res) => {
-            console.log("enrolled list: ", res.data);
             setEnrolledCourses(res.data);
         }).catch((err) => {
             console.log("err", err);
@@ -75,6 +75,24 @@ export default function UserEnrollment({ data }) {
             console.log("err", err);
             message.error(err.response.data);
         });
+    }
+
+    // todo: handle change on selection
+    const handleCourseSelection = (selectedValue) => {
+        setSelectedCourse(selectedValue);
+    }
+
+    // todo: authenticate course on search
+    const authCourseOnSearch = (account) => {
+        if (selectedCourse !== null) {
+            // from tenKhoaHoc, find and get maKhoaHoc from unregisteredCourse 
+            const foundCourse = unregisteredCourse.find((course) => course.tenKhoaHoc === selectedCourse);
+
+            // handle authentication
+            authCourse(foundCourse, account);
+        } else {
+            message.warning("Bạn cần chọn một khoá học để ghi danh!");
+        }
     }
 
     // todo: delete enrolled course 
@@ -168,8 +186,8 @@ export default function UserEnrollment({ data }) {
             <div className='chooseCourse'>
                 <h3 className='text-xl capitalize font-medium mb-3'>chọn khoá học</h3>
                 <div className='chooseCourse flex justify-between items-center'>
-                    <Select placeholder='Chọn khoá học' className='h-10 w-full' options={options}/>
-                    <ButtonStyled className='ml-3 uppercase w-28'>ghi danh</ButtonStyled>
+                    <Select placeholder='Chọn khoá học' className='h-10 w-full' options={options} onChange={handleCourseSelection} />
+                    <ButtonStyled className='ml-3 uppercase w-28' onClick={() => {authCourseOnSearch(data.taiKhoan)}}>ghi danh</ButtonStyled>
                 </div>
             </div>
             <hr className='my-8'/>
