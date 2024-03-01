@@ -82,6 +82,8 @@ export default function UserEnrollment({ data }) {
 
   // todo: authenticate course for user
   const authCourse = (course, account) => {
+    console.log("course", course);
+    console.log("account", account);
     https
       .post("/api/QuanLyKhoaHoc/GhiDanhKhoaHoc", {
         maKhoaHoc: course.maKhoaHoc,
@@ -105,12 +107,12 @@ export default function UserEnrollment({ data }) {
 
   // todo: authenticate course on search
   const authCourseOnSearch = (account) => {
+    console.log("accountt", account);
     if (selectedCourse !== null) {
       // from tenKhoaHoc, find and get maKhoaHoc from unregisteredCourse
       const foundCourse = unregisteredCourse.find(
         (course) => course.tenKhoaHoc === selectedCourse
       );
-
       // handle authentication
       authCourse(foundCourse, account);
     } else {

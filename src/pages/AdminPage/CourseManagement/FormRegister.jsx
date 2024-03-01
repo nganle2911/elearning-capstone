@@ -4,40 +4,84 @@ import { https } from "../../../services/api";
 import { ButtonStyled } from "../../../components/ButtonStyled/ButtonStyled";
 
 export default function FormRegister({ record }) {
-  console.log(record);
   const [currentPage, setCurrentPage] = useState(1);
-  const [awaitingUser, setAwaitingUser] = useState([]);
   const [unregisteredUser, setUnregisteredUser] = useState([]);
+  const [awaitingUser, setAwaitingUser] = useState([]);
+  const [enrolledUser, setEnrolledUser] = useState([]);
   const [options, setOptions] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
 
   useEffect(() => {
     // fetch unregistered user when component mounts
-    getUnregisteredUsers(record.maKhoaHoc);
+    getUnregisteredUsers({
+      maKhoaHoc: record.maKhoaHoc,
+      maNhom: record.maNhom,
+    });
 
     // fetch awaiting users
-    //   getAwaitingUsers(record.maKhoaHoc);
+    getAwaitingUser(record.maKhoaHoc);
+
+    // fetch enrolled courses
+    getEnrolledUser(record.maKhoaHoc);
   }, [record.maKhoaHoc]);
 
   const getUnregisteredUsers = (course) => {
-    let data = {
-      maKhoaHoc: record.maKhoaHoc,
-      maNhom: record.maNhom,
-    };
-
     https
-      .post("api/QuanLyNguoiDung/LayDanhSachNguoiDungChuaGhiDanh", data)
+      .post("/api/QuanLyNguoiDung/LayDanhSachNguoiDungChuaGhiDanh", course)
       .then((res) => {
-        console.log("danh sách chưa ghi danh", res.data);
         setUnregisteredUser(res.data);
 
         const optionsArr = res.data.map((user) => {
           return {
-            label: user.maKhoaHoc,
-            value: user.maKhoaHoc,
+            label: user.hoTen,
+            value: user.hoTen,
           };
         });
         setOptions(optionsArr);
+      })
+      .catch((err) => {
+        message.error(err.response.data);
+      });
+  };
+
+  const getAwaitingUser = (course) => {
+    https
+      .post("/api/QuanLyNguoiDung/LayDanhSachHocVienChoXetDuyet", {
+        maKhoaHoc: course,
+      })
+      .then((res) => {
+        setAwaitingUser(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+        message.error(err.response.data);
+      });
+  };
+
+  const getEnrolledUser = (course) => {
+    https
+      .post("/api/QuanLyNguoiDung/LayDanhSachHocVienKhoaHoc", {
+        maKhoaHoc: course,
+      })
+      .then((res) => {
+        setEnrolledUser(res.data);
+      })
+      .catch((err) => {
+        message.error(err.response.data);
+      });
+  };
+
+  // todo: authenticate course for user
+  const authUser = (course, account) => {
+    https
+      .post("/api/QuanLyKhoaHoc/GhiDanhKhoaHoc", {
+        maKhoaHoc: course,
+        taiKhoan: account.taiKhoan,
+      })
+      .then((res) => {
+        message.success("Ghi danh thành công!");
+        getEnrolledUser(course);
+        getAwaitingUser(course);
       })
       .catch((err) => {
         console.log("err", err);
@@ -46,10 +90,41 @@ export default function FormRegister({ record }) {
   };
 
   // todo: handle change on selection
-  const handleCourseSelection = (selectedValue) => {
+  const handleUserSelection = (selectedValue) => {
     setSelectedUser(selectedValue);
   };
-  const dataAwait = [
+
+  // todo: authenticate course on search
+  const authUserOnSearch = (course) => {
+    if (selectedUser !== null) {
+      const foundUser = unregisteredUser.find(
+        (user) => user.hoTen === selectedUser
+      );
+      // handle authentication
+      authUser(course, foundUser);
+    } else {
+      message.warning("Bạn cần chọn một học viên để ghi danh!");
+    }
+  };
+
+  const deleteEnrolledUser = (account, course) => {
+    https
+      .post("/api/QuanLyKhoaHoc/HuyGhiDanh", {
+        maKhoaHoc: course,
+        taiKhoan: account.taiKhoan,
+      })
+      .then((res) => {
+        message.success("Huỷ thành công!");
+        getEnrolledUser(course);
+        getAwaitingUser(course);
+      })
+      .catch((err) => {
+        console.log("err", err);
+        message.error(err.response.data);
+      });
+  };
+
+  const columnAwait = [
     {
       title: "STT",
       dataIndex: "order",
@@ -63,21 +138,21 @@ export default function FormRegister({ record }) {
     },
     {
       title: "Học viên",
-      dataIndex: "biDanh",
-      key: "biDanh",
+      dataIndex: "hoTen",
+      key: "hoTen",
     },
     {
       title: "Chờ xác nhận",
       dataIndex: "choXacNhan",
       key: "choXacNhan",
-      render: (_, record) => (
+      render: (_, account) => (
         <>
           <Space size="large">
             {/* Authentication */}
             <Button
-            // onClick={() => {
-            //   authCourse(record, data.taiKhoan);
-            // }}
+              onClick={() => {
+                authUser(record.maKhoaHoc, account);
+              }}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -97,9 +172,9 @@ export default function FormRegister({ record }) {
 
             {/* Delete */}
             <Button
-            // onClick={() => {
-            //   deleteEnrolledCourse(record, data.taiKhoan);
-            // }}
+              onClick={() => {
+                deleteEnrolledUser(account, record.maKhoaHoc);
+              }}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -123,35 +198,55 @@ export default function FormRegister({ record }) {
     },
   ];
 
-  const dataSource2 = [
+  const columnEnrolled = [
     {
-      key: "1",
-      name: "Mike",
-      age: 32,
-      address: "10 Downing Street",
+      title: "STT",
+      dataIndex: "order",
+      key: "order",
+      render: (_, __, index) => (currentPage - 1) * 5 + index + 1,
     },
     {
-      key: "2",
-      name: "John",
-      age: 42,
-      address: "10 Downing Street",
-    },
-  ];
-  const columns = [
-    {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
+      title: "Tài khoản",
+      dataIndex: "taiKhoan",
+      key: "taiKhoan",
     },
     {
-      title: "Age",
-      dataIndex: "age",
-      key: "age",
+      title: "Học viên",
+      dataIndex: "hoTen",
+      key: "hoTen",
     },
     {
-      title: "Address",
-      dataIndex: "address",
-      key: "address",
+      title: "Chờ xác nhận",
+      dataIndex: "choXacNhan",
+      key: "choXacNhan",
+      render: (_, account) => (
+        <>
+          <Space size="large">
+            {/* Delete */}
+            <Button
+              onClick={() => {
+                deleteEnrolledUser(account, record.maKhoaHoc);
+              }}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6"
+                className="w-6 h-6 text-red-400"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"
+                />
+              </svg>
+            </Button>
+          </Space>
+        </>
+      ),
     },
   ];
 
@@ -167,12 +262,12 @@ export default function FormRegister({ record }) {
             placeholder="Chọn tên người dùng"
             className="h-10 w-full"
             options={options}
-            onChange={handleCourseSelection}
+            onChange={handleUserSelection}
           />
           <ButtonStyled
             className="ml-3 uppercase w-28"
             onClick={() => {
-              // authCourseOnSearch(data.taiKhoan);
+              authUserOnSearch(record.maKhoaHoc);
             }}
           >
             ghi danh
@@ -188,7 +283,7 @@ export default function FormRegister({ record }) {
         </h3>
         <Table
           className="tblStyle tblAwaitCourse"
-          columns={dataAwait}
+          columns={columnAwait}
           dataSource={awaitingUser}
           pagination={{
             pageSize: 5,
@@ -200,10 +295,23 @@ export default function FormRegister({ record }) {
       </div>
       <hr className="my-8" />
 
-      <Table dataSource={dataAwait} columns={columns} />
-      <hr />
-      <h1 className="titleTableRegister">Học viên đã tham gia khóa học</h1>
-      <Table dataSource={dataSource2} columns={columns} />
+      {/* Enrolled course */}
+      <div className="styleCustom enrolledCourse">
+        <h3 className="text-xl font-medium capitalize mb-3">
+          Học viên đã ghi danh
+        </h3>
+        <Table
+          className="tblStyle tblEnrolledCourse"
+          columns={columnEnrolled}
+          dataSource={enrolledUser}
+          pagination={{
+            pageSize: 5,
+            onChange: (page, pageSize) => {
+              setCurrentPage(page);
+            },
+          }}
+        />
+      </div>
     </div>
   );
 }

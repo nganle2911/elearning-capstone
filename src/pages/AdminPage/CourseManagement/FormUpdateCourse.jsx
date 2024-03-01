@@ -76,11 +76,10 @@ export default function FormUpdateCourse({ record }) {
     setCourseUpdate({
       ...courseUpdate,
       danhMucKhoaHoc: {
-        [name]: value
-      }
-    })
-  }
-
+        [name]: value,
+      },
+    });
+  };
 
   const onFinish = (values) => {
     console.log("Success:", values);
@@ -163,10 +162,7 @@ export default function FormUpdateCourse({ record }) {
               //   },
               // ]}
             >
-              <Input
-                name="maKhoaHoc"
-                value={courseUpdate.maKhoaHoc}
-              />
+              <Input name="maKhoaHoc" value={courseUpdate.maKhoaHoc} />
               <Input name="maKhoaHoc" value={courseUpdate.maKhoaHoc} disabled />
             </Form.Item>
 
@@ -181,10 +177,7 @@ export default function FormUpdateCourse({ record }) {
               //   },
               // ]}
             >
-              <Input
-                name="tenKhoaHoc"
-                value={courseUpdate.tenKhoaHoc}
-              />
+              <Input name="tenKhoaHoc" value={courseUpdate.tenKhoaHoc} />
             </Form.Item>
 
             {/* Danh mục khóa học */}
@@ -202,7 +195,9 @@ export default function FormUpdateCourse({ record }) {
                 name="maDanhMucKhoahoc"
                 options={options}
                 value={courseUpdate.danhMucKhoaHoc.maDanhMucKhoahoc}
-                onChange={(value) => {handleChange("maDanhMucKhoahoc", value)}}
+                onChange={(value) => {
+                  handleChange("maDanhMucKhoahoc", value);
+                }}
               >
                 {/* <Select.Option value="BackEnd">Lập trình Backend</Select.Option>
                 <Select.Option value="Design">Thiết kế Web</Select.Option>
