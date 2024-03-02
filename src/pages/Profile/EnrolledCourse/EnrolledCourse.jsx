@@ -1,4 +1,4 @@
-import { Button, List, Progress, Rate, message } from "antd";
+import { Button, Flex, List, Progress, Rate, message } from "antd";
 import React, { useEffect } from "react";
 import { NavLink, useParams } from "react-router-dom";
 import { RANDOM_NUM } from "../../../services/constant";
@@ -6,7 +6,6 @@ import { ButtonStyled } from "../../../components/ButtonStyled/ButtonStyled";
 import { https } from "../../../services/api";
 
 export default function EnrolledCourse({ enrolledCourses }) {
-  console.log("courses: ", enrolledCourses);
   let dataJson = JSON.parse(localStorage.getItem("USER_LOGIN"));
   let cancelCourse = (maKhoaHoc) => {
     https
@@ -56,11 +55,12 @@ export default function EnrolledCourse({ enrolledCourses }) {
           actions={[
             <Progress
               percent={RANDOM_NUM + item.rating * 10}
-              format={(percent) => `${percent}% complete`}
+              format={(percent) => `${percent}% done`}
             />,
             <Rate allowHalf defaultValue={item.rating / 2} />,
             <div className="block">
               <ButtonStyled
+                className="capitalize"
                 onClick={() => {
                   cancelCourse(item.idCourse);
                 }}
