@@ -57,7 +57,7 @@ const FormAddCourse = () => {
       })
       .catch((err) => {
         console.log(err);
-        message.error(err.response.data);
+        message.error("Thêm thất bại!");
       });
   };
   const onFinishFailed = (errorInfo) => {

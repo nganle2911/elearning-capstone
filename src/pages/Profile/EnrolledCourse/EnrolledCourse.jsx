@@ -7,6 +7,8 @@ import { https } from "../../../services/api";
 
 export default function EnrolledCourse({ enrolledCourses }) {
   let dataJson = JSON.parse(localStorage.getItem("USER_LOGIN"));
+
+  // todo: handle cancel course 
   let cancelCourse = (maKhoaHoc) => {
     https
       .post("/api/QuanLyKhoaHoc/HuyGhiDanh", {

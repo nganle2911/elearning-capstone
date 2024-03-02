@@ -44,6 +44,10 @@ PHÂN CHIA CÔNG VIỆC
         - Loading spinner 
         - Danh mục khoá học 
             - Hiển thị khoá học theo danh mục 
+        - Khoá học chi tiết
+            - Đăng ký khoá học 
+        - Thông tin cá nhân
+            - Huỷ khoá học 
         - Admin
             - Hiển thị danh sách khoá học 
             - Chỉnh sửa, cập nhật khoá học 

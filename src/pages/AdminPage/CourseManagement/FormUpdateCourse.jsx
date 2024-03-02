@@ -112,17 +112,27 @@ export default function FormUpdateCourse({ record }) {
     }
   };
 
-  const onFinish = () => {
+  const onFinish = (values) => {
+    values = courseUpdate;
+    console.log("values", values);
+
     https
-      .put("/api/QuanLyKhoaHoc/CapNhatKhoaHoc", courseUpdate)
+      .put("/api/QuanLyKhoaHoc/CapNhatKhoaHoc",
+        {
+          ...values,
+          maDanhMucKhoaHoc: values.danhMucKhoaHoc.maDanhMucKhoahoc,
+          taiKhoanNguoiTao: values.nguoiTao.taiKhoan
+        })
       .then((res) => {
         console.log("res", res.data);
         setCourseUpdate(res.data);
       })
       .catch((err) => {
         console.log("err", err);
+        message.error("Cập nhật thất bại!");
       });
-  };
+
+};
 
   /* const onFinish = async () => {
     try {
