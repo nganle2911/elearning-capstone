@@ -48,8 +48,8 @@ export default function DetailPage() {
         <h1>THÔNG TIN KHÓA HỌC</h1>
         <p>TIẾN LÊN VÀ KHÔNG CHẦN CHỪ!!!</p>
       </div>
-      <div className="container flex space-x-3 py-10">
-        <div className="">
+      <div className="container detailContent py-10">
+        <div className="courseContent">
           <h1 className="uppercase titleCourse">
             {detail?.danhMucKhoaHoc?.tenDanhMucKhoaHoc} chuyên nghiệp
           </h1>
@@ -272,7 +272,7 @@ export default function DetailPage() {
             </div>
           </div>
         </div>
-        <div className="cardCourse">
+        <div className="cardCourse ml-3 md:ml-0 md:mb-6">
           <Card
             className="shadow-md shadow-black"
             hoverable
@@ -281,7 +281,7 @@ export default function DetailPage() {
             }}
             // cover={<img alt="example" src={detail.hinhAnh}  />}
             cover={
-              <div style={{ width: "360px", height: "200px" }}>
+              <div className="imgCourse">
                 <img
                   alt="example"
                   src={detail.hinhAnh}
@@ -311,7 +311,7 @@ export default function DetailPage() {
               </h5>
             </div>
             <div className="py-5">
-              <ButtonStyled onClick={registerCourse} className="w-full">
+              <ButtonStyled onClick={registerCourse} className="w-full capitalize text-xl">
                 Đăng kí
               </ButtonStyled>
             </div>
