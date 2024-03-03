@@ -25,30 +25,30 @@ export default function FormUpdateCourse({ record }) {
   const { TextArea } = Input;
 
   // todo: get category list
-  const getCategory = () => {
-    https
-      .get("/api/QuanLyKhoaHoc/LayDanhMucKhoaHoc")
-      .then((res) => {
-        setCategory(res.data);
+  // const getCategory = () => {
+  //   https
+  //     .get("/api/QuanLyKhoaHoc/LayDanhMucKhoaHoc")
+  //     .then((res) => {
+  //       setCategory(res.data);
 
-        // generate options array from category
-        const optionsArr = res.data.map((course) => {
-          return {
-            value: course.maDanhMuc,
-            label: course.tenDanhMuc,
-          };
-        });
-        setOptions(optionsArr);
-        console.log("options", optionsArr);
-      })
-      .catch((err) => {
-        console.log("err", err);
-      });
-  };
+  //       // generate options array from category
+  //       const optionsArr = res.data.map((course) => {
+  //         return {
+  //           value: course.maDanhMuc,
+  //           label: course.tenDanhMuc,
+  //         };
+  //       });
+  //       setOptions(optionsArr);
+  //       console.log("options", optionsArr);
+  //     })
+  //     .catch((err) => {
+  //       console.log("err", err);
+  //     });
+  // };
 
-  useEffect(() => {
-    getCategory();
-  }, []);
+  // useEffect(() => {
+  //   getCategory();
+  // }, []);
 
   //Chuyển đổi tên file hình ảnh
   const normFile = (e) => {
@@ -210,7 +210,7 @@ export default function FormUpdateCourse({ record }) {
               <Select
                 name="maDanhMucKhoahoc"
                 options={options}
-                value={courseUpdate.danhMucKhoaHoc.maDanhMucKhoahoc}
+                value={courseUpdate.danhMucKhoaHoc?.maDanhMucKhoahoc}
                 onChange={(value) => {
                   handleChange("danhMucKhoaHoc", value);
                 }}
