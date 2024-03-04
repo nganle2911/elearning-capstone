@@ -14,7 +14,7 @@ export default function CourseManagement() {
 
   let fetchCourseList = () => {
     https
-      .get("api/QuanLyKhoaHoc/LayDanhSachKhoaHoc?MaNhom=GP09")
+      .get("api/QuanLyKhoaHoc/LayDanhSachKhoaHoc?MaNhom=GP01")
       .then((res) => {
         setListCourse(res.data);
         localStorage.setItem("ADD_COURSE", JSON.stringify(res.data));

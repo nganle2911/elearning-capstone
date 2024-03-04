@@ -11,20 +11,35 @@ import {
 } from "antd";
 import { ButtonStyled } from "../../../components/ButtonStyled/ButtonStyled";
 import { https } from "../../../services/api";
-import axios from "axios";
-import { TOKEN_CYBERSOFT } from "../../../services/constant";
 import TextArea from "antd/es/input/TextArea";
 
 export default function FormUpdateCourse({ record }) {
-  console.log("record", record.danhMucKhoaHoc.maDanhMucKhoahoc);
   const [form] = Form.useForm();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [imageURL, setImageURL] = useState(record.hinhAnh);
+  const [fileUpdate, setfileUpdate] = useState();
 
   // const [courseUpdate, setCourseUpdate] = useState(record);
   // const [category, setCategory] = useState([]);
   // const [options, setOptions] = useState([]);
 
-  const [imageURL, setImageURL] = useState(record.hinhAnh);
+  const props = {
+    contentDisposition: "",
+    name: "file",
+    action: "https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188",
+    onChange(info) {
+      console.log("info nè", info.file);
+      setfileUpdate(info.file);
+      // if (info.file.status !== "uploading") {
+      //   console.log(info.file, info.fileList);
+      // }
+      // if (info.file.status === "done") {
+      //   message.success(`${info.file.name} file uploaded successfully`);
+      // } else if (info.file.status === "error") {
+      //   message.error(`${info.file.name} file upload failed.`);
+      // }
+    },
+  };
 
   useEffect(() => {
     form.setFieldValue(record);
@@ -123,11 +138,25 @@ export default function FormUpdateCourse({ record }) {
     https
       .put("/api/QuanLyKhoaHoc/CapNhatKhoaHoc", values)
       .then((res) => {
-        console.log("res", res.data);
+        console.log("cập nhật thành công", res.data);
         message.success("Cập nhập thành công");
         setTimeout(function () {
           window.location.reload();
         }, 500);
+
+        let frm = new FormData();
+        console.log("info trong form nè", fileUpdate);
+        frm.append("file", fileUpdate);
+        frm.append("tenKhoaHoc", res.data.tenKhoaHoc);
+
+        https
+          .post("/api/QuanLyKhoaHoc/UploadHinhAnhKhoaHoc", frm)
+          .then((res) => {
+            console.log("upload thành công", res);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       })
       .catch((err) => {
         console.log("err", err);
@@ -381,7 +410,8 @@ export default function FormUpdateCourse({ record }) {
 
             {/* Hình ảnh */}
             <Form.Item label="Hình ảnh khóa học" name="hinhAnh">
-              <Upload name="hinhAnh" action="/upload.do" listType="pictures">
+              {/* <Upload name="hinhAnh" action="/upload.do" listType="pictures"> */}
+              <Upload {...props}>
                 <Button icon={<UploadOutlined />}>Tải lên</Button>
               </Upload>
               {/* render image  */}
