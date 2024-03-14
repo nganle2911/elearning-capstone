@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { https } from "../../services/api";
 import Meta from "antd/es/card/Meta";
-import { Avatar, Card, Rate, message } from "antd";
+import { Avatar, BackTop, Card, Rate, message } from "antd";
 import { RANDOM_NUM } from "../../services/constant";
 import { ButtonStyled } from "../../components/ButtonStyled/ButtonStyled";
+import RelateCourse from "./RelateCourse";
 
 export default function DetailPage() {
   const { maKhoaHoc } = useParams();
@@ -22,24 +23,28 @@ export default function DetailPage() {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [maKhoaHoc]);
 
   let registerCourse = () => {
-    https
-      .post("/api/QuanLyKhoaHoc/DangKyKhoaHoc", {
-        maKhoaHoc: maKhoaHoc,
-        taiKhoan: dataJson.taiKhoan,
-      })
-      .then((res) => {
-        console.log(res);
-        message.success(
-          "Đăng kí thành công, khóa học đã được thêm vào khóa học của tôi"
-        );
-      })
-      .catch((err) => {
-        console.log(err);
-        message.error(err.response.data);
-      });
+    if (dataJson) {
+      https
+        .post("/api/QuanLyKhoaHoc/DangKyKhoaHoc", {
+          maKhoaHoc: maKhoaHoc,
+          taiKhoan: dataJson.taiKhoan,
+        })
+        .then((res) => {
+          console.log(res);
+          message.success(
+            "Đăng kí thành công, khóa học đã được thêm vào khóa học của tôi"
+          );
+        })
+        .catch((err) => {
+          console.log(err);
+          message.error(err.response.data);
+        });
+    } else {
+      message.error("Vui lòng đăng nhập!");
+    }
   };
 
   return (
@@ -272,6 +277,7 @@ export default function DetailPage() {
             </div>
           </div>
         </div>
+
         <div className="cardCourse ml-3 md:ml-0 md:mb-6">
           <Card
             className="shadow-md shadow-black"
@@ -311,12 +317,19 @@ export default function DetailPage() {
               </h5>
             </div>
             <div className="py-5">
-              <ButtonStyled onClick={registerCourse} className="w-full capitalize text-xl">
+              <ButtonStyled
+                onClick={registerCourse}
+                className="w-full capitalize text-xl"
+              >
                 Đăng kí
               </ButtonStyled>
             </div>
           </Card>
         </div>
+      </div>
+      <div className="container contentPara">
+        <h3>Khóa học tham khảo</h3>
+        <RelateCourse maDanhMuc={detail.danhMucKhoaHoc?.maDanhMucKhoahoc} />
       </div>
     </div>
   );

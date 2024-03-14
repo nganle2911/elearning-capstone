@@ -12,6 +12,7 @@ import DetailPage from "./pages/DetailPage/DetailPage";
 import AdminLayout from "./layout/AdminLayout";
 import AdminPage from "./pages/AdminPage/AdminPage";
 import SecureGate from "./layout/SecureGate";
+import { BackTop } from "antd";
 
 function App() {
   return (
@@ -44,6 +45,7 @@ function App() {
 
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
+        <BackTop style={{ color: "black" }} />
       </BrowserRouter>
     </>
   );

@@ -251,7 +251,7 @@ export default function FormRegister({ record }) {
   ];
 
   return (
-    <div className="userEnrollment mt-3">
+    <div>
       {/* choose course */}
       <div className="chooseCourse">
         <h3 className="text-xl capitalize font-medium mb-3">
